@@ -7,13 +7,13 @@
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best;">
       <!-- Marcador físico que activará la imagen o el modelo 3D -->
-      <a-marker preset="hiro">
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/marker-bodega.patt">
         <!-- Marco decorativo -->
         <a-plane position="0 1 0" width="2.2" height="1.7" color="black"></a-plane>
         <!-- Imagen flotante sobre el marcador -->
         <a-plane id="dynamic-image" src="imagen1.jpg" width="2" height="1.5" position="0 1 0.01"></a-plane>
-        <!-- Modelo 3D (Ejemplo: Barrica) -->
-        <a-entity gltf-model="https://raw.githubusercontent.com/labodegamedieval/ar-experience/main/barrica_model.glb"
+        <!-- Modelo 3D -->
+        <a-entity gltf-model="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/marker-bodega.jpeg"
                   position="0 1 0" scale="0.5 0.5 0.5" rotation="0 180 0">
         </a-entity>
       </a-marker>
