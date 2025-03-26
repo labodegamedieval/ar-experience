@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🗺️ Explora San Martín del Castañar</title>
+  <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg"/>
+  <style>
+    .map-btn {
+      background: #5a372b;
+      color: #fff;
+      border: 2px solid #c9a26b;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+    .map-btn:hover {
+      transform: scale(1.05);
+      background: #7e4f3a;
+    }
+    .map-btn.locked {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .description-box {
+      background: #f4efe4;
+      padding: 15px;
+      border-left: 4px solid #8b4513;
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🗺️ Explora San Martín del Castañar</h1>
+      <div class="music-control">
+        <button class="music-btn"><span class="music-icon">🎵</span> Música</button>
+      </div>
+      <h3 id="saludo-jugador"></h3>
+    </header>
+
+    <section>
+      <div class="description-box">
+        Tu misión es reconstruir un mensaje perdido... pero solo las almas más valientes y observadoras podrán descubrir los lugares ocultos. Sigue las pistas de Gonzalo y deja que el misterio te guíe.
+      </div>
+
+      <div class="progress-container">
+        <h3>Progreso del Mensaje</h3>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p id="progress-text">0 de 7 fragmentos principales descubiertos</p>
+      </div>
+
+      <div class="buttons-container" style="margin-top: 30px;">
+        <button class="map-btn" id="btn-castillo" onclick="goTo('castillo')">🏰 Castillo</button>
+        <button class="map-btn locked" id="btn-plaza" onclick="goTo('plaza')">🏟️ Plaza</button>
+        <button class="map-btn locked" id="btn-iglesia" onclick="goTo('iglesia')">⛪ Iglesia</button>
+        <button class="map-btn locked" id="btn-fuente" onclick="goTo('fuente')">⛲ Fuente y Portalón</button>
+        <button class="map-btn locked" id="btn-ermita" onclick="goTo('ermita')">🙏 Ermita</button>
+        <button class="map-btn locked" id="btn-puente" onclick="goTo('puente')">🌉 Puente</button>
+        <button class="map-btn locked" id="btn-bodega" onclick="goTo('bodega')">🍷 ???</button>
+
+        <!-- Paradas opcionales -->
+        <button class="map-btn locked" id="btn-humilladero" onclick="goTo('humilladero')">🌾 Ermita del Humilladero</button>
+        <button class="map-btn locked" id="btn-puente-tablas" onclick="goTo('puente-tablas')">🌲 Puente de las Tablas</button>
+        <button class="map-btn locked" id="btn-arco" onclick="goTo('arco')">🏹 Arco de la Calle Fuente</button>
+        <button class="map-btn locked" id="btn-callejon" onclick="goTo('callejon')">🕳️ Callejón Secreto</button>
+        <button class="map-btn locked" id="btn-escortinas" onclick="goTo('escortinas')">🌿 Las Escortinas</button>
+      </div>
+
+      <div class="button-group" style="margin-top: 40px;">
+        <button class="action-btn" onclick="window.location.href='index.html'">🏠 Inicio</button>
+        <button class="action-btn" onclick="window.location.href='cronica.html'">📜 Crónica</button>
+        <button class="action-btn" onclick="window.location.href='ranking.html'">🏆 Ranking</button>
+      </div>
+    </section>
+
+    <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
+
+    <footer>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
+    </footer>
+
+    <script src="scripts/script.js"></script>
+    <script>
+      const paradas = ["castillo", "plaza", "iglesia", "fuente", "ermita", "puente"];
+      const opcionales = ["humilladero", "puente-tablas", "arco", "callejon", "escortinas"];
+      const jugador = localStorage.getItem("jugador") || "Aventurero";
+
+      document.getElementById("saludo-jugador").textContent = `Bienvenido, ${jugador}.`;
+
+      function actualizarMapa() {
+        paradas.forEach((parada, i) => {
+          if (localStorage.getItem(`${parada}-completed`) === "true" || i === 0 || localStorage.getItem(`${paradas[i - 1]}-completed`) === "true") {
+            document.getElementById(`btn-${parada}`).classList.remove("locked");
+          }
+        });
+
+        opcionales.forEach(parada => {
+          if (localStorage.getItem(`${parada}-discovered`) === "true") {
+            document.getElementById(`btn-${parada}`).classList.remove("locked");
+          }
+        });
+
+        if (paradas.every(p => localStorage.getItem(`${p}-completed`) === "true")) {
+          document.getElementById("btn-bodega").classList.remove("locked");
+          document.getElementById("btn-bodega").textContent = "🍷 La Bodega";
+        }
+
+        const total = paradas.length;
+        const completadas = paradas.filter(p => localStorage.getItem(`${p}-completed`) === "true").length;
+        document.getElementById("progress-text").textContent = `${completadas} de ${total} fragmentos principales descubiertos`;
+        document.getElementById("progress-fill").style.width = `${(completadas / total) * 100}%`;
+      }
+
+      function goTo(parada) {
+        window.location.href = `${parada}.html`;
+      }
+
+      actualizarMapa();
+    </script>
+  </div>
+</body>
+</html>
