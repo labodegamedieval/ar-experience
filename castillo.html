@@ -65,11 +65,41 @@
 
       <div id="game-content" style="display: none;">
         <div class="carousel">
-          <!-- Carrusel aquí -->
+          <div class="slide active">
+            <img src="images/castillo-entrada.jpg" alt="Entrada del Castillo" />
+            <p class="carousel-info">
+              <strong>Entrada:</strong> Puerta del siglo XV sobre fortificación anterior del siglo XIII. Hoy sede del Centro de Interpretación de la Biosfera.
+              <a href="https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/reservas-biosfera/programa-mab-espana/ListRB_Sierras_de_Bejar_y_Francia_tcm30-280293.pdf" target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-torre.jpg" alt="Torre del Homenaje" />
+            <p class="carousel-info">
+              <strong>Torre:</strong> El rayo destruyó la última torre en pie en el siglo XX. Hoy quedan dos lienzos de muralla con restos de almenas.
+              <a href="https://sanmartindelcastanar.es/castillo-de-la-biosfera/" target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-vista.jpg" alt="Vistas desde el castillo" />
+            <p class="carousel-info">
+              <strong>Vista:</strong> Mirador natural sobre el valle. Desde 1834 es cementerio municipal.
+              <a href="https://turismosierradefrancia.es/cultura/centros-interpretacion-museos/centro-de-interpretacion-reserva-de-la-biosfera-de-las-sierras-de-bejar-y-francia/" target="_blank">Más info</a>
+            </p>
+          </div>
+          <button class="carousel-btn prev-slide">←</button>
+          <button class="carousel-btn next-slide">→</button>
         </div>
 
         <div class="visual-challenge">
-          <!-- Reto visual aquí -->
+          <h2>Reto Visual: Observa con atención</h2>
+          <p>1. ¿Qué marcó la torre del homenaje?</p>
+          <div id="visual-opciones-1">
+            <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1)">Rayo</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Incendio', 'Rayo', 1)">Incendio</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Terremoto', 'Rayo', 1)">Terremoto</button>
+          </div>
+          <p id="visual-resultado-1"></p>
+          <button class="action-btn" onclick="showHint('Algo que viene del cielo...')">💡 Pista</button>
         </div>
 
         <div class="pista" onclick="document.getElementById('nota-gonzalo').classList.toggle('visible')">
@@ -82,24 +112,56 @@
         </div>
 
         <div class="secuencia-luces">
-          <!-- Juego de secuencia -->
+          <h2>🕯️ Secuencia Mágica</h2>
+          <p>Observa los símbolos iluminados y repite la secuencia:</p>
+          <div id="simbolos">
+            <div class="simbolo" data-id="0">🛡️</div>
+            <div class="simbolo" data-id="1">⚔️</div>
+            <div class="simbolo" data-id="2">🕯️</div>
+            <div class="simbolo" data-id="3">✝️</div>
+          </div>
+          <button class="action-btn" onclick="iniciarSecuencia()">🔁 Ver Secuencia</button>
+          <p id="resultado-secuencia"></p>
         </div>
 
         <div class="quiz">
-          <!-- Quiz histórico aquí -->
+          <h2>Quiz Histórico</h2>
+          <p>1. ¿En qué siglo fue construido el castillo?</p>
+          <div id="quiz-opciones-1">
+            <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1)">XIII</button>
+            <button class="action-btn" onclick="checkAnswer('XIV', 'XIII', 1)">XIV</button>
+            <button class="action-btn" onclick="checkAnswer('XII', 'XIII', 1)">XII</button>
+          </div>
+          <p id="quiz-resultado-1"></p>
+
+          <p>2. ¿Qué función tuvo durante el siglo XIX?</p>
+          <div id="quiz-opciones-2">
+            <button class="action-btn" onclick="checkAnswer('Cementerio', 'Cementerio', 2)">Cementerio</button>
+            <button class="action-btn" onclick="checkAnswer('Posada', 'Cementerio', 2)">Posada</button>
+            <button class="action-btn" onclick="checkAnswer('Ayuntamiento', 'Cementerio', 2)">Ayuntamiento</button>
+          </div>
+          <p id="quiz-resultado-2"></p>
+
+          <p>3. ¿Qué se instaló en el castillo en el siglo XXI?</p>
+          <div id="quiz-opciones-3">
+            <button class="action-btn" onclick="checkAnswer('Centro de Interpretación', 'Centro de Interpretación', 3)">Centro de Interpretación</button>
+            <button class="action-btn" onclick="checkAnswer('Museo de armas', 'Centro de Interpretación', 3)">Museo de armas</button>
+            <button class="action-btn" onclick="checkAnswer('Parador', 'Centro de Interpretación', 3)">Parador</button>
+          </div>
+          <p id="quiz-resultado-3"></p>
         </div>
 
         <div class="pista">
-          <!-- QR oculto -->
+          <strong>QR oculto:</strong> Se rumorea que Gonzalo grabó un símbolo detrás de una piedra suelta junto al arco. Si lo encuentras... escanea.
         </div>
 
         <div id="continue-button" style="display: none; margin-top: 20px;">
-          <!-- Fragmento del mensaje y botón continuar -->
+          <p class="fragmento-final"><strong>Fragmento del mensaje:</strong> “Oculto...”</p>
+          <button class="action-btn" onclick="window.location.href='felicitaciones.html?stop=castillo'">Continuar aventura</button>
         </div>
       </div>
     </section>
 
-    <!-- Audios -->
     <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
     <audio id="error-sound" src="sounds/error.mp3" preload="auto"></audio>
     <audio id="coins-sound" src="sounds/coins.mp3" preload="auto"></audio>
@@ -113,6 +175,8 @@
 
     <script src="script.min.js"></script>
     <script>
+      let respuestasCastillo = {};
+      let aciertosCastillo = 0;
       let secuencia = [0, 1, 2, 3];
       let inputUsuario = [];
       let simbolos = document.querySelectorAll(".simbolo");
@@ -153,6 +217,14 @@
           }
         }
       }));
+
+      function playSound(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.currentTime = 0;
+          el.play().catch(() => {});
+        }
+      }
     </script>
   </div>
 </body>
