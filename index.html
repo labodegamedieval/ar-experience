@@ -2,57 +2,137 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🧭 Aventura por San Martín del Castañar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 Comienza tu aventura</title>
   <link rel="stylesheet" href="styles/style.css" />
-  <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg" />
+  <link rel="icon" href="images/escudo-borrado.jpg" />
+  <style>
+    .mapa-preview {
+      width: 100%;
+      max-width: 400px;
+      border: 3px solid #8b5e3c;
+      border-radius: 10px;
+      cursor: zoom-in;
+      margin: 20px auto;
+      display: block;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+    }
+    .modal img {
+      display: block;
+      margin: 40px auto;
+      max-width: 90%;
+      max-height: 80vh;
+      border: 5px solid white;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🧭 Aventura por San Martín del Castañar</h1>
+      <h1>🧙‍♂️ ¡Bienvenido a la Aventura Medieval!</h1>
     </header>
 
     <section>
-      <div class="stop-icon">📜</div>
-      <h2>Bienvenid@, viajero o viajera</h2>
       <p>
-        Estás a punto de comenzar una aventura interactiva por el pueblo medieval de San Martín del Castañar. A través de paradas históricas, desafíos y decisiones, tú eres quien marca el rumbo de la historia.
+        Entra en el misterioso pueblo de San Martín del Castañar, donde un mensaje secreto de Gonzalo espera ser descubierto. 
+        Cada decisión que tomes cambia el rumbo de la historia. ¿Estás preparad@ para el desafío?
       </p>
 
-      <h3>🗺️ ¿Cómo funciona?</h3>
+      <h2>🎮 ¿Cómo se juega?</h2>
       <ul>
-        <li>📍 Debes tener el <strong>GPS activado</strong> en tu dispositivo.</li>
-        <li>🆓 La experiencia es totalmente <strong>gratuita</strong>.</li>
-        <li>📲 Puedes iniciar la aventura desde cualquier punto del pueblo, escaneando los QR o entrando directamente en cada parada.</li>
-        <li>📖 En cada parada, conocerás la historia del lugar y participarás en un pequeño <strong>reto visual</strong> y un <strong>quiz histórico</strong>.</li>
-        <li>✍️ Si no puedes usar GPS, puedes confirmar tu ubicación escribiendo el nombre de la parada.</li>
+        <li>🔓 El juego es <strong>gratuito</strong> y no necesitas instalar nada.</li>
+        <li>📍 Activa el <strong>GPS</strong> para validar tu ubicación o escribe el nombre de la parada si prefieres hacerlo manual.</li>
+        <li>🔍 En cada parada, deberás superar un reto visual y un quiz histórico. Si aciertas a la primera... ¡suma puntos!</li>
+        <li>🧩 Al final de cada parada, conseguirás un fragmento del mensaje oculto.</li>
+        <li>🔀 Se te presentarán <strong>2 caminos a elegir</strong>. Tu decisión influirá en lo que descubres después.</li>
+        <li>🕵️ Busca QR secretos ocultos... ¡algunos solo se encuentran si prestas atención!</li>
       </ul>
 
-      <h3>🧩 Narrativa con decisiones</h3>
-      <p>
-        Esta aventura no es lineal. En varias paradas se te presentarán <strong>dos caminos posibles</strong>. La opción que elijas afectará el desarrollo de la historia y los fragmentos del mensaje oculto que irás recopilando.
-      </p>
-      <p>
-        Puedes volver otro día y elegir una ruta distinta... ¡hay secretos que solo se descubren si exploras todas las combinaciones!
-      </p>
+      <h2>🧑‍🤝‍🧑 ¿Juegas sol@ o en equipo?</h2>
+      <form onsubmit="iniciarAventura(event)">
+        <label>
+          <input type="radio" name="modo" value="jugador" checked /> Soy un aventurer@ solitari@
+        </label><br>
+        <label>
+          <input type="radio" name="modo" value="equipo" /> Jugamos en equipo
+        </label><br><br>
+        <input type="text" id="nombre" placeholder="Nombre del aventurer@ o equipo" required />
+        <br><br>
+        <button class="action-btn" type="submit">🚀 Comenzar aventura</button>
+      </form>
 
-      <h3>📍 Elige por dónde empezar</h3>
-      <p>Selecciona una de las dos opciones para comenzar tu ruta:</p>
+      <h2>🗺️ Callejero del juego</h2>
+      <p>Consulta el mapa del pueblo para orientarte mejor. Haz clic para verlo en grande:</p>
+      <img src="images/callejero.jpg" alt="Callejero del pueblo" class="mapa-preview" onclick="abrirMapa()" />
 
-      <div class="buttons-container">
-        <a href="castillo.html" class="action-btn">🏰 Comenzar en el Castillo</a>
-        <a href="plaza.html" class="action-btn">🏘️ Empezar en la Plaza</a>
+      <div class="modal" id="modal-mapa" onclick="cerrarMapa()">
+        <img src="images/callejero.jpg" alt="Callejero ampliado" />
       </div>
 
-      <div class="pista">
-        🔒 Al finalizar cada parada, desbloquearás un fragmento del mensaje secreto de Gonzalo. Si completas todas las rutas… puede que encuentres el verdadero tesoro.
-      </div>
+      <h2>🏅 Clasificación</h2>
+      <p>Total de participantes: <span id="total-jugadores">0</span></p>
+      <table class="ranking-table" id="ranking">
+        <thead>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo (s)</th><th>Aciertos</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
 
     <footer>
-      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
     </footer>
   </div>
+
+  <script>
+    function iniciarAventura(e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      const modo = document.querySelector("input[name='modo']:checked").value;
+      if (nombre) {
+        localStorage.setItem("jugador", nombre);
+        localStorage.setItem("modo", modo);
+        localStorage.setItem("inicio", Date.now());
+        localStorage.setItem("aciertos", 0);
+        window.location.href = "castillo.html";
+      }
+    }
+
+    function abrirMapa() {
+      document.getElementById("modal-mapa").style.display = "block";
+    }
+
+    function cerrarMapa() {
+      document.getElementById("modal-mapa").style.display = "none";
+    }
+
+    function actualizarRanking() {
+      const tabla = document.querySelector("#ranking tbody");
+      const totalSpan = document.getElementById("total-jugadores");
+      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+
+      totalSpan.textContent = datos.length;
+
+      tabla.innerHTML = "";
+      datos.slice(0,10).forEach((jugador, index) => {
+        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
+        tabla.innerHTML += fila;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", actualizarRanking);
+  </script>
 </body>
 </html>
