@@ -3,23 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🎉 ¡Fragmento conseguido!</title>
+  <title>🎉 Fragmento conseguido</title>
   <link rel="stylesheet" href="styles/style.css" />
   <link rel="icon" href="images/escudo-borrado.jpg" />
+  <style>
+    .pergamino {
+      background: url('images/pergamino.png') no-repeat center center;
+      background-size: contain;
+      text-align: center;
+      padding: 40px;
+      font-family: 'Georgia', serif;
+      font-size: 18px;
+      margin: 20px 0;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🎉 ¡Primer fragmento conseguido!</h1>
+      <h1>🎉 ¡Fragmento conseguido!</h1>
     </header>
 
     <section>
       <p class="pista">
-        Enhorabuena, has superado los retos de esta parada y has obtenido el primer fragmento del mensaje oculto de Gonzalo.
+        Enhorabuena, has superado los retos de esta parada y has obtenido un nuevo fragmento del mensaje oculto de Gonzalo.
       </p>
 
-      <div class="fragmento-final pergamino">
-        <strong>Fragmento:</strong> “Oculto…”
+      <div id="fragmento" class="fragmento-final pergamino">
+        Cargando fragmento...
       </div>
 
       <div class="progress-container">
@@ -31,32 +42,31 @@
       </div>
 
       <div class="pista">
-        🔍 Se rumorea que el siguiente fragmento puede encontrarse cerca de una fuente con historia…  
-        Busca un segundo <strong>QR oculto</strong> tallado cerca de una piedra redonda.
+        🔍 El siguiente fragmento puede estar escondido cerca de una fuente con historia… Busca un <strong>QR oculto</strong> grabado junto a una piedra redonda.
       </div>
 
-      <h2>¿Cuál será tu próximo paso?</h2>
-      <p>Gonzalo dejó pistas en varios lugares… elige tu siguiente destino:</p>
+      <h2>¿Cuál es tu siguiente paso?</h2>
+      <p>Gonzalo dejó pistas en varias direcciones. Elige tu próximo destino:</p>
 
       <div class="buttons-container">
-        <a href="fuente.html" class="action-btn">🚰 Seguir hacia la fuente</a>
-        <a href="iglesia.html" class="action-btn">⛪ Explorar la iglesia</a>
+        <a id="opcion1" href="#" class="action-btn">Opción 1</a>
+        <a id="opcion2" href="#" class="action-btn">Opción 2</a>
       </div>
 
       <div class="pista">
-        Cada decisión cambia la historia. En una se oculta conocimiento… en otra, redención.
+        Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
       </div>
 
       <h3>📢 Comparte tu hazaña</h3>
       <p>
-        Si te ha gustado esta parada, ¡compártela en redes sociales y etiqueta a <strong>@labodegamedieval</strong>!
+        Si te ha gustado esta parada, compártela en redes sociales y menciona o etiqueta a <strong>@labodegamedieval</strong>:
       </p>
 
       <div class="buttons-container">
         <a href="https://www.instagram.com/" target="_blank" class="action-btn">📸 Instagram</a>
         <a href="https://www.facebook.com/" target="_blank" class="action-btn">📘 Facebook</a>
         <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗 LinkedIn</a>
-        <a href="https://twitter.com/intent/tweet?text=He%20encontrado%20un%20fragmento%20en%20la%20búsqueda%20medieval%20de%20San%20Martín%20del%20Castañar%20con%20@labodegamedieval!" target="_blank" class="action-btn">🐦 Twitter</a>
+        <a href="https://twitter.com/intent/tweet?text=He%20encontrado%20un%20fragmento%20en%20la%20b%C3%BAsqueda%20medieval%20de%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval!" target="_blank" class="action-btn">🐦 Twitter</a>
       </div>
     </section>
 
@@ -64,5 +74,44 @@
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
     </footer>
   </div>
+
+  <script>
+    // Fragmentos y narrativa por parada
+    const fragmentos = {
+      castillo: {
+        texto: '“Oculto…”',
+        opcion1: { nombre: '🚰 Hacia la fuente', enlace: 'fuente.html' },
+        opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
+      },
+      plaza: {
+        texto: '“En la plaza duerme…”',
+        opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
+        opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
+      }
+      // Puedes añadir más aquí
+    };
+
+    function obtenerParada() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("stop");
+    }
+
+    function mostrarFragmento() {
+      const parada = obtenerParada();
+      const datos = fragmentos[parada];
+      const div = document.getElementById("fragmento");
+      if (datos) {
+        div.textContent = datos.texto;
+        document.getElementById("opcion1").textContent = datos.opcion1.nombre;
+        document.getElementById("opcion1").href = datos.opcion1.enlace;
+        document.getElementById("opcion2").textContent = datos.opcion2.nombre;
+        document.getElementById("opcion2").href = datos.opcion2.enlace;
+      } else {
+        div.textContent = "Fragmento no encontrado.";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", mostrarFragmento);
+  </script>
 </body>
 </html>
