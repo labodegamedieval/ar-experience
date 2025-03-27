@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   };
 
-  // ✅ Versión mejorada para verificación manual (selección múltiple)
+  // ✅ Verificación manual con validación y paso de parada
   window.checkLocationManual = function () {
     const input = document.getElementById("location-input");
     if (!input) return;
@@ -114,19 +114,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (validStops.includes(inputValue)) {
       setStatus("✅ Confirmación manual aceptada.");
-      unlockContent();
+      unlockContent(inputValue);
     } else {
       setStatus("❌ Ese no es el nombre correcto. Elige entre las opciones propuestas.");
     }
   };
 
-  function unlockContent() {
+  // ✅ Acepta parada manual (o la de la URL por defecto)
+  function unlockContent(stopOverride = null) {
     const content = document.getElementById("game-content");
     const check = document.getElementById("location-check");
     if (content) content.style.display = "block";
     if (check) check.style.display = "none";
 
-    const stop = getCurrentStop();
+    const stop = stopOverride || getCurrentStop();
     if (stop) {
       localStorage.setItem(`${stop}-completed`, "true");
     }
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // QR Verificación (para explorar.html)
+  // QR Verificación
   window.checkQR = function () {
     const qrInput = document.getElementById("qr-input");
     const qrStatus = document.getElementById("qr-status");
