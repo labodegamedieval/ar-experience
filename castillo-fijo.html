@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏰 Castillo de Gonzalo</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏰 Castillo de Gonzalo</h1>
+      <div class="music-control">
+        <button class="music-btn"><span class="music-icon">🎵</span> Música</button>
+      </div>
+    </header>
+
+    <section id="game-content" style="display:block">
+      <div class="carousel">
+        <div class="slide active">
+          <img src="images/castillo-entrada.jpg" alt="Entrada del Castillo" />
+          <p class="carousel-info">
+            <strong>Entrada:</strong> Puerta del siglo XV sobre fortificación anterior del siglo XIII. Hoy sede del Centro de Interpretación de la Biosfera.
+            <a href="https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/reservas-biosfera/programa-mab-espana/ListRB_Sierras_de_Bejar_y_Francia_tcm30-280293.pdf" target="_blank">Más info</a>
+          </p>
+        </div>
+        <div class="slide">
+          <img src="images/castillo-torre.jpg" alt="Torre del Homenaje" />
+          <p class="carousel-info">
+            <strong>Torre:</strong> El rayo destruyó la última torre en pie en el siglo XX. Hoy quedan dos lienzos de muralla con restos de almenas.
+            <a href="https://sanmartindelcastanar.es/castillo-de-la-biosfera/" target="_blank">Más info</a>
+          </p>
+        </div>
+        <div class="slide">
+          <img src="images/castillo-vista.jpg" alt="Vistas desde el castillo" />
+          <p class="carousel-info">
+            <strong>Vista:</strong> Mirador natural sobre el valle. Desde 1834 es cementerio municipal.
+            <a href="https://turismosierradefrancia.es/cultura/centros-interpretacion-museos/centro-de-interpretacion-reserva-de-la-biosfera-de-las-sierras-de-bejar-y-francia/" target="_blank">Más info</a>
+          </p>
+        </div>
+        <button class="carousel-btn prev-slide">←</button>
+        <button class="carousel-btn next-slide">→</button>
+      </div>
+
+      <div class="visual-challenge">
+        <h2>Reto Visual: Observa con atención</h2>
+        <p>¿Qué marcó la torre del homenaje?</p>
+        <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1)">Rayo</button>
+        <button class="action-btn" onclick="checkVisualAnswer('Incendio', 'Rayo', 1)">Incendio</button>
+        <button class="action-btn" onclick="checkVisualAnswer('Terremoto', 'Rayo', 1)">Terremoto</button>
+        <p id="visual-resultado-1"></p>
+      </div>
+
+      <div class="secuencia-luces">
+        <h2>🕯️ Secuencia Mágica</h2>
+        <p>Escucha la pista de Gonzalo y pulsa los símbolos en orden:</p>
+        <div id="simbolos">
+          <div class="simbolo" data-id="0">🛡️</div>
+          <div class="simbolo" data-id="1">🕯️</div>
+          <div class="simbolo" data-id="2">✝️</div>
+          <div class="simbolo" data-id="3">⚔️</div>
+        </div>
+        <button class="action-btn" onclick="playNarracion()">🎧 Escuchar pista de Gonzalo</button>
+        <p id="resultado-secuencia"></p>
+      </div>
+
+      <div class="quiz">
+        <h2>Quiz Histórico</h2>
+        <p>¿En qué siglo se construyó la fortificación original?</p>
+        <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1)">Siglo XIII</button>
+        <button class="action-btn" onclick="checkAnswer('XIV', 'XIII', 1)">Siglo XIV</button>
+        <button class="action-btn" onclick="checkAnswer('XII', 'XIII', 1)">Siglo XII</button>
+        <p id="quiz-resultado-1"></p>
+      </div>
+
+      <div id="continue-button" style="display:none;">
+        <p class="fragmento-final"><strong>Fragmento del mensaje:</strong> “Oculto...”</p>
+        <button class="action-btn" onclick="window.location.href='felicitaciones.html?stop=castillo'">Continuar aventura</button>
+      </div>
+    </section>
+
+    <audio id="voz-gonzalo" src="sounds/secuencia_gonzalo.mp3" preload="auto"></audio>
+    <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
+    <audio id="coins-sound" src="sounds/coins.mp3" preload="auto"></audio>
+    <audio id="error-sound" src="sounds/error.mp3" preload="auto"></audio>
+
+    <footer>
+      <p>© 2025 La Bodega Medieval</p>
+    </footer>
+
+    <script src="script-castillo-fijo.js"></script>
+  </div>
+</body>
+</html>
