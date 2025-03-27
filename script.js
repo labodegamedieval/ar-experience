@@ -1,4 +1,4 @@
-// ✅ Funciones globales disponibles desde el HTML
+// ✅ Funciones globales accesibles desde HTML
 
 window.checkLocationManual = function () {
   const input = document.getElementById("location-input");
@@ -81,7 +81,40 @@ window.checkQR = function () {
   }
 };
 
-// ✅ Resto del código dentro de DOMContentLoaded
+// ✅ Reto visual
+window.checkVisualAnswer = function (respuesta, correcta, num) {
+  const resultado = document.getElementById(`visual-resultado-${num}`);
+  if (respuesta === correcta) {
+    resultado.textContent = "✅ ¡Correcto!";
+    resultado.style.color = "green";
+    playSound("coins-sound");
+  } else {
+    resultado.textContent = "❌ Incorrecto.";
+    resultado.style.color = "darkred";
+    playSound("error-sound");
+  }
+};
+
+// ✅ Quiz histórico
+window.checkAnswer = function (respuesta, correcta, num) {
+  const resultado = document.getElementById(`quiz-resultado-${num}`);
+  if (respuesta === correcta) {
+    resultado.textContent = "✅ ¡Correcto!";
+    resultado.style.color = "green";
+    playSound("cheers-sound");
+  } else {
+    resultado.textContent = "❌ Incorrecto.";
+    resultado.style.color = "darkred";
+    playSound("error-sound");
+  }
+};
+
+// ✅ Botón de pista
+window.showHint = function (texto) {
+  alert(`💡 Pista: ${texto}`);
+};
+
+// ✅ Carga de componentes al iniciar
 document.addEventListener('DOMContentLoaded', () => {
   let musicPlaying = true;
   const bgMusic = document.getElementById("background-music");
@@ -183,35 +216,3 @@ function playSound(id) {
     el.play().catch(() => {});
   }
 }
-// ✅ Verifica respuesta del reto visual
-window.checkVisualAnswer = function (respuesta, correcta, num) {
-  const resultado = document.getElementById(`visual-resultado-${num}`);
-  if (respuesta === correcta) {
-    resultado.textContent = "✅ ¡Correcto!";
-    resultado.style.color = "green";
-    playSound("coins-sound");
-  } else {
-    resultado.textContent = "❌ Incorrecto.";
-    resultado.style.color = "darkred";
-    playSound("error-sound");
-  }
-};
-
-// ✅ Verifica respuesta del quiz histórico
-window.checkAnswer = function (respuesta, correcta, num) {
-  const resultado = document.getElementById(`quiz-resultado-${num}`);
-  if (respuesta === correcta) {
-    resultado.textContent = "✅ ¡Correcto!";
-    resultado.style.color = "green";
-    playSound("cheers-sound");
-  } else {
-    resultado.textContent = "❌ Incorrecto.";
-    resultado.style.color = "darkred";
-    playSound("error-sound");
-  }
-};
-
-// ✅ Muestra pista en el reto visual
-window.showHint = function (texto) {
-  alert(`💡 Pista: ${texto}`);
-};
