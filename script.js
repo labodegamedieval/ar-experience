@@ -100,14 +100,23 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   };
 
+  // ✅ Versión mejorada para verificación manual (selección múltiple)
   window.checkLocationManual = function () {
     const input = document.getElementById("location-input");
-    const stop = getCurrentStop();
-    if (input && input.value.toLowerCase().includes(stop)) {
+    if (!input) return;
+
+    const inputValue = input.value.trim().toLowerCase();
+
+    const validStops = [
+      "castillo", "plaza", "iglesia", "fuente", "ermita", "puente",
+      "puente-tablas", "bodega", "humilladero", "arco", "callejon", "escortinas"
+    ];
+
+    if (validStops.includes(inputValue)) {
       setStatus("✅ Confirmación manual aceptada.");
       unlockContent();
     } else {
-      setStatus("❌ Ese no es el nombre correcto.");
+      setStatus("❌ Ese no es el nombre correcto. Elige entre las opciones propuestas.");
     }
   };
 
