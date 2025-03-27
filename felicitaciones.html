@@ -16,6 +16,19 @@
       font-size: 18px;
       margin: 20px 0;
     }
+    .ranking-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    .ranking-table th, .ranking-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    .ranking-table th {
+      background-color: #f2e6d9;
+    }
   </style>
 </head>
 <body>
@@ -25,7 +38,7 @@
     </header>
 
     <section>
-      <p class="pista">
+      <p class="pista" id="saludo-jugador">
         Enhorabuena, has superado los retos de esta parada y has obtenido un nuevo fragmento del mensaje oculto de Gonzalo.
       </p>
 
@@ -68,6 +81,16 @@
         <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗 LinkedIn</a>
         <a href="https://twitter.com/intent/tweet?text=He%20encontrado%20un%20fragmento%20en%20la%20b%C3%BAsqueda%20medieval%20de%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval!" target="_blank" class="action-btn">🐦 Twitter</a>
       </div>
+
+      <h3>🏅 Clasificación de Aventureros</h3>
+      <p>Total de participantes: <span id="total-jugadores">0</span></p>
+      <table class="ranking-table" id="ranking">
+        <thead>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo (s)</th><th>Aciertos</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
     </section>
 
     <footer>
@@ -76,7 +99,6 @@
   </div>
 
   <script>
-    // Fragmentos y narrativa por parada
     const fragmentos = {
       castillo: {
         texto: '“Oculto…”',
@@ -88,7 +110,6 @@
         opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
         opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
       }
-      // Puedes añadir más aquí
     };
 
     function obtenerParada() {
@@ -111,7 +132,32 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", mostrarFragmento);
+    function mostrarSaludo() {
+      const nombre = localStorage.getItem("jugador") || "aventurer@";
+      document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
+    }
+
+    function actualizarRanking() {
+      const tabla = document.querySelector("#ranking tbody");
+      const totalSpan = document.getElementById("total-jugadores");
+      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+
+      totalSpan.textContent = datos.length;
+
+      tabla.innerHTML = "";
+      datos.slice(0,10).forEach((jugador, index) => {
+        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
+        tabla.innerHTML += fila;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      mostrarFragmento();
+      mostrarSaludo();
+      actualizarRanking();
+    });
   </script>
 </body>
 </html>
