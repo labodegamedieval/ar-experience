@@ -231,57 +231,7 @@
     </footer>
 
     <script src="script.min.js"></script>
-    <script>
-      let respuestasCastillo = {};
-      let aciertosCastillo = 0;
-      let secuencia = [0, 1, 2, 3];
-      let inputUsuario = [];
-      let simbolos = document.querySelectorAll(".simbolo");
-
-      function iniciarSecuencia() {
-        inputUsuario = [];
-        document.getElementById("voz-gonzalo").play().catch(() => {});
-        mostrarSecuencia(0);
-      }
-
-      function mostrarSecuencia(i) {
-        if (i >= secuencia.length) return;
-        const index = secuencia[i];
-        simbolos[index].classList.add("activo");
-        setTimeout(() => {
-          simbolos[index].classList.remove("activo");
-          setTimeout(() => mostrarSecuencia(i + 1), 300);
-        }, 700);
-      }
-
-      simbolos.forEach(s => s.addEventListener("click", e => {
-        const id = Number(e.target.dataset.id);
-        inputUsuario.push(id);
-
-        if (inputUsuario[inputUsuario.length - 1] !== secuencia[inputUsuario.length - 1]) {
-          document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-          playSound("error-sound");
-          inputUsuario = [];
-          return;
-        }
-
-        if (inputUsuario.length === secuencia.length) {
-          document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-          playSound("coins-sound");
-          if (!respuestasCastillo["secuencia"]) {
-            respuestasCastillo["secuencia"] = true;
-            aciertosCastillo++;
-          }
-        }
-      }));
-
-      function playSound(id) {
-        const el = document.getElementById(id);
-        if (el) {
-          el.currentTime = 0;
-          el.play().catch(() => {});
-        }
-      }
+    
     </script>
   </div>
 </body>
