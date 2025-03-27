@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🏰 Castillo de Gonzalo</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg" />
 </head>
 <body>
@@ -31,7 +31,74 @@
       </div>
 
       <div id="game-content" style="display: none;">
-        <!-- contenido original intacto -->
+        <div class="carousel">
+          <div class="slide active">
+            <img src="images/castillo-entrada.jpg" alt="Entrada del Castillo" />
+            <p class="carousel-info">
+              <strong>Entrada:</strong> Puerta del siglo XV convertida en palacio. Construido sobre una fortificación del siglo XIII. Hoy sede del Centro de Interpretación de la Biosfera.
+              <a href="https://www.miteco.gob.es/..." target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-torre.jpg" alt="Torre del Homenaje" />
+            <p class="carousel-info">
+              <strong>Torre:</strong> Un rayo destruyó la torre a principios del siglo XX. Desde aquí se dominaba todo el valle.
+              <a href="https://sanmartindelcastanar.es/..." target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-vista.jpg" alt="Vistas desde el castillo" />
+            <p class="carousel-info">
+              <strong>Vista:</strong> Mirador natural. Desde 1834, el castillo acoge el cementerio municipal.
+              <a href="https://turismosierradefrancia.es/..." target="_blank">Más info</a>
+            </p>
+          </div>
+          <button class="carousel-btn prev-slide">←</button>
+          <button class="carousel-btn next-slide">→</button>
+        </div>
+
+        <div class="visual-challenge">
+          <h2>Reto Visual: Observa con atención</h2>
+          <p>1. ¿Qué marcó la torre del homenaje?</p>
+          <div id="visual-opciones-1">
+            <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1)">Rayo</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Incendio', 'Rayo', 1)">Incendio</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Terremoto', 'Rayo', 1)">Terremoto</button>
+          </div>
+          <p id="visual-resultado-1"></p>
+          <button class="action-btn" onclick="showHint('Algo que viene del cielo...')">💡 Pista</button>
+        </div>
+
+        <div class="quiz">
+          <h2>Quiz Histórico</h2>
+          <p>1. ¿En qué siglo fue construido el castillo?</p>
+          <div id="quiz-opciones-1">
+            <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1)">XIII</button>
+            <button class="action-btn" onclick="checkAnswer('XIV', 'XIII', 1)">XIV</button>
+            <button class="action-btn" onclick="checkAnswer('XII', 'XIII', 1)">XII</button>
+          </div>
+          <p id="quiz-resultado-1"></p>
+
+          <p>2. ¿Qué función tuvo durante el siglo XIX?</p>
+          <div id="quiz-opciones-2">
+            <button class="action-btn" onclick="checkAnswer('Cementerio', 'Cementerio', 2)">Cementerio</button>
+            <button class="action-btn" onclick="checkAnswer('Posada', 'Cementerio', 2)">Posada</button>
+            <button class="action-btn" onclick="checkAnswer('Ayuntamiento', 'Cementerio', 2)">Ayuntamiento</button>
+          </div>
+          <p id="quiz-resultado-2"></p>
+
+          <p>3. ¿Qué se instaló en el castillo en el siglo XXI?</p>
+          <div id="quiz-opciones-3">
+            <button class="action-btn" onclick="checkAnswer('Centro de Interpretación', 'Centro de Interpretación', 3)">Centro de Interpretación</button>
+            <button class="action-btn" onclick="checkAnswer('Museo de armas', 'Centro de Interpretación', 3)">Museo de armas</button>
+            <button class="action-btn" onclick="checkAnswer('Parador', 'Centro de Interpretación', 3)">Parador</button>
+          </div>
+          <p id="quiz-resultado-3"></p>
+        </div>
+
+        <div class="pista">
+          <strong>QR oculto:</strong> Se rumorea que Gonzalo grabó un símbolo detrás de una piedra suelta junto al arco. Si lo encuentras... escanea.
+        </div>
 
         <div id="continue-button" style="display: none; margin-top: 20px;">
           <p class="fragmento-final"><strong>Fragmento del mensaje:</strong> “Oculto...”</p>
@@ -64,75 +131,8 @@
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
     </footer>
 
-    <script src="scripts/script.js"></script>
-    <script>
-      let aciertosCastillo = 0;
-      let respuestasCastillo = {};
-      const stop = "castillo";
-
-      function checkVisualAnswer(respuesta, correcta, num) {
-        const resultado = document.getElementById(`visual-resultado-${num}`);
-        if (!respuestasCastillo[`visual-${num}`]) {
-          respuestasCastillo[`visual-${num}`] = true;
-          if (respuesta === correcta) aciertosCastillo++;
-        }
-        resultado.textContent = (respuesta === correcta) ? "✅ ¡Correcto!" : "❌ Incorrecto.";
-        resultado.style.color = (respuesta === correcta) ? "green" : "darkred";
-        playSound((respuesta === correcta) ? "coins-sound" : "error-sound");
-      }
-
-      function checkAnswer(respuesta, correcta, num) {
-        const resultado = document.getElementById(`quiz-resultado-${num}`);
-        if (!respuestasCastillo[`quiz-${num}`]) {
-          respuestasCastillo[`quiz-${num}`] = true;
-          if (respuesta === correcta) aciertosCastillo++;
-        }
-        resultado.textContent = (respuesta === correcta) ? "✅ ¡Correcto!" : "❌ Incorrecto.";
-        resultado.style.color = (respuesta === correcta) ? "green" : "darkred";
-        playSound((respuesta === correcta) ? "cheers-sound" : "error-sound");
-
-        const total = document.querySelectorAll('[id^="quiz-resultado-"]').length + document.querySelectorAll('[id^="visual-resultado-"]').length;
-        const contestadas = Object.keys(respuestasCastillo).length;
-        if (contestadas >= total) {
-          document.getElementById("continue-button").style.display = "block";
-        }
-      }
-
-      function guardarYContinuar() {
-        const nombre = localStorage.getItem("jugador") || "Anónimo";
-        const inicio = Number(localStorage.getItem("inicio"));
-        const tiempo = Math.round((Date.now() - inicio) / 1000);
-
-        const entrada = { nombre, tiempo, aciertos: aciertosCastillo };
-
-        // Clasificación global
-        let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
-        ranking.push(entrada);
-        localStorage.setItem("ranking", JSON.stringify(ranking));
-
-        // Clasificación por parada
-        let rankingStop = JSON.parse(localStorage.getItem("ranking-" + stop) || "[]");
-        rankingStop.push(entrada);
-        localStorage.setItem("ranking-" + stop, JSON.stringify(rankingStop));
-
-        window.location.href = `felicitaciones.html?stop=${stop}`;
-      }
-
-      function actualizarRankingCastillo() {
-        const tabla = document.querySelector("#ranking-castillo tbody");
-        const totalSpan = document.getElementById("total-castillo");
-        let datos = JSON.parse(localStorage.getItem("ranking-castillo") || "[]");
-        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-        totalSpan.textContent = datos.length;
-        tabla.innerHTML = "";
-        datos.slice(0,10).forEach((jugador, index) => {
-          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
-          tabla.innerHTML += fila;
-        });
-      }
-
-      document.addEventListener("DOMContentLoaded", actualizarRankingCastillo);
-    </script>
+    <script src="script.min.js"></script>
+    <!-- Ya están incluidas las funciones JS necesarias -->
   </div>
 </body>
 </html>
