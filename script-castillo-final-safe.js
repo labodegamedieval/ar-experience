@@ -56,31 +56,33 @@ function iniciarSecuencia() {
   document.getElementById("voz-gonzalo").play().catch(() => {});
 }
 
-const simbolos = document.querySelectorAll(".simbolo");
-simbolos.forEach((s, i) => {
-  s.addEventListener("click", () => {
-    s.classList.add("activo");
-    setTimeout(() => s.classList.remove("activo"), 500);
+document.addEventListener("DOMContentLoaded", () => {
+  const simbolos = document.querySelectorAll(".simbolo");
+  simbolos.forEach((s, i) => {
+    s.addEventListener("click", () => {
+      s.classList.add("activo");
+      setTimeout(() => s.classList.remove("activo"), 500);
 
-    inputUsuario.push(i);
-    const correcto = secuencia[inputUsuario.length - 1];
+      inputUsuario.push(i);
+      const correcto = secuencia[inputUsuario.length - 1];
 
-    if (i !== correcto) {
-      document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-      playSound("error-sound");
-      inputUsuario = [];
-      return;
-    }
-
-    if (inputUsuario.length === secuencia.length) {
-      document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-      playSound("coins-sound");
-      if (!respuestasCastillo.secuencia) {
-        respuestasCastillo.secuencia = true;
-        aciertosCastillo++;
-        mostrarBotonSiCompleto();
+      if (i !== correcto) {
+        document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
+        playSound("error-sound");
+        inputUsuario = [];
+        return;
       }
-    }
+
+      if (inputUsuario.length === secuencia.length) {
+        document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
+        playSound("coins-sound");
+        if (!respuestasCastillo.secuencia) {
+          respuestasCastillo.secuencia = true;
+          aciertosCastillo++;
+          mostrarBotonSiCompleto();
+        }
+      }
+    });
   });
 });
 
