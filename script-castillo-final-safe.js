@@ -1,84 +1,120 @@
-// script-castillo-final-safe.min.js
+// SCRIPT PARA LA PARADA "CASTILLO"
 
-// VARIABLES Y ESTADO LOCAL
 let respuestasCastillo = {};
 let aciertosCastillo = 0;
-let inputUsuario = [];
-let simbolos = [];
-let secuencia = [2, 0, 3, 1]; // ✝️ 🛡️ ⚔️ 🕯️ (desordenado respecto a la narración)
+let simbolosCastillo = [];
+let secuenciaCastillo = [3, 2, 0, 1]; // ⚔️ ✝️ 🛡️ 🕯️
+let inputUsuarioCastillo = [];
 
-// FUNCIONES DE INICIO
 window.addEventListener("DOMContentLoaded", () => {
-  simbolos = Array.from(document.querySelectorAll(".simbolo"));
-  simbolos.forEach(s => s.addEventListener("click", manejarClickSimbolo));
+  // Activar música
+  const musicBtn = document.querySelector(".music-btn");
+  const bgMusic = document.getElementById("background-music");
+  const musicIcon = document.querySelector(".music-icon");
+  let musicPlaying = true;
 
-  document.getElementById("quiz-opciones-1")?.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => checkAnswer(btn.textContent, 'XIII', 1)));
-  document.getElementById("quiz-opciones-2")?.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => checkAnswer(btn.textContent, 'Cementerio', 2)));
-  document.getElementById("quiz-opciones-3")?.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => checkAnswer(btn.textContent, 'Centro de Interpretación', 3)));
+  musicBtn?.addEventListener("click", () => {
+    if (musicPlaying) {
+      bgMusic.pause();
+      musicIcon.textContent = "🔇";
+    } else {
+      bgMusic.play().catch(() => {});
+      musicIcon.textContent = "🎵";
+    }
+    musicPlaying = !musicPlaying;
+  });
 
-  document.getElementById("visual-opciones-1")?.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => checkVisualAnswer(btn.textContent, 'Rayo', 1)));
+  // Carrusel
+  let currentSlide = 0;
+  const slides = document.querySelectorAll(".slide");
+  const prevBtn = document.querySelector(".prev-slide");
+  const nextBtn = document.querySelector(".next-slide");
 
-  checkMostrarBotonContinuar();
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.style.display = i === index ? "block" : "none";
+    });
+  }
+
+  prevBtn?.addEventListener("click", () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  });
+  nextBtn?.addEventListener("click", () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  });
+
+  showSlide(currentSlide);
+
+  // Simbolos secuencia
+  simbolosCastillo = document.querySelectorAll(".simbolo");
+
+  simbolosCastillo.forEach(s => s.addEventListener("click", e => {
+    const id = Number(e.target.dataset.id);
+    inputUsuarioCastillo.push(id);
+    s.classList.add("activo");
+    setTimeout(() => s.classList.remove("activo"), 500);
+
+    if (inputUsuarioCastillo[inputUsuarioCastillo.length - 1] !== secuenciaCastillo[inputUsuarioCastillo.length - 1]) {
+      document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
+      playSound("error-sound");
+      inputUsuarioCastillo = [];
+      return;
+    }
+
+    if (inputUsuarioCastillo.length === secuenciaCastillo.length) {
+      document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
+      playSound("coins-sound");
+      if (!respuestasCastillo.secuencia) {
+        respuestasCastillo.secuencia = true;
+        aciertosCastillo++;
+        comprobarFinal();
+      }
+    }
+  }));
 });
 
-function checkVisualAnswer(resp, correcta, num) {
-  const resEl = document.getElementById(`visual-resultado-${num}`);
-  if (!resEl || respuestasCastillo[`visual${num}`]) return;
-  if (resp === correcta) {
-    resEl.textContent = "✅ ¡Correcto!";
-    respuestasCastillo[`visual${num}`] = true;
-    aciertosCastillo++;
+window.iniciarSecuencia = function () {
+  inputUsuarioCastillo = [];
+  document.getElementById("voz-gonzalo").play().catch(() => {});
+};
+
+window.checkAnswer = function (respuesta, correcta, n) {
+  const resultado = document.getElementById(`quiz-resultado-${n}`);
+  if (respuesta === correcta) {
+    resultado.textContent = "✅ Correcto";
     playSound("success-sound");
-  } else {
-    resEl.textContent = "❌ Inténtalo de nuevo.";
-    playSound("error-sound");
-  }
-  checkMostrarBotonContinuar();
-}
-
-function showHint(msg) {
-  alert(msg);
-}
-
-function checkAnswer(resp, correcta, num) {
-  const resEl = document.getElementById(`quiz-resultado-${num}`);
-  if (!resEl || respuestasCastillo[`quiz${num}`]) return;
-  if (resp === correcta) {
-    resEl.textContent = "✅ ¡Correcto!";
-    respuestasCastillo[`quiz${num}`] = true;
-    aciertosCastillo++;
-    playSound("success-sound");
-  } else {
-    resEl.textContent = "❌ Inténtalo de nuevo.";
-    playSound("error-sound");
-  }
-  checkMostrarBotonContinuar();
-}
-
-function manejarClickSimbolo(e) {
-  const id = Number(e.target.dataset.id);
-  inputUsuario.push(id);
-
-  simbolos.forEach(el => el.classList.remove("activo"));
-  e.target.classList.add("activo");
-
-  if (inputUsuario[inputUsuario.length - 1] !== secuencia[inputUsuario.length - 1]) {
-    document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-    playSound("error-sound");
-    inputUsuario = [];
-    return;
-  }
-
-  if (inputUsuario.length === secuencia.length) {
-    document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-    playSound("coins-sound");
-    if (!respuestasCastillo["secuencia"]) {
-      respuestasCastillo["secuencia"] = true;
+    if (!respuestasCastillo[`q${n}`]) {
+      respuestasCastillo[`q${n}`] = true;
       aciertosCastillo++;
+      comprobarFinal();
     }
-    checkMostrarBotonContinuar();
+  } else {
+    resultado.textContent = "❌ Incorrecto";
+    playSound("error-sound");
   }
-}
+};
+
+window.checkVisualAnswer = function (respuesta, correcta, n) {
+  const resultado = document.getElementById(`visual-resultado-${n}`);
+  if (respuesta === correcta) {
+    resultado.textContent = "✅ Bien observado";
+    playSound("success-sound");
+    if (!respuestasCastillo[`v${n}`]) {
+      respuestasCastillo[`v${n}`] = true;
+      aciertosCastillo++;
+      comprobarFinal();
+    }
+  } else {
+    resultado.textContent = "❌ Observa mejor...";
+    playSound("error-sound");
+  }
+};
+
+window.showHint = function (texto) {
+  alert("💡 Pista: " + texto);
+};
 
 function playSound(id) {
   const el = document.getElementById(id);
@@ -88,43 +124,68 @@ function playSound(id) {
   }
 }
 
-// BOTÓN CONTINUAR
-function checkMostrarBotonContinuar() {
-  const boton = document.getElementById("continue-button");
-  if (!boton) return;
-
-  const keys = Object.keys(respuestasCastillo);
-  const total = ["visual1", "quiz1", "quiz2", "quiz3", "secuencia"];
-  const completados = total.every(k => respuestasCastillo[k] !== undefined);
-
-  if (completados || keys.length >= total.length) {
-    boton.style.display = "block";
-    guardarDatosCastillo();
+function comprobarFinal() {
+  const total = 5; // preguntas + visual + secuencia
+  if (Object.keys(respuestasCastillo).length >= total) {
+    const btn = document.getElementById("continue-button");
+    if (btn) btn.style.display = "block";
+    registrarJugador();
   }
 }
 
-function guardarDatosCastillo() {
-  const jugador = localStorage.getItem("jugador") || "Anónimo";
-  const tiempoInicio = localStorage.getItem("inicio-castillo") || Date.now();
-  const tiempo = Math.floor((Date.now() - tiempoInicio) / 1000);
+function registrarJugador() {
+  const nombre = localStorage.getItem("jugador") || "Aventurero";
+  const inicio = Number(localStorage.getItem("inicio-castillo")) || Date.now();
+  const tiempo = Math.floor((Date.now() - inicio) / 1000);
+  let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
 
-  const datos = JSON.parse(localStorage.getItem("ranking") || "[]");
-  datos.push({ nombre: jugador, parada: "castillo", tiempo, aciertos: aciertosCastillo });
-  localStorage.setItem("ranking", JSON.stringify(datos));
+  ranking.push({ nombre, tiempo, aciertos: aciertosCastillo });
+  localStorage.setItem("ranking", JSON.stringify(ranking));
   localStorage.setItem("castillo-completed", "true");
 }
 
-// Verificación manual para esta parada
-function checkLocationManual() {
+window.checkLocationManual = function () {
   const input = document.getElementById("location-input");
-  if (!input) return;
-  if (input.value.trim().toLowerCase() === "castillo") {
-    document.getElementById("game-content").style.display = "block";
+  const valor = input?.value.trim().toLowerCase();
+  if (valor === "castillo") {
     document.getElementById("location-check").style.display = "none";
-    localStorage.setItem("inicio-castillo", Date.now());
+    document.getElementById("game-content").style.display = "block";
     playSound("success-sound");
+    localStorage.setItem("inicio-castillo", Date.now().toString());
   } else {
-    document.getElementById("location-status").textContent = "❌ Nombre incorrecto.";
-    playSound("error-sound");
+    document.getElementById("location-status").textContent = "❌ Ese no es el nombre correcto.";
   }
+};
+
+window.checkLocation = function () {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const dist = getDistanceFromLatLonInMeters(pos.coords.latitude, pos.coords.longitude, 40.520512, -6.063541);
+      if (dist <= 30) {
+        document.getElementById("location-check").style.display = "none";
+        document.getElementById("game-content").style.display = "block";
+        playSound("success-sound");
+        localStorage.setItem("inicio-castillo", Date.now().toString());
+      } else {
+        document.getElementById("location-status").textContent = `📍 Estás a ${Math.round(dist)} m. Acércate más.`;
+      }
+    },
+    () => {
+      document.getElementById("location-status").textContent = "⚠️ No se pudo obtener tu ubicación.";
+    },
+    { enableHighAccuracy: true }
+  );
+};
+
+function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
