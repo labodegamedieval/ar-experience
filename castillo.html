@@ -5,40 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🏰 Castillo de Gonzalo</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg" />
-  <style>
-    .secuencia-luces {
-      text-align: center;
-      margin: 30px 0;
-    }
-    .simbolo {
-      display: inline-block;
-      width: 60px;
-      height: 60px;
-      margin: 10px;
-      font-size: 32px;
-      border: 3px solid #8b5e3c;
-      border-radius: 12px;
-      line-height: 60px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background-color: #f4efe4;
-    }
-    .simbolo.activo {
-      background-color: gold !important;
-      transform: scale(1.2);
-    }
-    .pergamino {
-      cursor: pointer;
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 1.5s ease-out, padding 0.5s ease;
-    }
-    .pergamino.visible {
-      max-height: 500px;
-      padding: 15px;
-    }
-  </style>
+  <link rel="icon" href="images/escudo-borrado.jpg" />
 </head>
 <body>
   <div class="container">
@@ -91,8 +58,8 @@
         </div>
 
         <div class="visual-challenge">
-          <h2>Reto Visual: Observa con atención</h2>
-          <p>1. ¿Qué marcó la torre del homenaje?</p>
+          <h2>Reto Visual</h2>
+          <p>¿Qué destruyó la última torre en pie?</p>
           <div id="visual-opciones-1">
             <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1)">Rayo</button>
             <button class="action-btn" onclick="checkVisualAnswer('Incendio', 'Rayo', 1)">Incendio</button>
@@ -111,21 +78,21 @@
         </div>
 
         <div class="secuencia-luces">
-          <h2>🕯️ Desafío de la secuencia</h2>
-          <p>Pulsa los símbolos en el orden correcto tras escuchar la pista:</p>
+          <h2>🕯️ Secuencia Mágica</h2>
+          <p>Escucha la pista de Gonzalo y pulsa los símbolos en el orden correcto:</p>
           <div id="simbolos">
             <div class="simbolo" data-id="0">🛡️</div>
             <div class="simbolo" data-id="1">🕯️</div>
             <div class="simbolo" data-id="2">✝️</div>
             <div class="simbolo" data-id="3">⚔️</div>
           </div>
-          <button class="action-btn" onclick="iniciarSecuencia()">🔊 Escuchar pista de Gonzalo</button>
+          <button class="action-btn" onclick="iniciarSecuencia()">🎧 Escuchar pista de Gonzalo</button>
           <p id="resultado-secuencia"></p>
         </div>
 
         <div class="quiz">
           <h2>Quiz Histórico</h2>
-          <p>1. ¿En qué siglo fue construida la fortificación original?</p>
+          <p>¿En qué siglo se construyó la fortificación original?</p>
           <div id="quiz-opciones-1">
             <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1)">XIII</button>
             <button class="action-btn" onclick="checkAnswer('XIV', 'XIII', 1)">XIV</button>
@@ -133,7 +100,7 @@
           </div>
           <p id="quiz-resultado-1"></p>
 
-          <p>2. ¿Qué función tuvo desde el siglo XIX?</p>
+          <p>¿Qué función tuvo el castillo desde el siglo XIX?</p>
           <div id="quiz-opciones-2">
             <button class="action-btn" onclick="checkAnswer('Cementerio', 'Cementerio', 2)">Cementerio</button>
             <button class="action-btn" onclick="checkAnswer('Posada', 'Cementerio', 2)">Posada</button>
@@ -141,7 +108,7 @@
           </div>
           <p id="quiz-resultado-2"></p>
 
-          <p>3. ¿Qué se instaló en el castillo en el siglo XXI?</p>
+          <p>¿Qué se instaló en el castillo en el siglo XXI?</p>
           <div id="quiz-opciones-3">
             <button class="action-btn" onclick="checkAnswer('Centro de Interpretación', 'Centro de Interpretación', 3)">Centro de Interpretación</button>
             <button class="action-btn" onclick="checkAnswer('Museo de armas', 'Centro de Interpretación', 3)">Museo de armas</button>
@@ -172,7 +139,7 @@
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
     </footer>
 
-    <script src="script.min.js"></script> 
+    <script src="script.min.js"></script>
     <script src="script-castillo-final-safe.min.js"></script>
   </div>
 </body>
