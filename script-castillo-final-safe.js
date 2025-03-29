@@ -6,6 +6,7 @@ let respuestasCastillo = {
   quiz3: false,
   secuencia: false
 };
+
 let aciertosCastillo = 0;
 let tiempoInicio = Date.now();
 
@@ -26,10 +27,6 @@ function checkVisualAnswer(respuesta, correcta, id) {
   }
 }
 
-function showHint(texto) {
-  alert("💡 Pista: " + texto);
-}
-
 // Quiz
 function checkAnswer(respuesta, correcta, id) {
   const resultado = document.getElementById("quiz-resultado-" + id);
@@ -48,41 +45,39 @@ function checkAnswer(respuesta, correcta, id) {
 }
 
 // Juego de símbolos
-let secuencia = [3, 2, 0, 1]; // ⚔️ ✝️ 🛡️ 🕯️
+let secuencia = [3, 2, 0, 1]; // ⚔️ ✝️ 🛡️ 🔧
 let inputUsuario = [];
 
 function iniciarSecuencia() {
   inputUsuario = [];
-  document.getElementById("voz-gonzalo").play().catch(() => {});
+  const voz = document.getElementById("voz-gonzalo");
+  if (voz) voz.play().catch(() => {});
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const simbolos = document.querySelectorAll(".simbolo");
-  simbolos.forEach((s, i) => {
-    s.addEventListener("click", () => {
-      s.classList.add("activo");
-      setTimeout(() => s.classList.remove("activo"), 500);
+document.querySelectorAll(".simbolo").forEach((simbolo, i) => {
+  simbolo.addEventListener("click", () => {
+    simbolo.classList.add("activo");
+    setTimeout(() => simbolo.classList.remove("activo"), 500);
 
-      inputUsuario.push(i);
-      const correcto = secuencia[inputUsuario.length - 1];
+    inputUsuario.push(i);
+    const correcto = secuencia[inputUsuario.length - 1];
 
-      if (i !== correcto) {
-        document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-        playSound("error-sound");
-        inputUsuario = [];
-        return;
+    if (i !== correcto) {
+      document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
+      playSound("error-sound");
+      inputUsuario = [];
+      return;
+    }
+
+    if (inputUsuario.length === secuencia.length) {
+      document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
+      playSound("coins-sound");
+      if (!respuestasCastillo.secuencia) {
+        respuestasCastillo.secuencia = true;
+        aciertosCastillo++;
+        mostrarBotonSiCompleto();
       }
-
-      if (inputUsuario.length === secuencia.length) {
-        document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-        playSound("coins-sound");
-        if (!respuestasCastillo.secuencia) {
-          respuestasCastillo.secuencia = true;
-          aciertosCastillo++;
-          mostrarBotonSiCompleto();
-        }
-      }
-    });
+    }
   });
 });
 
@@ -117,4 +112,4 @@ function guardarEnRanking() {
   let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
   ranking.push({ nombre, tiempo: tiempoTotal, aciertos: aciertosCastillo, parada });
   localStorage.setItem("ranking", JSON.stringify(ranking));
-}
+} 
