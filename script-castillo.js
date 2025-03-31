@@ -6,6 +6,14 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('location-check').style.display = 'none';
     document.getElementById('game-content').style.display = 'block';
   }
+
+  // Mostrar el botón de continuar búsqueda si se completó el reto
+  const botonContinuar = document.getElementById("boton-continuar-busqueda");
+  if (localStorage.getItem('reto_simbolos_completado') === 'true') {
+    if (botonContinuar) {
+      botonContinuar.style.display = "block";
+    }
+  }
 });
 
 // Función para verificar ubicación por GPS
