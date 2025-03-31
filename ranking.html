@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏆 Ranking de Jugadores</title>
+  <style>
+    body {
+      background: #f3e5ab;
+      margin: 0;
+      font-family: 'Georgia', serif;
+      color: #2c1d0c;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #4b2c0f;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 800px;
+      background-color: #fff8dc;
+      border: 2px solid #8b5e3c;
+    }
+
+    th, td {
+      border: 1px solid #8b5e3c;
+      padding: 10px;
+    }
+
+    th {
+      background-color: #dec49a;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f2df;
+    }
+
+    .action-btn {
+      margin-top: 2rem;
+      padding: 0.8rem 1.2rem;
+      font-size: 1.2rem;
+      background-color: #5b3922;
+      color: #fff8e1;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background-color: #7a4d2e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏆 Ranking de Jugadores</h1>
+  <table id="ranking-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Parada</th>
+        <th>Reto</th>
+        <th>Resultado</th>
+        <th>Fecha y Hora</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <button class="action-btn" onclick="window.location.href='castillo.html'">🔙 Volver al Castillo</button>
+
+  <script>
+    const ranking = JSON.parse(localStorage.getItem('ranking_jugadores')) || [];
+    const tbody = document.querySelector('#ranking-table tbody');
+
+    if (ranking.length === 0) {
+      tbody.innerHTML = "<tr><td colspan='5'>No hay datos registrados todavía.</td></tr>";
+    } else {
+      ranking.forEach((entrada, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entrada.parada}</td>
+          <td>${entrada.reto}</td>
+          <td>${entrada.completado ? '✅ Completado' : '❌ Incompleto'}</td>
+          <td>${new Date(entrada.timestamp).toLocaleString()}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
+
+</body>
+</html>
