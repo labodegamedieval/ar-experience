@@ -6,39 +6,69 @@
   <title>🛡️ Reto de los Símbolos</title>
   <style>
     body {
-      background: #000;
+      background: url('images/pergamino.jpg') no-repeat center center fixed;
+      background-size: cover;
       margin: 0;
       font-family: 'Georgia', serif;
-      color: white;
+      color: #2c1d0c;
       text-align: center;
+      padding: 2rem;
     }
 
-    .container {
-      position: relative;
-      display: inline-block;
-      max-width: 100%;
+    h1 {
+      color: #4b2c0f;
+      text-shadow: 1px 1px #fff8e1;
     }
 
-    img {
-      width: 100%;
-      max-width: 900px;
-      height: auto;
-      display: block;
-      border: 4px solid #8b5e3c;
+    .botones-simbolos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
     }
 
-    .click-zone {
-      position: absolute;
+    .simbolo-btn {
+      font-size: 2.5rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255, 248, 220, 0.9);
+      border: 3px solid #5b3922;
+      border-radius: 12px;
       cursor: pointer;
-      border-radius: 50%;
-      opacity: 0;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .simbolo-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .simbolo-btn.activo {
+      background-color: gold;
+      border-color: #c79b2d;
     }
 
     #mensaje-final {
-      margin-top: 20px;
-      font-size: 1.4em;
+      margin-top: 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: green;
       display: none;
-      color: gold;
+    }
+
+    .action-btn {
+      margin-top: 2rem;
+      padding: 0.8rem 1.2rem;
+      font-size: 1.2rem;
+      background-color: #5b3922;
+      color: #fff8e1;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background-color: #7a4d2e;
     }
   </style>
 </head>
@@ -46,45 +76,53 @@
 
   <h1>🛡️ Desbloquea el Secreto del Castillo</h1>
 
-  <div class="container">
-    <img src="images/simbolos-castillo.png" alt="Símbolos medievales interactivos" />
-
-    <!-- ZONAS CLICABLES: ajusta left/top/width/height según imagen -->
-    <div class="click-zone" style="top: 12%; left: 28%; width: 8%; height: 12%;" data-id="0"></div> <!-- Espada -->
-    <div class="click-zone" style="top: 45%; left: 18%; width: 8%; height: 12%;" data-id="1"></div> <!-- Cruz -->
-    <div class="click-zone" style="top: 62%; left: 51%; width: 8%; height: 12%;" data-id="2"></div> <!-- Escudo -->
-    <div class="click-zone" style="top: 77%; left: 78%; width: 8%; height: 12%;" data-id="3"></div> <!-- Vela -->
+  <div class="botones-simbolos">
+    <button class="simbolo-btn" data-id="llave">🗝️</button>
+    <button class="simbolo-btn" data-id="espada">🗡️</button>
+    <button class="simbolo-btn" data-id="libro">📜</button>
+    <button class="simbolo-btn" data-id="calavera">💀</button>
+    <button class="simbolo-btn" data-id="dragón">🐉</button>
+    <button class="simbolo-btn" data-id="cruz">✝️</button>
+    <button class="simbolo-btn" data-id="arco">🏹</button>
+    <button class="simbolo-btn" data-id="vela">🕯️</button>
+    <button class="simbolo-btn" data-id="copa">🍷</button>
+    <button class="simbolo-btn" data-id="escudo">🛡️</button>
+    <button class="simbolo-btn" data-id="castillo">🏰</button>
+    <button class="simbolo-btn" data-id="corona">👑</button>
   </div>
 
   <div id="mensaje-final">✅ ¡Has desbloqueado la secuencia secreta!</div>
-  <button class="action-btn" onclick="window.location.href='castillo.html'">
-  🔙 Volver al Castillo
-  </button>
+
+  <button class="action-btn" onclick="window.location.href='castillo.html'">🔙 Volver al Castillo</button>
 
   <script>
-    const secuenciaCorrecta = [0, 1, 2, 3];
+    const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
 
-    document.querySelectorAll('.click-zone').forEach(zone => {
-      zone.addEventListener('click', () => {
-        const valor = parseInt(zone.getAttribute('data-id'));
+    const botones = document.querySelectorAll(".simbolo-btn");
+
+    botones.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("activo") || inputSecuencia.length >= 4) return;
+
+        btn.classList.add("activo");
+        const valor = btn.getAttribute("data-id");
         inputSecuencia.push(valor);
 
-        // Comprobar paso actual
-        const correcto = secuenciaCorrecta[inputSecuencia.length - 1];
-        if (valor !== correcto) {
+        const pasoEsperado = secuenciaCorrecta[inputSecuencia.length - 1];
+        if (valor !== pasoEsperado) {
           alert("❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.");
           inputSecuencia = [];
-          return;
+          botones.forEach(b => b.classList.remove("activo"));
         }
 
-        // Si acierta toda la secuencia
-        if (inputSecuencia.length === secuenciaCorrecta.length) {
+        if (inputSecuencia.length === secuenciaCorrecta.length &&
+            JSON.stringify(inputSecuencia) === JSON.stringify(secuenciaCorrecta)) {
           document.getElementById("mensaje-final").style.display = "block";
-          // Aquí puedes mostrar un botón, imagen o pasar de pantalla
         }
       });
     });
   </script>
+
 </body>
 </html>
