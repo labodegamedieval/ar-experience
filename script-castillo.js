@@ -1,136 +1,93 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Inicializar nota plegable
-  const nota = document.getElementById("nota-gonzalo");
-  if (nota) {
-    nota.classList.remove("visible");
-    nota.style.display = "none";
-    const notaContainer = document.querySelector(".pista");
-    if (notaContainer) {
-      notaContainer.addEventListener("click", () => {
-        nota.classList.toggle("visible");
-        nota.style.display = nota.classList.contains("visible") ? "block" : "none";
-      });
-    }
+// Esperar a que cargue el DOM
+window.addEventListener('DOMContentLoaded', () => {
+  const desbloqueada = localStorage.getItem('parada_castillo_desbloqueada');
+
+  if (desbloqueada === 'true') {
+    document.getElementById('location-check').style.display = 'none';
+    document.getElementById('game-content').style.display = 'block';
   }
-
-  // Activar símbolos mágicos
-  const simbolos = document.querySelectorAll(".simbolo");
-  simbolos.forEach((simbolo, i) => {
-    simbolo.addEventListener("click", () => {
-      simbolo.classList.add("activo");
-      setTimeout(() => simbolo.classList.remove("activo"), 500);
-
-      inputUsuario.push(i);
-      const correcto = secuencia[inputUsuario.length - 1];
-
-      if (i !== correcto) {
-        document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-        playSound("error-sound");
-        inputUsuario = [];
-        return;
-      }
-
-      if (inputUsuario.length === secuencia.length) {
-        document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-        playSound("coins-sound");
-        if (!respuestasCastillo.secuencia) {
-          respuestasCastillo.secuencia = true;
-          aciertosCastillo++;
-          mostrarBotonSiCompleto();
-        }
-      }
-    });
-  });
 });
 
-// Estado del juego
-let respuestasCastillo = {
-  visual: false,
-  quiz1: false,
-  quiz2: false,
-  quiz3: false,
-  secuencia: false
-};
-let aciertosCastillo = 0;
-let tiempoInicio = Date.now();
-let secuencia = [0, 1, 2, 3]; // Espada, Cruz, Escudo, Vela
-let inputUsuario = [];
+// Función para verificar ubicación por GPS
+function checkLocation() {
+  if (!navigator.geolocation) {
+    alert("La geolocalización no está soportada por tu navegador.");
+    return;
+  }
 
-// Reto visual
-function checkVisualAnswer(respuesta, correcta, id) {
-  const resultado = document.getElementById("visual-resultado-" + id);
-  if (respuesta === correcta) {
-    resultado.textContent = "✅ ¡Correcto!";
-    playSound("coins-sound");
-    if (!respuestasCastillo.visual) {
-      respuestasCastillo.visual = true;
-      aciertosCastillo++;
-      mostrarBotonSiCompleto();
-    }
+  navigator.geolocation.getCurrentPosition(success, error);
+}
+
+function success(position) {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+
+  // Coordenadas aproximadas del castillo
+  const targetLat = 40.5495;
+  const targetLon = -6.0597;
+  const distance = getDistanceFromLatLonInMeters(lat, lon, targetLat, targetLon);
+
+  if (distance <= 50) {
+    document.getElementById('location-check').style.display = 'none';
+    document.getElementById('game-content').style.display = 'block';
+    localStorage.setItem('parada_castillo_desbloqueada', 'true');
   } else {
-    resultado.textContent = "❌ Intenta de nuevo.";
-    playSound("error-sound");
+    document.getElementById('location-status').textContent = `Estás a ${Math.round(distance)} metros. Acércate más al castillo.`;
   }
 }
 
-// Quiz histórico
-function checkAnswer(respuesta, correcta, id) {
-  const resultado = document.getElementById("quiz-resultado-" + id);
-  if (respuesta === correcta) {
-    resultado.textContent = "✅ ¡Correcto!";
-    playSound("coins-sound");
-    if (!respuestasCastillo["quiz" + id]) {
-      respuestasCastillo["quiz" + id] = true;
-      aciertosCastillo++;
-      mostrarBotonSiCompleto();
-    }
+function error() {
+  alert("No se pudo obtener tu ubicación.");
+}
+
+// Función para verificar ubicación manualmente
+function checkLocationManual() {
+  const input = document.getElementById('location-input').value.trim().toLowerCase();
+  if (input === 'castillo') {
+    document.getElementById('location-check').style.display = 'none';
+    document.getElementById('game-content').style.display = 'block';
+    localStorage.setItem('parada_castillo_desbloqueada', 'true');
   } else {
-    resultado.textContent = "❌ Intenta de nuevo.";
-    playSound("error-sound");
+    document.getElementById('location-status').textContent = "Nombre incorrecto. Intenta de nuevo.";
   }
 }
 
-// Reproducir audio
-function iniciarSecuencia() {
-  inputUsuario = [];
-  const voz = document.getElementById("voz-gonzalo");
-  if (voz) {
-    voz.currentTime = 0;
-    voz.play().catch((e) => {
-      console.warn("No se pudo reproducir el audio:", e);
-    });
+// Función para calcular distancia entre dos puntos GPS
+function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371e3; // metros
+  const φ1 = lat1 * Math.PI / 180;
+  const φ2 = lat2 * Math.PI / 180;
+  const Δφ = (lat2 - lat1) * Math.PI / 180;
+  const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+  return R * c;
+}
+
+// Función para validar respuesta de quiz
+function checkAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
+  const resultado = document.getElementById(`quiz-resultado-${numeroPregunta}`);
+  if (respuestaSeleccionada === respuestaCorrecta) {
+    resultado.textContent = "✅ ¡Correcto!";
+    document.getElementById("success-sound").play();
+  } else {
+    resultado.textContent = "❌ Incorrecto. Inténtalo de nuevo.";
+    document.getElementById("error-sound").play();
   }
 }
 
-// Mostrar botón final si se completa todo
-function mostrarBotonSiCompleto() {
-  const total = Object.keys(respuestasCastillo).length;
-  const completados = Object.values(respuestasCastillo).filter(Boolean).length;
-  if (completados === total) {
-    setTimeout(() => {
-      document.getElementById("continue-button").style.display = "block";
-      playSound("cheers-sound");
-      guardarEnRanking();
-    }, 1000);
+// Función para validar respuesta del reto visual
+function checkVisualAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
+  const resultado = document.getElementById(`visual-resultado-${numeroPregunta}`);
+  if (respuestaSeleccionada === respuestaCorrecta) {
+    resultado.textContent = "✅ ¡Correcto!";
+    document.getElementById("coins-sound").play();
+  } else {
+    resultado.textContent = "❌ Incorrecto. Inténtalo de nuevo.";
+    document.getElementById("error-sound").play();
   }
-}
-
-// Sonidos
-function playSound(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.currentTime = 0;
-    el.play().catch(() => {});
-  }
-}
-
-// Guardar resultado
-function guardarEnRanking() {
-  const tiempoTotal = Math.floor((Date.now() - tiempoInicio) / 1000);
-  const nombre = localStorage.getItem("jugador") || "Aventurero";
-  const parada = "castillo";
-
-  let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
-  ranking.push({ nombre, tiempo: tiempoTotal, aciertos: aciertosCastillo, parada });
-  localStorage.setItem("ranking", JSON.stringify(ranking));
 }
