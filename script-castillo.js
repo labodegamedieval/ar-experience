@@ -53,7 +53,7 @@ let respuestasCastillo = {
 };
 let aciertosCastillo = 0;
 let tiempoInicio = Date.now();
-let secuencia = [3, 1, 0, 2]; // ⚔️ ✝️ 🛡️ 🕯️
+let secuencia = [0, 1, 2, 3]; // Espada, Cruz, Escudo, Vela
 let inputUsuario = [];
 
 // Reto visual
