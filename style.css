@@ -224,4 +224,18 @@ footer a:hover {
   .pergamino.visible {
   display: block;
   }
+
+  .simbolo {
+  display: inline-block;
+  font-size: 36px;
+  padding: 10px;
+  border: 2px solid #8b5e3c;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.simbolo.activo {
+  background-color: #ffe9b5;
+}  
 }
