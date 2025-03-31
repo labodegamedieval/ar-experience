@@ -170,3 +170,25 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+/* Animación de desenrollado */
+.pergamino {
+  display: none;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.8s ease, opacity 0.6s ease;
+  background: #fffaf0;
+  padding: 0 15px;
+  border-left: 5px solid #8b5e3c;
+  border-radius: 6px;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.pergamino.visible {
+  display: block;
+  max-height: 300px; /* ajustable según contenido */
+  opacity: 1;
+  padding: 10px 15px;
+}
