@@ -2,37 +2,59 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎉 Fragmento conseguido</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/escudo-borrado.jpg" />
   <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('images/pergamino.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #2c1d0c;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px #fff8e1;
+      color: #4b2c0f;
+    }
     .pergamino {
       background: url('images/pergamino.png') no-repeat center center;
       background-size: contain;
       text-align: center;
-      padding: 40px;
-      font-family: 'Georgia', serif;
-      font-size: 18px;
-      margin: 20px 0;
+      padding: 60px 30px;
+      font-size: 1.4rem;
+      margin: 30px auto;
+      max-width: 600px;
+      animation: desenrollar 1s ease-out;
     }
-    .ranking-table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
+    @keyframes desenrollar {
+      from { transform: scaleY(0); opacity: 0; }
+      to { transform: scaleY(1); opacity: 1; }
     }
-    .ranking-table th, .ranking-table td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
+    .progress-container {
+      margin-top: 2rem;
     }
-    .ranking-table th {
-      background-color: #f2e6d9;
+    .progress-bar {
+      background-color: #ddd;
+      border-radius: 10px;
+      height: 20px;
+      width: 80%;
+      margin: 0 auto;
+    }
+    .progress-fill {
+      background-color: #5b3922;
+      height: 100%;
+      border-radius: 10px;
     }
     .action-btn {
       margin: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
+      padding: 0.8rem 1.2rem;
+      font-size: 1.1rem;
       background-color: #5b3922;
       color: #fff8e1;
       border: none;
@@ -50,20 +72,19 @@
       gap: 1rem;
       margin: 1.5rem 0;
     }
-    .progress-container {
-      margin-top: 2rem;
+    .ranking-table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: rgba(255, 248, 220, 0.95);
     }
-    .progress-bar {
-      background-color: #ddd;
-      border-radius: 10px;
-      height: 20px;
-      margin: 0.5rem auto;
-      width: 80%;
+    .ranking-table th, .ranking-table td {
+      border: 1px solid #b29a7e;
+      padding: 8px;
+      text-align: center;
     }
-    .progress-fill {
-      background-color: #5b3922;
-      height: 100%;
-      border-radius: 10px;
+    .ranking-table th {
+      background-color: #e6d5ba;
     }
   </style>
 </head>
@@ -74,9 +95,7 @@
     </header>
 
     <section>
-      <p class="pista" id="saludo-jugador">
-        Enhorabuena, has superado los retos de esta parada y has obtenido un nuevo fragmento del mensaje oculto de Gonzalo.
-      </p>
+      <p class="pista" id="saludo-jugador"></p>
 
       <div id="fragmento" class="fragmento-final pergamino">
         Cargando fragmento...
@@ -94,19 +113,19 @@
         🔍 El siguiente fragmento puede estar escondido cerca de una fuente con historia… Busca un <strong>QR oculto</strong> grabado junto a una piedra redonda.
       </div>
 
-      <h2>¿Cuál es tu siguiente paso?</h2>
+      <h2>⚖️ Tu siguiente paso:</h2>
       <p>Gonzalo dejó pistas en varias direcciones. Elige tu próximo destino:</p>
 
       <div class="buttons-container">
-        <a id="opcion1" href="#" class="action-btn">Opción 1</a>
-        <a id="opcion2" href="#" class="action-btn">Opción 2</a>
+        <a id="opcion1" href="#" class="action-btn"></a>
+        <a id="opcion2" href="#" class="action-btn"></a>
       </div>
 
       <div class="pista">
         Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
       </div>
 
-      <h3>📢 Comparte tu hazaña</h3>
+      <h3>📣 Comparte tu hazaña</h3>
       <p>
         Si te ha gustado esta parada, compártela en redes sociales y menciona o etiqueta a <strong>@labodegamedieval</strong>:
       </p>
@@ -115,7 +134,7 @@
         <a href="https://www.instagram.com/" target="_blank" class="action-btn">📸 Instagram</a>
         <a href="https://www.facebook.com/" target="_blank" class="action-btn">📘 Facebook</a>
         <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗 LinkedIn</a>
-        <a href="https://twitter.com/intent/tweet?text=He%20encontrado%20un%20fragmento%20en%20la%20b%C3%BAsqueda%20medieval%20de%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval!" target="_blank" class="action-btn">🐦 Twitter</a>
+        <a href="https://twitter.com/intent/tweet?text=He%20encontrado%20un%20fragmento%20en%20la%20b%C3%BAsqueda%20medieval%20de%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval!" target="_blank" class="action-btn">🕊 Twitter</a>
       </div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
@@ -136,12 +155,12 @@
   <script>
     const fragmentos = {
       castillo: {
-        texto: '“Oculto…”',
+        texto: '“Oculto...”',
         opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
         opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
       },
       plaza: {
-        texto: '“En la plaza duerme…”',
+        texto: '“En la plaza duerme...”',
         opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
         opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
       }
