@@ -48,14 +48,6 @@
       border-color: #c79b2d;
     }
 
-    #mensaje-final {
-      margin-top: 2rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: green;
-      display: none;
-    }
-
     .action-btn {
       margin-top: 2rem;
       padding: 0.8rem 1.2rem;
@@ -70,34 +62,51 @@
     .action-btn:hover {
       background-color: #7a4d2e;
     }
+
+    .pista-audio {
+      margin-bottom: 2rem;
+    }
   </style>
 </head>
 <body>
 
   <h1>🛡️ Desbloquea el Secreto del Castillo</h1>
 
-  <div class="botones-simbolos">
-    <button class="simbolo-btn" data-id="llave">🗝️</button>
-    <button class="simbolo-btn" data-id="espada">🗡️</button>
-    <button class="simbolo-btn" data-id="libro">📜</button>
-    <button class="simbolo-btn" data-id="calavera">💀</button>
-    <button class="simbolo-btn" data-id="dragón">🐉</button>
-    <button class="simbolo-btn" data-id="cruz">✝️</button>
-    <button class="simbolo-btn" data-id="arco">🏹</button>
-    <button class="simbolo-btn" data-id="vela">🕯️</button>
-    <button class="simbolo-btn" data-id="copa">🍷</button>
-    <button class="simbolo-btn" data-id="escudo">🛡️</button>
-    <button class="simbolo-btn" data-id="castillo">🏰</button>
-    <button class="simbolo-btn" data-id="corona">👑</button>
+  <!-- PISTA DE GONZALO -->
+  <div class="pista-audio">
+    <h3>📜 Nota de Gonzalo</h3>
+    <p><em>"Escudo… Espada… Luz… Cruz…"</em></p>
+    <p>Escucha con atención... puede que el orden no sea el que imaginas.</p>
+    <button class="action-btn" onclick="mostrarRetoYReproducir()">▶️ Reproducir Pista de Gonzalo</button>
+    <audio id="voz-gonzalo" src="sounds/secuencia_gonzalo.mp3" preload="auto"></audio>
   </div>
 
-  <div id="mensaje-final">✅ ¡Has desbloqueado la secuencia secreta!</div>
-
-  <button class="action-btn" onclick="window.location.href='castillo.html'">🔙 Volver al Castillo</button>
+  <!-- RETO DE LOS SÍMBOLOS -->
+  <div id="bloque-reto" style="display:none;">
+    <div class="botones-simbolos">
+      <button class="simbolo-btn" data-id="llave">🗝️</button>
+      <button class="simbolo-btn" data-id="espada">🗡️</button>
+      <button class="simbolo-btn" data-id="libro">📜</button>
+      <button class="simbolo-btn" data-id="calavera">💀</button>
+      <button class="simbolo-btn" data-id="dragón">🐉</button>
+      <button class="simbolo-btn" data-id="cruz">✝️</button>
+      <button class="simbolo-btn" data-id="arco">🏹</button>
+      <button class="simbolo-btn" data-id="vela">🕯️</button>
+      <button class="simbolo-btn" data-id="copa">🍷</button>
+      <button class="simbolo-btn" data-id="escudo">🛡️</button>
+      <button class="simbolo-btn" data-id="castillo">🏰</button>
+      <button class="simbolo-btn" data-id="corona">👑</button>
+    </div>
+  </div>
 
   <script>
     const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
+
+    function mostrarRetoYReproducir() {
+      document.getElementById("voz-gonzalo").play();
+      document.getElementById("bloque-reto").style.display = "block";
+    }
 
     const botones = document.querySelectorAll(".simbolo-btn");
 
@@ -119,8 +128,22 @@
 
         if (inputSecuencia.length === secuenciaCorrecta.length &&
             JSON.stringify(inputSecuencia) === JSON.stringify(secuenciaCorrecta)) {
-          document.getElementById("mensaje-final").style.display = "block";
           localStorage.setItem('reto_simbolos_completado', 'true');
+
+          // Registro básico de puntuación en el ranking
+          const puntuacion = {
+            parada: "Castillo",
+            reto: "Símbolos",
+            completado: true,
+            timestamp: new Date().toISOString()
+          };
+
+          let ranking = JSON.parse(localStorage.getItem('ranking_jugadores')) || [];
+          ranking.push(puntuacion);
+          localStorage.setItem('ranking_jugadores', JSON.stringify(ranking));
+
+          // Redirigir a felicitaciones
+          window.location.href = "felicitaciones.html";
         }
       });
     });
