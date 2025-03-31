@@ -109,6 +109,18 @@
         if (inputSecuencia.length === secuenciaCorrecta.length &&
             JSON.stringify(inputSecuencia) === JSON.stringify(secuenciaCorrecta)) {
           localStorage.setItem('reto_simbolos_completado', 'true');
+          const jugador = {
+          nombre: localStorage.getItem("jugador") || "anónimo",
+          tiempo: parseInt(localStorage.getItem("tiempo_castillo") || "0"),
+          aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
+  };
+  let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
+  ranking.push(jugador);
+  localStorage.setItem("ranking", JSON.stringify(ranking));
+
+  window.location.href = "felicitaciones.html?stop=castillo";
+}
+
 
           const puntuacion = {
             parada: "Castillo",
