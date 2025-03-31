@@ -119,6 +119,7 @@
         if (inputSecuencia.length === secuenciaCorrecta.length &&
             JSON.stringify(inputSecuencia) === JSON.stringify(secuenciaCorrecta)) {
           document.getElementById("mensaje-final").style.display = "block";
+          localStorage.setItem('reto_simbolos_completado', 'true');
         }
       });
     });
