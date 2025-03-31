@@ -29,6 +29,42 @@
     .ranking-table th {
       background-color: #f2e6d9;
     }
+    .action-btn {
+      margin: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background-color: #5b3922;
+      color: #fff8e1;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .action-btn:hover {
+      background-color: #7a4d2e;
+    }
+    .buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .progress-container {
+      margin-top: 2rem;
+    }
+    .progress-bar {
+      background-color: #ddd;
+      border-radius: 10px;
+      height: 20px;
+      margin: 0.5rem auto;
+      width: 80%;
+    }
+    .progress-fill {
+      background-color: #5b3922;
+      height: 100%;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
@@ -90,7 +126,6 @@
         </thead>
         <tbody></tbody>
       </table>
-
     </section>
 
     <footer>
@@ -143,10 +178,9 @@
       let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
       datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-
       totalSpan.textContent = datos.length;
-
       tabla.innerHTML = "";
+
       datos.slice(0,10).forEach((jugador, index) => {
         const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
         tabla.innerHTML += fila;
