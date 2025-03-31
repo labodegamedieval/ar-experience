@@ -1,0 +1,172 @@
+/* Fondo y estilo general */
+body {
+  font-family: 'Georgia', serif;
+  background: #f9f3e6 url("images/textura-pergamino.jpg") repeat;
+  margin: 0;
+  padding: 0;
+  color: #3a2d1d;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2em;
+  color: #5a372b;
+}
+
+.music-control {
+  margin-top: 10px;
+}
+
+.music-btn {
+  background: none;
+  border: 2px solid #5a372b;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #5a372b;
+}
+
+.music-btn:hover {
+  background: #5a372b;
+  color: #fff;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  max-width: 100%;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+  display: block;
+}
+
+.slide img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border: 3px solid #8b5e3c;
+  border-radius: 10px;
+}
+
+.carousel-info {
+  background: rgba(255, 255, 255, 0.85);
+  margin-top: 5px;
+  padding: 10px;
+  font-style: italic;
+  border-radius: 5px;
+  border-left: 4px solid #8b5e3c;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #8b5e3c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.prev-slide {
+  left: 10px;
+}
+
+.next-slide {
+  right: 10px;
+}
+
+/* Pergamino plegable */
+.pergamino {
+  display: none;
+  transition: all 0.4s ease;
+  margin-top: 10px;
+  background: #fffaf0;
+  padding: 10px;
+  border-left: 5px solid #8b5e3c;
+  border-radius: 5px;
+  font-style: italic;
+}
+.pergamino.visible {
+  display: block;
+}
+
+/* Símbolos */
+.simbolo {
+  display: inline-block;
+  font-size: 36px;
+  padding: 10px;
+  border: 2px solid #8b5e3c;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.simbolo.activo {
+  background-color: #ffe9b5;
+}
+
+/* Botones */
+.action-btn {
+  background: #5a372b;
+  color: white;
+  border: 2px solid #c9a26b;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+
+.action-btn:hover {
+  background: #7e4f3a;
+}
+
+/* Otros */
+.stop-icon {
+  font-size: 36px;
+  margin: 20px 0;
+}
+
+.arrow-icon {
+  width: 40px;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+}
+footer a {
+  color: #5a372b;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
