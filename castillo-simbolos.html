@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🛡️ Reto de los Símbolos</title>
+  <style>
+    body {
+      background: #000;
+      margin: 0;
+      font-family: 'Georgia', serif;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    img {
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      display: block;
+      border: 4px solid #8b5e3c;
+    }
+
+    .click-zone {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    #mensaje-final {
+      margin-top: 20px;
+      font-size: 1.4em;
+      display: none;
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛡️ Desbloquea el Secreto del Castillo</h1>
+
+  <div class="container">
+    <img src="images/simbolos-castillo.png" alt="Símbolos medievales interactivos" />
+
+    <!-- ZONAS CLICABLES: ajusta left/top/width/height según imagen -->
+    <div class="click-zone" style="top: 12%; left: 28%; width: 8%; height: 12%;" data-id="0"></div> <!-- Espada -->
+    <div class="click-zone" style="top: 45%; left: 18%; width: 8%; height: 12%;" data-id="1"></div> <!-- Cruz -->
+    <div class="click-zone" style="top: 62%; left: 51%; width: 8%; height: 12%;" data-id="2"></div> <!-- Escudo -->
+    <div class="click-zone" style="top: 77%; left: 78%; width: 8%; height: 12%;" data-id="3"></div> <!-- Vela -->
+  </div>
+
+  <div id="mensaje-final">✅ ¡Has desbloqueado la secuencia secreta!</div>
+  <button class="action-btn" onclick="window.location.href='castillo.html'">
+  🔙 Volver al Castillo
+  </button>
+
+  <script>
+    const secuenciaCorrecta = [0, 1, 2, 3];
+    let inputSecuencia = [];
+
+    document.querySelectorAll('.click-zone').forEach(zone => {
+      zone.addEventListener('click', () => {
+        const valor = parseInt(zone.getAttribute('data-id'));
+        inputSecuencia.push(valor);
+
+        // Comprobar paso actual
+        const correcto = secuenciaCorrecta[inputSecuencia.length - 1];
+        if (valor !== correcto) {
+          alert("❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.");
+          inputSecuencia = [];
+          return;
+        }
+
+        // Si acierta toda la secuencia
+        if (inputSecuencia.length === secuenciaCorrecta.length) {
+          document.getElementById("mensaje-final").style.display = "block";
+          // Aquí puedes mostrar un botón, imagen o pasar de pantalla
+        }
+      });
+    });
+  </script>
+</body>
+</html>
