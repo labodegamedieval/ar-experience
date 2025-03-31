@@ -114,6 +114,7 @@
           alert("❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.");
           inputSecuencia = [];
           botones.forEach(b => b.classList.remove("activo"));
+          return;
         }
 
         if (inputSecuencia.length === secuenciaCorrecta.length &&
