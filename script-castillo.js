@@ -1,4 +1,50 @@
-// Variables para seguimiento del juego en la parada castillo
+document.addEventListener("DOMContentLoaded", () => {
+  // Ocultar nota inicialmente
+  const nota = document.getElementById("nota-gonzalo");
+  if (nota) {
+    nota.classList.remove("visible");
+    nota.style.display = "none";
+
+    const notaContainer = document.querySelector(".pista");
+    if (notaContainer) {
+      notaContainer.addEventListener("click", () => {
+        nota.classList.toggle("visible");
+        nota.style.display = nota.classList.contains("visible") ? "block" : "none";
+      });
+    }
+  }
+
+  // Activar eventos en los símbolos
+  const simbolos = document.querySelectorAll(".simbolo");
+  simbolos.forEach((simbolo, i) => {
+    simbolo.addEventListener("click", () => {
+      simbolo.classList.add("activo");
+      setTimeout(() => simbolo.classList.remove("activo"), 500);
+
+      inputUsuario.push(i);
+      const correcto = secuencia[inputUsuario.length - 1];
+
+      if (i !== correcto) {
+        document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
+        playSound("error-sound");
+        inputUsuario = [];
+        return;
+      }
+
+      if (inputUsuario.length === secuencia.length) {
+        document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
+        playSound("coins-sound");
+        if (!respuestasCastillo.secuencia) {
+          respuestasCastillo.secuencia = true;
+          aciertosCastillo++;
+          mostrarBotonSiCompleto();
+        }
+      }
+    });
+  });
+});
+
+// Variables globales
 let respuestasCastillo = {
   visual: false,
   quiz1: false,
@@ -9,6 +55,8 @@ let respuestasCastillo = {
 
 let aciertosCastillo = 0;
 let tiempoInicio = Date.now();
+let secuencia = [0, 1, 2, 3]; // 🛡️ ⚔️ 🕯️ ✝️
+let inputUsuario = [];
 
 // Comprobación visual
 function checkVisualAnswer(respuesta, correcta, id) {
@@ -44,44 +92,14 @@ function checkAnswer(respuesta, correcta, id) {
   }
 }
 
-// Juego de símbolos
-let secuencia = [3, 2, 0, 1]; // ⚔️ ✝️ 🛡️ 🔧
-let inputUsuario = [];
-
+// Pista de voz
 function iniciarSecuencia() {
   inputUsuario = [];
   const voz = document.getElementById("voz-gonzalo");
   if (voz) voz.play().catch(() => {});
 }
 
-document.querySelectorAll(".simbolo").forEach((simbolo, i) => {
-  simbolo.addEventListener("click", () => {
-    simbolo.classList.add("activo");
-    setTimeout(() => simbolo.classList.remove("activo"), 500);
-
-    inputUsuario.push(i);
-    const correcto = secuencia[inputUsuario.length - 1];
-
-    if (i !== correcto) {
-      document.getElementById("resultado-secuencia").textContent = "❌ Fallaste. Intenta de nuevo.";
-      playSound("error-sound");
-      inputUsuario = [];
-      return;
-    }
-
-    if (inputUsuario.length === secuencia.length) {
-      document.getElementById("resultado-secuencia").textContent = "✅ ¡Secuencia correcta!";
-      playSound("coins-sound");
-      if (!respuestasCastillo.secuencia) {
-        respuestasCastillo.secuencia = true;
-        aciertosCastillo++;
-        mostrarBotonSiCompleto();
-      }
-    }
-  });
-});
-
-// Mostrar botón si se ha completado todo
+// Mostrar botón final
 function mostrarBotonSiCompleto() {
   const total = Object.keys(respuestasCastillo).length;
   const completados = Object.values(respuestasCastillo).filter(Boolean).length;
@@ -95,6 +113,7 @@ function mostrarBotonSiCompleto() {
   }
 }
 
+// Sonidos
 function playSound(id) {
   const el = document.getElementById(id);
   if (el) {
@@ -103,7 +122,7 @@ function playSound(id) {
   }
 }
 
-// Guardar resultados en ranking
+// Ranking
 function guardarEnRanking() {
   const tiempoTotal = Math.floor((Date.now() - tiempoInicio) / 1000);
   const nombre = localStorage.getItem("jugador") || "Aventurero";
@@ -112,4 +131,4 @@ function guardarEnRanking() {
   let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
   ranking.push({ nombre, tiempo: tiempoTotal, aciertos: aciertosCastillo, parada });
   localStorage.setItem("ranking", JSON.stringify(ranking));
-} 
+}
