@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Ocultar nota inicialmente
+  // Inicializar nota plegable
   const nota = document.getElementById("nota-gonzalo");
   if (nota) {
     nota.classList.remove("visible");
     nota.style.display = "none";
-
     const notaContainer = document.querySelector(".pista");
     if (notaContainer) {
       notaContainer.addEventListener("click", () => {
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Activar eventos en los símbolos
+  // Activar símbolos mágicos
   const simbolos = document.querySelectorAll(".simbolo");
   simbolos.forEach((simbolo, i) => {
     simbolo.addEventListener("click", () => {
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Variables globales
+// Estado del juego
 let respuestasCastillo = {
   visual: false,
   quiz1: false,
@@ -52,13 +51,12 @@ let respuestasCastillo = {
   quiz3: false,
   secuencia: false
 };
-
 let aciertosCastillo = 0;
 let tiempoInicio = Date.now();
-let secuencia = [0, 1, 2, 3]; // 🛡️ ⚔️ 🕯️ ✝️
+let secuencia = [0, 1, 2, 3]; // 🛡️ ⚔️ 🔦 ✝️
 let inputUsuario = [];
 
-// Comprobación visual
+// Reto visual
 function checkVisualAnswer(respuesta, correcta, id) {
   const resultado = document.getElementById("visual-resultado-" + id);
   if (respuesta === correcta) {
@@ -75,7 +73,7 @@ function checkVisualAnswer(respuesta, correcta, id) {
   }
 }
 
-// Quiz
+// Quiz histórico
 function checkAnswer(respuesta, correcta, id) {
   const resultado = document.getElementById("quiz-resultado-" + id);
   if (respuesta === correcta) {
@@ -92,18 +90,22 @@ function checkAnswer(respuesta, correcta, id) {
   }
 }
 
-// Pista de voz
+// Reproducir audio
 function iniciarSecuencia() {
   inputUsuario = [];
   const voz = document.getElementById("voz-gonzalo");
-  if (voz) voz.play().catch(() => {});
+  if (voz) {
+    voz.currentTime = 0;
+    voz.play().catch((e) => {
+      console.warn("No se pudo reproducir el audio:", e);
+    });
+  }
 }
 
-// Mostrar botón final
+// Mostrar botón final si se completa todo
 function mostrarBotonSiCompleto() {
   const total = Object.keys(respuestasCastillo).length;
   const completados = Object.values(respuestasCastillo).filter(Boolean).length;
-
   if (completados === total) {
     setTimeout(() => {
       document.getElementById("continue-button").style.display = "block";
@@ -122,7 +124,7 @@ function playSound(id) {
   }
 }
 
-// Ranking
+// Guardar resultado
 function guardarEnRanking() {
   const tiempoTotal = Math.floor((Date.now() - tiempoInicio) / 1000);
   const nombre = localStorage.getItem("jugador") || "Aventurero";
