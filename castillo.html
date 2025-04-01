@@ -32,8 +32,29 @@
 
       <div id="game-content" style="display: none;">
         <div class="carousel">
-          <!-- Carrusel con imágenes y texto -->
-          <!-- OMITIDO PARA BREVEDAD -->
+          <div class="slide active">
+            <img src="images/castillo-entrada.jpg" alt="Entrada del Castillo" />
+            <p class="carousel-info">
+              <strong>Entrada:</strong> Puerta del siglo XV sobre fortificación anterior del siglo XIII. Hoy sede del Centro de Interpretación de la Biosfera.
+              <a href="https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/reservas-biosfera/programa-mab-espana/ListRB_Sierras_de_Bejar_y_Francia_tcm30-280293.pdf" target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-torre.jpg" alt="Torre del Homenaje" />
+            <p class="carousel-info">
+              <strong>Torre:</strong> El rayo destruyó la última torre en pie en el siglo XX. Hoy quedan dos lienzos de muralla con restos de almenas.
+              <a href="https://sanmartindelcastanar.es/castillo-de-la-biosfera/" target="_blank">Más info</a>
+            </p>
+          </div>
+          <div class="slide">
+            <img src="images/castillo-vista.jpg" alt="Vistas desde el castillo" />
+            <p class="carousel-info">
+              <strong>Vista:</strong> Mirador natural sobre el valle. Desde 1834 es cementerio municipal.
+              <a href="https://turismosierradefrancia.es/cultura/centros-interpretacion-museos/centro-de-interpretacion-reserva-de-la-biosfera-de-las-sierras-de-bejar-y-francia/" target="_blank">Más info</a>
+            </p>
+          </div>
+          <button class="carousel-btn prev-slide">&larr;</button>
+          <button class="carousel-btn next-slide">&rarr;</button>
         </div>
 
         <div class="visual-challenge">
@@ -95,26 +116,18 @@
       </div>
     </section>
 
-    <!-- Audios -->
     <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
     <audio id="error-sound" src="sounds/error.mp3" preload="auto"></audio>
     <audio id="coins-sound" src="sounds/coins.mp3" preload="auto"></audio>
+    <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
     <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
     <audio id="voz-gonzalo" src="sounds/secuencia_gonzalo.mp3" preload="auto"></audio>
 
     <script>
       function mostrarRetoYReproducir() {
         document.getElementById("voz-gonzalo").play();
-
-        // Guardar el tiempo de inicio solo si no existe (para evitar sobrescribirlo)
-        if (!localStorage.getItem("tiempo_castillo")) {
-          localStorage.setItem("tiempo_castillo", Date.now());
-        }
-
-        // Si no hay aciertos registrados, iniciar en 0
-        if (!localStorage.getItem("aciertos_castillo")) {
-          localStorage.setItem("aciertos_castillo", 0);
-        }
+        localStorage.setItem("tiempo_castillo", Date.now());
+        localStorage.setItem("aciertos_castillo", 0);
       }
 
       function sumarAciertoCastillo() {
