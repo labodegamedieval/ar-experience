@@ -238,4 +238,23 @@ footer a:hover {
 .simbolo.activo {
   background-color: #ffe9b5;
 }  
+
+@media screen and (max-width: 600px) {
+  .buttons-container.redes .action-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    margin: 0.2rem;
+  }
+
+  .buttons-container a img {
+    height: 20px;
+    margin-right: 4px;
+  }
+
+  .buttons-container:not(.redes) .action-btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
 }
+
+
