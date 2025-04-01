@@ -1,7 +1,7 @@
 /* General */
 body {
   font-family: 'Georgia', serif;
-  background: #f9f3e6 url("../images/textura-pergamino.jpg") repeat;
+  background: #f9f3e6 url("/images/textura-pergamino.jpg") repeat;
   margin: 0;
   padding: 0;
   color: #3a2d1d;
