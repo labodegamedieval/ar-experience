@@ -105,5 +105,6 @@ function checkVisualAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregu
 // Función para sumar aciertos al localStorage
 function sumarAciertoCastillo() {
   let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-  localStorage.setItem("aciertos_castillo", aciertos + 1);
+  aciertos++;
+  localStorage.setItem("aciertos_castillo", aciertos);
 }
