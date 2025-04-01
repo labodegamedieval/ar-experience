@@ -86,6 +86,10 @@
     .ranking-table th {
       background-color: #e6d5ba;
     }
+    svg {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body>
@@ -97,9 +101,7 @@
     <section>
       <p class="pista" id="saludo-jugador"></p>
 
-      <div id="fragmento" class="fragmento-final pergamino">
-        Cargando fragmento...
-      </div>
+      <div id="fragmento" class="fragmento-final pergamino">Cargando fragmento...</div>
 
       <div class="progress-container">
         <p>Progreso de tu aventura:</p>
@@ -125,18 +127,12 @@
         Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
       </div>
 
-      <h3>📣 Comparte tu hazaña</h3>
-      <p>
-        ¡Esto ha sido brutal! No me esperaba este juego en San Martín del Castañar 🔥🛡️ Etiquétanos en redes: <strong>@labodegamedieval</strong>
-      </p>
+      <h3>🏆 Tu galardón:</h3>
+      <div id="galardon" style="font-size: 2.2rem; margin-bottom: 0.5rem;"></div>
+      <p id="mensaje-galardon" style="font-style: italic; font-size: 1.1rem; color: #4b2c0f; margin-bottom: 2rem;"></p>
 
-      <div class="buttons-container">
-        <a href="https://twitter.com/intent/tweet?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20tan%20divertida%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval%20%F0%9F%8F%B0%20no%20me%20lo%20esperaba!" target="_blank" class="action-btn">🐦 Twitter</a>
-        <a href="https://www.instagram.com/?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20con%20@labodegamedieval" target="_blank" class="action-btn">📸 Instagram</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://labodegamedieval.es" target="_blank" class="action-btn">📘 Facebook</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://labodegamedieval.es" target="_blank" class="action-btn">🔗 LinkedIn</a>
-        <button class="action-btn" onclick="copiarEnlace()">📋 Copiar link</button>
-      </div>
+      <h3>📣 Comparte tu hazaña</h3>
+      <div class="buttons-container" id="social-buttons"></div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
@@ -151,78 +147,113 @@
     <footer>
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
     </footer>
+  </div>
 
-    <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
+  <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
 
-    <script>
-      const fragmentos = {
-        castillo: {
-          texto: '“Oculto...”',
-          opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
-          opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
-        }
-      };
+  <script>
+    const fragmentos = {
+      castillo: {
+        texto: '“Oculto...”',
+        opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
+        opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
+      },
+      plaza: {
+        texto: '“En la plaza duerme...”',
+        opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
+        opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
+      }
+    };
 
-      function obtenerParada() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get("stop");
+    function obtenerParada() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("stop") || "castillo";
+    }
+
+    function mostrarFragmento() {
+      const parada = obtenerParada();
+      const datos = fragmentos[parada];
+      const div = document.getElementById("fragmento");
+      if (datos) {
+        div.textContent = datos.texto;
+        document.getElementById("opcion1").textContent = datos.opcion1.nombre;
+        document.getElementById("opcion1").href = datos.opcion1.enlace;
+        document.getElementById("opcion2").textContent = datos.opcion2.nombre;
+        document.getElementById("opcion2").href = datos.opcion2.enlace;
+      } else {
+        div.textContent = "Fragmento no encontrado.";
+      }
+    }
+
+    function mostrarSaludo() {
+      const nombre = localStorage.getItem("jugador") || "aventurer@";
+      document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
+    }
+
+    function mostrarGalardon(aciertos) {
+      const galardonDiv = document.getElementById("galardon");
+      const mensajeDiv = document.getElementById("mensaje-galardon");
+      const socialDiv = document.getElementById("social-buttons");
+      let frase = "";
+
+      if (aciertos >= 6) {
+        galardonDiv.innerHTML = "🥇 Medalla de Oro";
+        frase = "¡Impresionante! Tu sabiduría ilumina los secretos de Gonzalo. Elige tu camino y sigue descubriendo la verdad oculta.";
+      } else if (aciertos >= 4) {
+        galardonDiv.innerHTML = "🥈 Medalla de Plata";
+        frase = "¡Gran trabajo! Estás cada vez más cerca de desvelar el misterio. Sigue explorando y deja que la historia te guíe.";
+      } else if (aciertos >= 2) {
+        galardonDiv.innerHTML = "🥉 Medalla de Bronce";
+        frase = "¡Buen comienzo! La aventura acaba de empezar y aún hay mucho por descubrir. Tu curiosidad es tu mejor aliada.";
+      } else {
+        galardonDiv.innerHTML = "🎖️ Aventura iniciada";
+        frase = "Cada paso cuenta. No te detengas ahora… los secretos del pasado esperan a ser revelados por ti.";
       }
 
-      function mostrarFragmento() {
-        const parada = obtenerParada();
-        const datos = fragmentos[parada];
-        const div = document.getElementById("fragmento");
-        if (datos) {
-          div.textContent = datos.texto;
-          document.getElementById("opcion1").textContent = datos.opcion1.nombre;
-          document.getElementById("opcion1").href = datos.opcion1.enlace;
-          document.getElementById("opcion2").textContent = datos.opcion2.nombre;
-          document.getElementById("opcion2").href = datos.opcion2.enlace;
-        } else {
-          div.textContent = "Fragmento no encontrado.";
-        }
-      }
+      mensajeDiv.textContent = frase;
+      const url = encodeURIComponent("https://labodegamedieval.es");
+      const texto = encodeURIComponent(frase + " Descubre esta aventura medieval con @labodegamedieval 🏰");
 
-      function mostrarSaludo() {
-        const nombre = localStorage.getItem("jugador") || "aventurer@";
-        document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
-      }
+      socialDiv.innerHTML = `
+        <a href="https://twitter.com/intent/tweet?text=${texto}" target="_blank" class="action-btn">🐦 Twitter</a>
+        <a href="https://www.instagram.com/?text=${texto}" target="_blank" class="action-btn">📸 Instagram</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${texto}" target="_blank" class="action-btn">📘 Facebook</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${url}" target="_blank" class="action-btn">🔗 LinkedIn</a>
+        <button class="action-btn" onclick="copiarTextoCompartir('${frase}')">📋 Copiar mensaje</button>
+      `;
+    }
 
-      function formatearTiempo(segundos) {
-        const m = Math.floor(segundos / 60);
-        const s = segundos % 60;
-        return `${m}:${s.toString().padStart(2, '0')}`;
-      }
+    function copiarTextoCompartir(frase) {
+      const texto = frase + " Descubre esta aventura medieval con @labodegamedieval 🏰";
+      navigator.clipboard.writeText(texto);
+      alert("✅ Texto copiado para compartir.");
+    }
 
-      function actualizarRanking() {
-        const tabla = document.querySelector("#ranking tbody");
-        const totalSpan = document.getElementById("total-jugadores");
-        let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+    function actualizarRanking() {
+      const tabla = document.querySelector("#ranking tbody");
+      const totalSpan = document.getElementById("total-jugadores");
+      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
-        totalSpan.textContent = datos.length;
-        tabla.innerHTML = "";
+      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+      totalSpan.textContent = datos.length;
+      tabla.innerHTML = "";
 
-        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-
-        datos.slice(0,10).forEach((jugador, index) => {
-          const tiempoFmt = formatearTiempo(jugador.tiempo * 60); // convertir minutos a segundos
-          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${tiempoFmt}</td><td>${jugador.aciertos}</td></tr>`;
-          tabla.innerHTML += fila;
-        });
-      }
-
-      function copiarEnlace() {
-        const link = window.location.href;
-        navigator.clipboard.writeText(link);
-        alert("✅ Enlace copiado para compartir.");
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        mostrarFragmento();
-        mostrarSaludo();
-        actualizarRanking();
-        document.getElementById("cheers-sound").play();
+      datos.slice(0,10).forEach((jugador, index) => {
+        const minutos = Math.floor(jugador.tiempo / 60);
+        const segundos = jugador.tiempo % 60;
+        const tiempoFormatted = `${minutos}:${segundos.toString().padStart(2,'0')}`;
+        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${tiempoFormatted}</td><td>${jugador.aciertos}</td></tr>`;
+        tabla.innerHTML += fila;
       });
-    </script>
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      mostrarFragmento();
+      mostrarSaludo();
+      actualizarRanking();
+      mostrarGalardon(parseInt(localStorage.getItem("aciertos_castillo") || "0") + 1);
+      document.getElementById("cheers-sound").play();
+    });
+  </script>
 </body>
 </html>
