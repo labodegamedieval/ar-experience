@@ -82,6 +82,7 @@ function checkAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
   if (respuestaSeleccionada === respuestaCorrecta) {
     resultado.textContent = "✅ ¡Correcto!";
     document.getElementById("success-sound").play();
+    sumarAciertoCastillo();
   } else {
     resultado.textContent = "❌ Incorrecto. Inténtalo de nuevo.";
     document.getElementById("error-sound").play();
@@ -94,8 +95,15 @@ function checkVisualAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregu
   if (respuestaSeleccionada === respuestaCorrecta) {
     resultado.textContent = "✅ ¡Correcto!";
     document.getElementById("coins-sound").play();
+    sumarAciertoCastillo();
   } else {
     resultado.textContent = "❌ Incorrecto. Inténtalo de nuevo.";
     document.getElementById("error-sound").play();
   }
+}
+
+// Función para sumar aciertos al localStorage
+function sumarAciertoCastillo() {
+  let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
+  localStorage.setItem("aciertos_castillo", aciertos + 1);
 }
