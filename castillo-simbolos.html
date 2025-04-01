@@ -118,7 +118,7 @@
         if (inputSecuencia.length === secuenciaCorrecta.length) {
           localStorage.setItem('reto_simbolos_completado', 'true');
 
-          const tiempoInicio = parseInt(localStorage.getItem("tiempo_castillo") || "0");
+          const tiempoInicio = parseInt(localStorage.getItem("tiempo_inicio") || "0");
           const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
 
           const jugador = {
