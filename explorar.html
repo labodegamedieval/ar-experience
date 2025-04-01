@@ -3,129 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🗹️ Explora San Martín del Castañar</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="icon" type="image/jpeg" href="images/escudo-borrado.jpg"/>
+  <title>🗺️ Explora el Pueblo</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/escudo-borrado.jpg" />
   <style>
-    .map-btn {
-      background: #5a372b;
-      color: #fff;
-      border: 2px solid #c9a26b;
-      padding: 10px;
-      margin: 10px;
-      border-radius: 8px;
+    body {
+      font-family: 'Georgia', serif;
+      background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #2c1d0c;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .saludo {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #4b2c0f;
+    }
+
+    .paradas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .parada {
+      background-color: rgba(255, 248, 220, 0.9);
+      border: 2px solid #5b3922;
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 2rem;
       cursor: pointer;
-      font-size: 18px;
-      transition: transform 0.2s;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      transition: transform 0.2s, background-color 0.3s;
     }
-    .map-btn:hover {
+
+    .parada:hover {
       transform: scale(1.05);
-      background: #7e4f3a;
     }
-    .map-btn.locked {
-      opacity: 0.4;
+
+    .parada.bloqueada {
+      opacity: 0.3;
+      cursor: default;
       pointer-events: none;
     }
-    .description-box {
-      background: #f4efe4;
-      padding: 15px;
-      border-left: 4px solid #8b4513;
-      margin-top: 20px;
-      font-style: italic;
+
+    .progreso {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🗹️ Explora San Martín del Castañar</h1>
-      <div class="music-control">
-        <button class="music-btn"><span class="music-icon">🎵</span> Música</button>
-      </div>
-      <h3 id="saludo-jugador"></h3>
-    </header>
+  <h1>🗺️ Explora San Martín del Castañar</h1>
+  <p class="saludo" id="saludo-jugador"></p>
 
-    <section>
-      <div class="description-box">
-        Tu misión es reconstruir un mensaje perdido... pero solo las almas más valientes y observadoras podrán descubrir los lugares ocultos. Sigue las pistas de Gonzalo y deja que el misterio te guíe.
-      </div>
+  <div class="progreso" id="progreso-juego"></div>
 
-      <div class="progress-container">
-        <h3>Progreso del Mensaje</h3>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill"></div>
-        </div>
-        <p id="progress-text">0 de 7 fragmentos principales descubiertos</p>
-      </div>
+  <div class="paradas-grid" id="paradas-container">
+    <!-- Se generarán dinámicamente -->
+  </div>
 
-      <div class="buttons-container" style="margin-top: 30px;">
-        <button class="map-btn" id="btn-castillo" onclick="goTo('castillo')">🏰 Castillo</button>
-        <button class="map-btn locked" id="btn-plaza" onclick="goTo('plaza')">🏟️ Plaza</button>
-        <button class="map-btn locked" id="btn-iglesia" onclick="goTo('iglesia')">⛪ Iglesia</button>
-        <button class="map-btn locked" id="btn-fuente" onclick="goTo('fuente')">⛲ Fuente y Portalón</button>
-        <button class="map-btn locked" id="btn-ermita" onclick="goTo('ermita')">🙏 Ermita</button>
-        <button class="map-btn locked" id="btn-puente" onclick="goTo('puente')">🌉 Puente</button>
-        <button class="map-btn locked" id="btn-bodega" onclick="goTo('bodega')">🍷 ???</button>
+  <footer>
+    <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
+  </footer>
 
-        <!-- Paradas opcionales -->
-        <button class="map-btn locked" id="btn-humilladero" onclick="goTo('humilladero')">🌾 Ermita del Humilladero</button>
-        <button class="map-btn locked" id="btn-puente-tablas" onclick="goTo('puente-tablas')">🌲 Puente de las Tablas</button>
-        <button class="map-btn locked" id="btn-arco" onclick="goTo('arco')">🏹 Arco de la Calle Fuente</button>
-        <button class="map-btn locked" id="btn-callejon" onclick="goTo('callejon')">🕳️ Callejón Secreto</button>
-        <button class="map-btn locked" id="btn-escortinas" onclick="goTo('escortinas')">🌿 Las Escortinas</button>
-      </div>
+  <script>
+    const paradas = [
+      { id: 'castillo', icono: '🏰', enlace: 'castillo.html' },
+      { id: 'plaza', icono: '🪧', enlace: 'plaza.html' },
+      { id: 'fuente', icono: '🚰', enlace: 'fuente.html' },
+      { id: 'iglesia', icono: '⛪', enlace: 'iglesia.html' },
+      { id: 'arco', icono: '🚪', enlace: 'arco.html' },
+      { id: 'puente', icono: '🌉', enlace: 'puente.html' },
+      { id: 'bodega', icono: '🍷', enlace: 'bodega.html' }
+    ];
 
-      <div class="button-group" style="margin-top: 40px;">
-        <button class="action-btn" onclick="window.location.href='index.html'">🏠 Inicio</button>
-        <button class="action-btn" onclick="window.location.href='cronica.html'">📜 Crónica</button>
-        <button class="action-btn" onclick="window.location.href='ranking.html'">🏆 Ranking</button>
-      </div>
-    </section>
+    function mostrarSaludo() {
+      const nombre = localStorage.getItem("jugador") || "aventurer@";
+      document.getElementById("saludo-jugador").textContent = `¡Hola, ${nombre}! Selecciona tu próxima parada.`;
+    }
 
-    <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
+    function contarFragmentos() {
+      let contador = 0;
+      paradas.forEach(parada => {
+        if (localStorage.getItem(`fragmento_${parada.id}`) === 'true') {
+          contador++;
+        }
+      });
+      document.getElementById("progreso-juego").textContent = `Has descubierto ${contador} de ${paradas.length} fragmentos.`;
+      return contador;
+    }
 
-    <footer>
-      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
-    </footer>
+    function generarParadas() {
+      const container = document.getElementById("paradas-container");
+      paradas.forEach(parada => {
+        const div = document.createElement("div");
+        div.classList.add("parada");
 
-    <script src="script.js"></script>
-    <script>
-      const paradas = ["castillo", "plaza", "iglesia", "fuente", "ermita", "puente"];
-      const opcionales = ["humilladero", "puente-tablas", "arco", "callejon", "escortinas"];
-      const jugador = localStorage.getItem("jugador") || "Aventurero";
-
-      document.getElementById("saludo-jugador").textContent = `Bienvenido, ${jugador}.`;
-
-      function actualizarMapa() {
-        paradas.forEach((parada, i) => {
-          if (localStorage.getItem(`${parada}-completed`) === "true" || i === 0 || localStorage.getItem(`${paradas[i - 1]}-completed`) === "true") {
-            document.getElementById(`btn-${parada}`).classList.remove("locked");
-          }
-        });
-
-        opcionales.forEach(parada => {
-          if (localStorage.getItem(`${parada}-discovered`) === "true") {
-            document.getElementById(`btn-${parada}`).classList.remove("locked");
-          }
-        });
-
-        if (paradas.every(p => localStorage.getItem(`${p}-completed`) === "true")) {
-          document.getElementById("btn-bodega").classList.remove("locked");
-          document.getElementById("btn-bodega").textContent = "🍷 La Bodega";
+        const desbloqueada = localStorage.getItem(`fragmento_${parada.id}`) === 'true';
+        if (!desbloqueada && parada.id !== 'castillo') {
+          div.classList.add("bloqueada");
+        } else {
+          div.onclick = () => {
+            window.location.href = parada.enlace;
+          };
         }
 
-        const total = paradas.length;
-        const completadas = paradas.filter(p => localStorage.getItem(`${p}-completed`) === "true").length;
-        document.getElementById("progress-text").textContent = `${completadas} de ${total} fragmentos principales descubiertos`;
-        document.getElementById("progress-fill").style.width = `${(completadas / total) * 100}%`;
-      }
+        div.textContent = parada.icono;
+        container.appendChild(div);
+      });
+    }
 
-      function goTo(parada) {
-        window.location.href = `${parada}.html`;
-      }
-
-      actualizarMapa();
-    </script>
-  </div>
+    document.addEventListener("DOMContentLoaded", () => {
+      mostrarSaludo();
+      contarFragmentos();
+      generarParadas();
+    });
+  </script>
 </body>
 </html>
