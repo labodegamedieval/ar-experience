@@ -83,7 +83,7 @@
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
       <table class="ranking-table" id="ranking">
         <thead>
-          <tr><th>#</th><th>Nombre</th><th>Tiempo (s)</th><th>Aciertos</th></tr>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo</th><th>Aciertos</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -99,12 +99,13 @@
       e.preventDefault();
       const nombre = document.getElementById("nombre").value.trim();
       const modo = document.querySelector("input[name='modo']:checked").value;
+
       if (nombre) {
         localStorage.setItem("jugador", nombre);
         localStorage.setItem("modo", modo);
-        localStorage.setItem("inicio", Date.now());
-        localStorage.setItem("tiempo_inicio", Date.now());
-        localStorage.setItem("aciertos", 0);
+        localStorage.setItem("inicio_juego", Date.now()); // nuevo campo de inicio general
+        localStorage.setItem("aciertos", 0); // resetear aciertos totales si se usan
+        localStorage.setItem("aciertos_castillo", 0); // resetear por parada
         window.location.href = "explorar.html";
       }
     }
@@ -117,18 +118,23 @@
       document.getElementById("modal-mapa").style.display = "none";
     }
 
+    function formatearTiempo(segundos) {
+      const min = Math.floor(segundos / 60);
+      const seg = segundos % 60;
+      return `${min}:${seg.toString().padStart(2, '0')}`;
+    }
+
     function actualizarRanking() {
       const tabla = document.querySelector("#ranking tbody");
       const totalSpan = document.getElementById("total-jugadores");
       let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
       datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-
       totalSpan.textContent = datos.length;
-
       tabla.innerHTML = "";
+
       datos.slice(0,10).forEach((jugador, index) => {
-        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
+        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${formatearTiempo(jugador.tiempo)}</td><td>${jugador.aciertos}</td></tr>`;
         tabla.innerHTML += fila;
       });
     }
