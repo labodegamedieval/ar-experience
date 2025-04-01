@@ -1,4 +1,6 @@
-// Esperar a que cargue el DOM
+// script-castillo.js ✅ VERSION CORREGIDA Y COMENTADA
+
+// Ejecutar al cargar el DOM
 window.addEventListener('DOMContentLoaded', () => {
   const desbloqueada = localStorage.getItem('parada_castillo_desbloqueada');
 
@@ -7,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('game-content').style.display = 'block';
   }
 
-  // Mostrar el botón de continuar búsqueda si se completó el reto
+  // Mostrar botón si ya se completó el reto de símbolos
   const botonContinuar = document.getElementById("boton-continuar-busqueda");
   if (localStorage.getItem('reto_simbolos_completado') === 'true') {
     if (botonContinuar) {
@@ -16,21 +18,18 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Función para verificar ubicación por GPS
+// Verificación de ubicación por GPS
 function checkLocation() {
   if (!navigator.geolocation) {
     alert("La geolocalización no está soportada por tu navegador.");
     return;
   }
-
   navigator.geolocation.getCurrentPosition(success, error);
 }
 
 function success(position) {
   const lat = position.coords.latitude;
   const lon = position.coords.longitude;
-
-  // Coordenadas aproximadas del castillo
   const targetLat = 40.5495;
   const targetLon = -6.0597;
   const distance = getDistanceFromLatLonInMeters(lat, lon, targetLat, targetLon);
@@ -48,7 +47,7 @@ function error() {
   alert("No se pudo obtener tu ubicación.");
 }
 
-// Función para verificar ubicación manualmente
+// Verificación manual
 function checkLocationManual() {
   const input = document.getElementById('location-input').value.trim().toLowerCase();
   if (input === 'castillo') {
@@ -60,9 +59,9 @@ function checkLocationManual() {
   }
 }
 
-// Función para calcular distancia entre dos puntos GPS
+// Cálculo de distancia
 function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
-  const R = 6371e3; // metros
+  const R = 6371e3;
   const φ1 = lat1 * Math.PI / 180;
   const φ2 = lat2 * Math.PI / 180;
   const Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -72,11 +71,10 @@ function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
             Math.cos(φ1) * Math.cos(φ2) *
             Math.sin(Δλ/2) * Math.sin(Δλ/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
   return R * c;
 }
 
-// Función para validar respuesta de quiz
+// ✅ Validación de quiz (con suma de aciertos)
 function checkAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
   const resultado = document.getElementById(`quiz-resultado-${numeroPregunta}`);
   if (respuestaSeleccionada === respuestaCorrecta) {
@@ -89,7 +87,7 @@ function checkAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
   }
 }
 
-// Función para validar respuesta del reto visual
+// ✅ Validación del reto visual (con suma de aciertos)
 function checkVisualAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregunta) {
   const resultado = document.getElementById(`visual-resultado-${numeroPregunta}`);
   if (respuestaSeleccionada === respuestaCorrecta) {
@@ -102,9 +100,8 @@ function checkVisualAnswer(respuestaSeleccionada, respuestaCorrecta, numeroPregu
   }
 }
 
-// Función para sumar aciertos al localStorage
+// ✅ Sumar aciertos al marcador del castillo
 function sumarAciertoCastillo() {
   let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-  aciertos++;
-  localStorage.setItem("aciertos_castillo", aciertos);
+  localStorage.setItem("aciertos_castillo", aciertos + 1);
 }
