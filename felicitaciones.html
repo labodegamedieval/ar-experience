@@ -86,10 +86,6 @@
     .ranking-table th {
       background-color: #e6d5ba;
     }
-    svg {
-      vertical-align: middle;
-      margin-right: 8px;
-    }
   </style>
 </head>
 <body>
@@ -131,21 +127,22 @@
 
       <h3>📣 Comparte tu hazaña</h3>
       <p>
-        Si te ha gustado esta parada, compártela en redes sociales y menciona o etiqueta a <strong>@labodegamedieval</strong>:
+        ¡Esto ha sido brutal! No me esperaba este juego en San Martín del Castañar 🔥🛡️ Etiquétanos en redes: <strong>@labodegamedieval</strong>
       </p>
 
       <div class="buttons-container">
-        <a href="https://www.instagram.com/" target="_blank" class="action-btn">📸 Instagram</a>
-        <a href="https://www.facebook.com/" target="_blank" class="action-btn">📘 Facebook</a>
-        <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗 LinkedIn</a>
-        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%2C%20con%20@labodegamedieval%20%F0%9F%8F%B0%20No%20me%20esperaba%20un%20juego%20tan%20divertido%20y%20curioso!" target="_blank" class="action-btn">🐉 WhatsApp</a>
+        <a href="https://twitter.com/intent/tweet?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20tan%20divertida%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20con%20@labodegamedieval%20%F0%9F%8F%B0%20no%20me%20lo%20esperaba!" target="_blank" class="action-btn">🐦 Twitter</a>
+        <a href="https://www.instagram.com/?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20con%20@labodegamedieval" target="_blank" class="action-btn">📸 Instagram</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://labodegamedieval.es" target="_blank" class="action-btn">📘 Facebook</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://labodegamedieval.es" target="_blank" class="action-btn">🔗 LinkedIn</a>
+        <button class="action-btn" onclick="copiarEnlace()">📋 Copiar link</button>
       </div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
       <table class="ranking-table" id="ranking">
         <thead>
-          <tr><th>#</th><th>Nombre</th><th>Tiempo (min)</th><th>Aciertos</th></tr>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo</th><th>Aciertos</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -163,11 +160,6 @@
           texto: '“Oculto...”',
           opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
           opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
-        },
-        plaza: {
-          texto: '“En la plaza duerme...”',
-          opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
-          opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
         }
       };
 
@@ -196,19 +188,33 @@
         document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
       }
 
+      function formatearTiempo(segundos) {
+        const m = Math.floor(segundos / 60);
+        const s = segundos % 60;
+        return `${m}:${s.toString().padStart(2, '0')}`;
+      }
+
       function actualizarRanking() {
         const tabla = document.querySelector("#ranking tbody");
         const totalSpan = document.getElementById("total-jugadores");
         let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
-        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-
         totalSpan.textContent = datos.length;
         tabla.innerHTML = "";
+
+        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+
         datos.slice(0,10).forEach((jugador, index) => {
-          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
+          const tiempoFmt = formatearTiempo(jugador.tiempo * 60); // convertir minutos a segundos
+          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${tiempoFmt}</td><td>${jugador.aciertos}</td></tr>`;
           tabla.innerHTML += fila;
         });
+      }
+
+      function copiarEnlace() {
+        const link = window.location.href;
+        navigator.clipboard.writeText(link);
+        alert("✅ Enlace copiado para compartir.");
       }
 
       document.addEventListener("DOMContentLoaded", () => {
