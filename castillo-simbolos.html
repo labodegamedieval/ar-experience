@@ -118,9 +118,12 @@
         if (inputSecuencia.length === secuenciaCorrecta.length) {
           localStorage.setItem('reto_simbolos_completado', 'true');
 
+          const tiempoInicio = parseInt(localStorage.getItem("tiempo_castillo") || "0");
+          const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
+
           const jugador = {
             nombre: localStorage.getItem("jugador") || "anónimo",
-            tiempo: parseInt(localStorage.getItem("tiempo_castillo") || "0"),
+            tiempo: tiempoTotal,
             aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
           };
           let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
