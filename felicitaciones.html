@@ -30,6 +30,7 @@
       font-size: 1.4rem;
       margin: 30px auto;
       max-width: 600px;
+      min-height: 150px;
       animation: desenrollar 1s ease-out;
     }
     @keyframes desenrollar {
@@ -89,6 +90,7 @@
     .social-icon {
       width: 32px;
       height: 32px;
+      cursor: pointer;
     }
     @media (max-width: 600px) {
       .action-btn {
@@ -102,6 +104,11 @@
         width: 28px;
         height: 28px;
       }
+      .pergamino {
+        background-size: contain;
+        font-size: 1rem;
+        padding: 30px 15px;
+      }
     }
   </style>
 </head>
@@ -114,7 +121,7 @@
     <section>
       <p class="pista" id="saludo-jugador"></p>
 
-      <div id="fragmento" class="fragmento-final pergamino"></div>
+      <div id="fragmento" class="fragmento-final pergamino">“Oculto...”</div>
 
       <div class="progress-container">
         <p>Progreso de tu aventura:</p>
@@ -130,15 +137,10 @@
 
       <h3>📢 Comparte tu hazaña</h3>
       <div class="buttons-container">
-        <a href="https://www.instagram.com/" target="_blank" class="action-btn" aria-label="Instagram">
-          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="white" d="M224,202.66A53.34,53.34,0,1,0,277.33,256,53.38,53.38,0,0,0,224,202.66ZM398.8,80A48,48,0,0,0,368,48H80A48,48,0,0,0,48,80V368a48,48,0,0,0,32.05,45.27V208h39.58l13.44,24.89c14.6-15.84,34.91-25.89,57.63-25.89h63.54c22.71,0,43,.09,63.54,25.89l13.44-24.89H368V413.27A48,48,0,0,0,398.8,368V80ZM224,336A80,80,0,1,1,304,256,80.09,80.09,0,0,1,224,336ZM368,144A16,16,0,1,1,384,128,16,16,0,0,1,368,144Z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/" target="_blank" class="action-btn" aria-label="Facebook">
-          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="white" d="M279.14 288l14.22-92.66h-88.91V137.73c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.43 0 225.36 0C141.09 0 89.53 54.42 89.53 153.35V195.3H0v92.66h89.53V512h107.8V288z"/></svg>
-        </a>
-        <a href="https://www.linkedin.com/" target="_blank" class="action-btn" aria-label="LinkedIn">
-          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="white" d="M100.28 448H7.4V148.9h92.88zm-46.44-341a53.34 53.34 0 1 1 53.34-53.34 53.34 53.34 0 0 1-53.34 53.34zM447.7 448h-92.68V302.4c0-34.7-.7-79.3-48.33-79.3-48.4 0-55.8 37.8-55.8 76.8V448H158.6V148.9h89V198h1.3c12.4-23.4 42.6-48.3 87.7-48.3 93.8 0 111.1 61.8 111.1 142.3V448z"/></svg>
-        </a>
+        <a href="https://www.instagram.com/" target="_blank"><svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#fff" d="M224 202.66A53.34 53.34 0 1 0 277.33 256 53.38 53.38 0 0 0 224 202.66Zm146.8-122.66H77.2A48 48 0 0 0 32 128v256a48 48 0 0 0 45.2 47.34H370.8A48 48 0 0 0 416 384V128a48 48 0 0 0-45.2-47.34ZM224 336a80 80 0 1 1 80-80 80.09 80.09 0 0 1-80 80Zm96-136a16 16 0 1 1 16-16 16 16 0 0 1-16 16Z"/></svg></a>
+        <a href="https://www.facebook.com/" target="_blank"><svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="#fff" d="M279.14 288l14.22-92.66h-88.91V137.73c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.43 0 225.36 0C141.09 0 89.53 54.42 89.53 153.35V195.3H0v92.66h89.53V512h107.8V288z"/></svg></a>
+        <a href="https://www.linkedin.com/" target="_blank"><svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#fff" d="M100.28 448H7.4V148.9h92.88zm-46.44-341a53.34 53.34 0 1 1 53.34-53.34A53.34 53.34 0 0 1 53.84 107zm393.86 341h-92.68V302.4c0-34.7-.7-79.3-48.33-79.3-48.4 0-55.8 37.8-55.8 76.8V448H158.6V148.9h89V198h1.3c12.4-23.4 42.6-48.3 87.7-48.3 93.8 0 111.1 61.8 111.1 142.3V448z"/></svg></a>
+        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%2C%20etiqueta%20a%20%40labodegamedieval%20y%20descubre%20el%20secreto%20de%20Gonzalo!" target="_blank"><svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#fff" d="M380.9 97.1C339-44.2 165.5-35.2 101.6 74.4-33.8 309.7 255.1 549.5 389.5 314.2c52.6-93.5-11.3-180.5-8.6-217.1zm-18.4 186.2c-5.5 15.5-27.1 28.7-37.6 30.5-9.9 1.7-22.2 2.5-35.6-2.2-8.2-3.1-18.8-6.6-32.6-14.2s-26.5-18.3-38.5-32.5c-14.2-16.9-25.6-37.1-28.6-42.3-3-5.2-6-10.6-8.7-16.1-2.7-5.4-1.4-9.6.6-13.2s6.7-10.8 12.4-12.7c4.4-1.4 9.6-1.3 13.3-.6 4 .9 8.2 3.5 13.3 11.8 5.1 8.2 18.8 27.3 20.4 29.3s3.3 4.3 4.7 6.7c1.4 2.3 1.4 5.2-.1 7.4s-2.9 4.3-4.3 6.3c-2.3 3.2-4.6 6.6-6.4 10.1-2.4 4.5-2.5 8.2 1.7 14.2 4.2 5.9 19.6 30.1 43.6 44.7 23.6 14.3 29.7 12.3 35 11.6 6.2-.9 20.2-8.2 23.1-16.1 2.9-7.8 2.9-14.5 2-15.8-1-1.3-7.2-2.3-15.4-4.8z"/></svg></a>
       </div>
 
       <div class="pista">
