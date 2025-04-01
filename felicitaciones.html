@@ -60,7 +60,9 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     .action-btn:hover {
       background-color: #7a4d2e;
@@ -86,13 +88,17 @@
     .ranking-table th {
       background-color: #e6d5ba;
     }
+    .social-icon {
+      width: 24px;
+      height: 24px;
+    }
     @media (max-width: 600px) {
       .action-btn {
         font-size: 0.9rem;
-        padding: 0.6rem;
+        padding: 0.5rem;
       }
       .buttons-container {
-        gap: 0.5rem;
+        gap: 0.4rem;
       }
     }
   </style>
@@ -122,11 +128,21 @@
 
       <h3>📢 Comparte tu hazaña</h3>
       <div class="buttons-container">
-        <a href="https://www.instagram.com/" target="_blank" class="action-btn">📸</a>
-        <a href="https://www.facebook.com/" target="_blank" class="action-btn">📘</a>
-        <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗</a>
-        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%2C%20etiqueta%20a%20%40labodegamedieval%20y%20descubre%20el%20secreto%20de%20Gonzalo!" target="_blank" class="action-btn">📲</a>
-        <button onclick="copiarEnlace()" class="action-btn">🔗</button>
+        <a href="https://www.instagram.com/" target="_blank" class="action-btn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" class="social-icon" alt="Instagram">
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="action-btn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" class="social-icon" alt="Facebook">
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" class="action-btn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" class="social-icon" alt="LinkedIn">
+        </a>
+        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%2C%20etiqueta%20a%20%40labodegamedieval%20y%20descubre%20el%20secreto%20de%20Gonzalo!" target="_blank" class="action-btn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" class="social-icon" alt="WhatsApp">
+        </a>
+        <button onclick="copiarEnlace()" class="action-btn">
+          <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/link.svg" class="social-icon" alt="Copiar enlace">
+        </button>
       </div>
 
       <div class="pista">
@@ -228,7 +244,7 @@
 
       const parada = obtenerParada();
       if (parada === "castillo") {
-        const aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0") + 1;
+        const aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
         const tiempoInicio = parseInt(localStorage.getItem("tiempo_castillo") || "0");
         const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
 
