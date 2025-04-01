@@ -91,8 +91,6 @@
     🎉 Continuar la aventura
   </button>
 
-  <audio id="unlock-sound" src="sounds/unlock.mp3" preload="auto"></audio>
-
   <script>
     const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
@@ -118,31 +116,11 @@
         }
 
         if (inputSecuencia.length === secuenciaCorrecta.length) {
-          // 🎯 Marcar reto como completado
           localStorage.setItem('reto_simbolos_completado', 'true');
 
-          // 🎧 Reproducir sonido de desbloqueo
-          document.getElementById("unlock-sound").play();
-
-          // ✅ Sumar un acierto por el reto de símbolos
+          // Sumar 1 punto extra por el reto completo
           let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
           localStorage.setItem("aciertos_castillo", aciertos + 1);
-
-          // 🕓 Calcular tiempo total desde que se empezó en el castillo
-          const tiempoInicio = parseInt(localStorage.getItem("tiempo_castillo") || "0");
-          const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
-
-          // 🧙‍♂️ Obtener nombre
-          const jugador = {
-            nombre: localStorage.getItem("jugador") || "anónimo",
-            tiempo: tiempoTotal,
-            aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
-          };
-
-          // 🏆 Guardar en el ranking
-          let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
-          ranking.push(jugador);
-          localStorage.setItem("ranking", JSON.stringify(ranking));
 
           continuarBtn.style.display = "inline-block";
         }
