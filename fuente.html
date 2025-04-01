@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚰 La Fuente y el Portalón</title>
+  <link rel="stylesheet" href="style-castillo.css" />
+  <link rel="icon" href="images/escudo-borrado.jpg" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚰 La Fuente y el Portalón</h1>
+      <div class="music-control">
+        <button class="music-btn"><span class="music-icon">🎵</span> Pausar Música</button>
+      </div>
+    </header>
+
+    <section id="content">
+      <div class="stop-icon">⛱️</div>
+
+      <div id="location-check">
+        <h2>Verifica tu ubicación</h2>
+        <p>Acércate a la fuente principal del pueblo para comenzar el reto.</p>
+        <button class="action-btn" onclick="checkLocation()">Verificar GPS</button>
+        <p>O escribe el nombre de la parada:</p>
+        <input type="text" id="location-input" placeholder="Ej: fuente" />
+        <button class="action-btn" onclick="checkLocationManual()">Verificar Manual</button>
+        <p id="location-status"></p>
+        <img id="direction-arrow" src="images/flecha.png" class="arrow-icon" style="display: none;">
+      </div>
+
+      <div id="game-content" style="display: none;">
+        <div class="carousel">
+          <div class="slide active">
+            <img src="images/fuente.jpg" alt="Fuente medieval" />
+            <p class="carousel-info">
+              <strong>Fuente:</strong> Punto de encuentro histórico donde los vecinos recogían agua y compartían noticias.
+            </p>
+          </div>
+          <button class="carousel-btn prev-slide">&larr;</button>
+          <button class="carousel-btn next-slide">&rarr;</button>
+        </div>
+
+        <div class="visual-challenge">
+          <h2>Reto Visual</h2>
+          <p>¿Qué elemento arquitectónico se encuentra junto a la fuente?</p>
+          <div id="visual-opciones-1">
+            <button class="action-btn" onclick="checkVisualAnswer('Portalón', 'Portalón', 1); sumarAciertoFuente()">Portalón</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Torre', 'Portalón', 1)">Torre</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Puente', 'Portalón', 1)">Puente</button>
+          </div>
+          <p id="visual-resultado-1"></p>
+        </div>
+
+        <div class="quiz">
+          <h2>Quiz Histórico</h2>
+          <p>¿Para qué se usaba principalmente la fuente?</p>
+          <div id="quiz-opciones-1">
+            <button class="action-btn" onclick="checkAnswer('Recoger agua', 'Recoger agua', 1); sumarAciertoFuente()">Recoger agua</button>
+            <button class="action-btn" onclick="checkAnswer('Pescar', 'Recoger agua', 1)">Pescar</button>
+            <button class="action-btn" onclick="checkAnswer('Lavar la ropa', 'Recoger agua', 1)">Lavar la ropa</button>
+          </div>
+          <p id="quiz-resultado-1"></p>
+
+          <p>¿Qué función tenía el portalón?</p>
+          <div id="quiz-opciones-2">
+            <button class="action-btn" onclick="checkAnswer('Acceso al pueblo', 'Acceso al pueblo', 2); sumarAciertoFuente()">Acceso al pueblo</button>
+            <button class="action-btn" onclick="checkAnswer('Almacén de grano', 'Acceso al pueblo', 2)">Almacén de grano</button>
+            <button class="action-btn" onclick="checkAnswer('Pozo', 'Acceso al pueblo', 2)">Pozo</button>
+          </div>
+          <p id="quiz-resultado-2"></p>
+        </div>
+
+        <div class="pista">
+          <strong>QR oculto:</strong> Mira bien las piedras del portalón... ¡Puede que haya una sorpresa!
+        </div>
+
+        <div class="reto-final">
+          <h2>Final de esta parada</h2>
+          <p>Busca el símbolo escondido para continuar tu aventura.</p>
+          <button class="action-btn" onclick="window.location.href='castillo-simbolos.html'">
+            🔐 Resolver enigma final
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
+    <audio id="error-sound" src="sounds/error.mp3" preload="auto"></audio>
+    <audio id="coins-sound" src="sounds/coins.mp3" preload="auto"></audio>
+    <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
+
+    <script>
+      function mostrarRetoYReproducir() {
+        localStorage.setItem("tiempo_fuente", Date.now());
+        localStorage.setItem("aciertos_fuente", 0);
+      }
+
+      function sumarAciertoFuente() {
+        let aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
+        localStorage.setItem("aciertos_fuente", aciertos + 1);
+      }
+    </script>
+
+    <footer>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="script-castillo.js"></script>
+  </div>
+</body>
+</html>
