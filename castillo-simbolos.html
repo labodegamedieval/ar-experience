@@ -91,6 +91,8 @@
     🎉 Continuar la aventura
   </button>
 
+  <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
+
   <script>
     const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
@@ -118,18 +120,24 @@
         if (inputSecuencia.length === secuenciaCorrecta.length) {
           localStorage.setItem('reto_simbolos_completado', 'true');
 
+          // Calcular tiempo en minutos
           const tiempoInicio = parseInt(localStorage.getItem("tiempo_inicio") || "0");
-          const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
+          const tiempoTotal = tiempoInicio ? Math.round((Date.now() - tiempoInicio) / 60000) : 0;
+
+          // Obtener aciertos correctamente
+          const aciertosCastillo = parseInt(localStorage.getItem("aciertos_castillo") || "0");
 
           const jugador = {
             nombre: localStorage.getItem("jugador") || "anónimo",
             tiempo: tiempoTotal,
-            aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
+            aciertos: aciertosCastillo
           };
+
           let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
           ranking.push(jugador);
           localStorage.setItem("ranking", JSON.stringify(ranking));
 
+          document.getElementById("cheers-sound").play();
           continuarBtn.style.display = "inline-block";
         }
       });
