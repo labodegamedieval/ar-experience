@@ -3,98 +3,94 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🏆 Ranking de Jugadores</title>
+  <title>🏅 Ranking de Aventureros</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/escudo-borrado.jpg" />
   <style>
     body {
-      background: #f3e5ab;
-      margin: 0;
+      background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Georgia', serif;
       color: #2c1d0c;
       text-align: center;
       padding: 2rem;
     }
-
     h1 {
+      font-size: 2.4rem;
       color: #4b2c0f;
-      margin-bottom: 1rem;
+      text-shadow: 1px 1px #fff8e1;
     }
-
-    table {
-      margin: 0 auto;
+    .ranking-table {
+      width: 100%;
+      margin-top: 20px;
       border-collapse: collapse;
-      width: 90%;
-      max-width: 800px;
-      background-color: #fff8dc;
-      border: 2px solid #8b5e3c;
+      background: rgba(255, 248, 220, 0.95);
     }
-
-    th, td {
-      border: 1px solid #8b5e3c;
-      padding: 10px;
+    .ranking-table th, .ranking-table td {
+      border: 1px solid #b29a7e;
+      padding: 8px;
+      text-align: center;
     }
-
-    th {
-      background-color: #dec49a;
+    .ranking-table th {
+      background-color: #e6d5ba;
     }
-
-    tr:nth-child(even) {
-      background-color: #f9f2df;
-    }
-
-    .action-btn {
-      margin-top: 2rem;
-      padding: 0.8rem 1.2rem;
-      font-size: 1.2rem;
-      background-color: #5b3922;
-      color: #fff8e1;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .action-btn:hover {
-      background-color: #7a4d2e;
+    @media (max-width: 600px) {
+      .ranking-table th, .ranking-table td {
+        font-size: 0.85rem;
+        padding: 6px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <h1>🏅 Clasificación de Aventureros</h1>
+      <p id="saludo-jugador"></p>
+    </header>
 
-  <h1>🏆 Ranking de Jugadores</h1>
-  <table id="ranking-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Parada</th>
-        <th>Reto</th>
-        <th>Resultado</th>
-        <th>Fecha y Hora</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <section>
+      <p>Total de participantes: <strong><span id="total-jugadores">0</span></strong></p>
+      <table class="ranking-table" id="ranking">
+        <thead>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo</th><th>Aciertos</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
 
-  <button class="action-btn" onclick="window.location.href='castillo.html'">🔙 Volver al Castillo</button>
+    <footer>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
+    </footer>
+  </div>
 
   <script>
-    const ranking = JSON.parse(localStorage.getItem('ranking_jugadores')) || [];
-    const tbody = document.querySelector('#ranking-table tbody');
+    function formatearTiempo(segundos) {
+      const min = Math.floor(segundos / 60);
+      const seg = segundos % 60;
+      return `${min}:${seg.toString().padStart(2, '0')}`;
+    }
 
-    if (ranking.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='5'>No hay datos registrados todavía.</td></tr>";
-    } else {
-      ranking.forEach((entrada, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${entrada.parada}</td>
-          <td>${entrada.reto}</td>
-          <td>${entrada.completado ? '✅ Completado' : '❌ Incompleto'}</td>
-          <td>${new Date(entrada.timestamp).toLocaleString()}</td>
-        `;
-        tbody.appendChild(row);
+    function actualizarRanking() {
+      const tabla = document.querySelector("#ranking tbody");
+      const totalSpan = document.getElementById("total-jugadores");
+      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+      totalSpan.textContent = datos.length;
+
+      tabla.innerHTML = "";
+      datos.slice(0, 10).forEach((jugador, index) => {
+        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${formatearTiempo(jugador.tiempo)}</td><td>${jugador.aciertos}</td></tr>`;
+        tabla.innerHTML += fila;
       });
     }
-  </script>
 
+    document.addEventListener("DOMContentLoaded", () => {
+      const nombre = localStorage.getItem("jugador") || "aventurer@";
+      document.getElementById("saludo-jugador").textContent = `¡Hola, ${nombre}! Aquí puedes ver cómo te posicionas frente a otros valientes.`;
+      actualizarRanking();
+    });
+  </script>
 </body>
 </html>
