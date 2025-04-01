@@ -119,10 +119,12 @@
 
       <h2>⚖️ Tu siguiente paso:</h2>
       <p>Gonzalo dejó pistas en varias direcciones. Elige tu próximo destino:</p>
+
       <div class="buttons-container">
-        <a id="opcion1" href="#" class="action-btn">🚰 Hacia la fuente y el portalón</a>
-        <a id="opcion2" href="#" class="action-btn">⛪ Explorar la iglesia</a>
+        <a id="opcion1" href="#" class="action-btn"></a>
+        <a id="opcion2" href="#" class="action-btn"></a>
       </div>
+
       <div class="pista">
         Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
       </div>
@@ -131,29 +133,19 @@
       <p>
         Si te ha gustado esta parada, compártela en redes sociales y menciona o etiqueta a <strong>@labodegamedieval</strong>:
       </p>
+
       <div class="buttons-container">
-  <a href="https://www.instagram.com/" target="_blank" class="action-btn">
-    📸 Instagram
-  </a>
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Flabodegamedieval.es&quote=%F0%9F%8F%B0%20%C2%A1Mira%20qu%C3%A9%20pasada!%20No%20me%20esperaba%20este%20juego%20en%20un%20pueblo%20medieval%20%F0%9F%98%B1%20Acabo%20de%20descubrir%20un%20fragmento%20secreto%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20%F0%9F%95%AF%EF%B8%8F%20%C2%BFTe%20atreves%3F%20%40labodegamedieval" target="_blank" class="action-btn">
-    📘 Facebook
-  </a>
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Flabodegamedieval.es&title=Juego%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar&summary=%F0%9F%8F%B0%20%C2%A1Mira%20qu%C3%A9%20pasada!%20No%20me%20esperaba%20este%20juego%20en%20un%20pueblo%20medieval%20%F0%9F%98%B1%20Acabo%20de%20descubrir%20un%20fragmento%20secreto%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20%F0%9F%95%AF%EF%B8%8F%20%C2%BFTe%20atreves%3F%20%40labodegamedieval" target="_blank" class="action-btn">
-    🔗 LinkedIn
-  </a>
-  <a href="https://api.whatsapp.com/send?text=%F0%9F%8F%B0%20%C2%A1Mira%20qu%C3%A9%20pasada!%20No%20me%20esperaba%20este%20juego%20en%20un%20pueblo%20medieval%20%F0%9F%98%B1%20Acabo%20de%20descubrir%20un%20fragmento%20secreto%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20%F0%9F%95%AF%EF%B8%8F%20%C2%BFTe%20atreves%3F%20%40labodegamedieval" target="_blank" class="action-btn">
-    🟢 WhatsApp
-  </a>
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%8F%B0%20%C2%A1Mira%20qu%C3%A9%20pasada!%0ANo%20me%20esperaba%20este%20juego%20en%20un%20pueblo%20medieval%20%F0%9F%98%B1%0AAcabo%20de%20descubrir%20un%20fragmento%20secreto%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20%F0%9F%95%AF%EF%B8%8F%0A%C2%BFTe%20atreves%20t%C3%BA%20tambien%3F%0A%40labodegamedieval" target="_blank" class="action-btn">
-    🐦 Twitter
-  </a>
-</div>
+        <a href="https://www.instagram.com/" target="_blank" class="action-btn">📸 Instagram</a>
+        <a href="https://www.facebook.com/" target="_blank" class="action-btn">📘 Facebook</a>
+        <a href="https://www.linkedin.com/" target="_blank" class="action-btn">🔗 LinkedIn</a>
+        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%2C%20con%20@labodegamedieval%20%F0%9F%8F%B0%20No%20me%20esperaba%20un%20juego%20tan%20divertido%20y%20curioso!" target="_blank" class="action-btn">🐉 WhatsApp</a>
+      </div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
       <table class="ranking-table" id="ranking">
         <thead>
-          <tr><th>#</th><th>Nombre</th><th>Tiempo (s)</th><th>Aciertos</th></tr>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo (min)</th><th>Aciertos</th></tr>
         </thead>
         <tbody></tbody>
       </table>
@@ -162,65 +154,69 @@
     <footer>
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
     </footer>
-  </div>
 
-  <script>
-    const fragmentos = {
-      castillo: {
-        texto: '“Oculto...”',
-        opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
-        opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
-      },
-      plaza: {
-        texto: '“En la plaza duerme...”',
-        opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
-        opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
+    <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
+
+    <script>
+      const fragmentos = {
+        castillo: {
+          texto: '“Oculto...”',
+          opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
+          opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
+        },
+        plaza: {
+          texto: '“En la plaza duerme...”',
+          opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
+          opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
+        }
+      };
+
+      function obtenerParada() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("stop");
       }
-    };
 
-    function obtenerParada() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("stop");
-    }
-
-    function mostrarFragmento() {
-      const parada = obtenerParada();
-      const datos = fragmentos[parada];
-      const div = document.getElementById("fragmento");
-      if (datos) {
-        div.textContent = datos.texto;
-        document.getElementById("opcion1").href = datos.opcion1.enlace;
-        document.getElementById("opcion2").href = datos.opcion2.enlace;
-      } else {
-        div.textContent = "Fragmento no encontrado.";
+      function mostrarFragmento() {
+        const parada = obtenerParada();
+        const datos = fragmentos[parada];
+        const div = document.getElementById("fragmento");
+        if (datos) {
+          div.textContent = datos.texto;
+          document.getElementById("opcion1").textContent = datos.opcion1.nombre;
+          document.getElementById("opcion1").href = datos.opcion1.enlace;
+          document.getElementById("opcion2").textContent = datos.opcion2.nombre;
+          document.getElementById("opcion2").href = datos.opcion2.enlace;
+        } else {
+          div.textContent = "Fragmento no encontrado.";
+        }
       }
-    }
 
-    function mostrarSaludo() {
-      const nombre = localStorage.getItem("jugador") || "aventurer@";
-      document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
-    }
+      function mostrarSaludo() {
+        const nombre = localStorage.getItem("jugador") || "aventurer@";
+        document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
+      }
 
-    function actualizarRanking() {
-      const tabla = document.querySelector("#ranking tbody");
-      const totalSpan = document.getElementById("total-jugadores");
-      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+      function actualizarRanking() {
+        const tabla = document.querySelector("#ranking tbody");
+        const totalSpan = document.getElementById("total-jugadores");
+        let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
-      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-      totalSpan.textContent = datos.length;
-      tabla.innerHTML = "";
+        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
 
-      datos.slice(0,10).forEach((jugador, index) => {
-        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
-        tabla.innerHTML += fila;
+        totalSpan.textContent = datos.length;
+        tabla.innerHTML = "";
+        datos.slice(0,10).forEach((jugador, index) => {
+          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${jugador.tiempo}</td><td>${jugador.aciertos}</td></tr>`;
+          tabla.innerHTML += fila;
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        mostrarFragmento();
+        mostrarSaludo();
+        actualizarRanking();
+        document.getElementById("cheers-sound").play();
       });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      mostrarFragmento();
-      mostrarSaludo();
-      actualizarRanking();
-    });
-  </script>
+    </script>
 </body>
 </html>
