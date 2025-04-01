@@ -123,6 +123,22 @@
     <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
     <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
     <audio id="voz-gonzalo" src="sounds/secuencia_gonzalo.mp3" preload="auto"></audio>
+    
+    <script>
+  // Al iniciar la pista de Gonzalo, activar el reto y guardar el tiempo
+  function mostrarRetoYReproducir() {
+    document.getElementById("voz-gonzalo").play();
+    document.getElementById("bloque-reto").style.display = "block";
+
+    localStorage.setItem("tiempo_castillo", Date.now());
+    localStorage.setItem("aciertos_castillo", 0);
+  }
+
+  function sumarAciertoCastillo() {
+    let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
+    localStorage.setItem("aciertos_castillo", aciertos + 1);
+  }
+</script>
 
     <footer>
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
