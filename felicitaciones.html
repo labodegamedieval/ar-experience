@@ -86,9 +86,20 @@
     .ranking-table th {
       background-color: #e6d5ba;
     }
-    svg {
-      vertical-align: middle;
-      margin-right: 8px;
+    @media screen and (max-width: 600px) {
+      .buttons-container.redes .action-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        margin: 0.2rem;
+      }
+      .buttons-container a img {
+        height: 20px;
+        margin-right: 4px;
+      }
+      .buttons-container:not(.redes) .action-btn {
+        font-size: 1rem;
+        padding: 0.6rem 1rem;
+      }
     }
   </style>
 </head>
@@ -101,7 +112,9 @@
     <section>
       <p class="pista" id="saludo-jugador"></p>
 
-      <div id="fragmento" class="fragmento-final pergamino">Cargando fragmento...</div>
+      <div id="fragmento" class="fragmento-final pergamino">
+        Cargando fragmento...
+      </div>
 
       <div class="progress-container">
         <p>Progreso de tu aventura:</p>
@@ -113,6 +126,25 @@
 
       <div class="pista">
         🔍 El siguiente fragmento puede estar escondido cerca de una fuente con historia… Busca un <strong>QR oculto</strong> grabado junto a una piedra redonda.
+      </div>
+
+      <h3>📣 Comparte tu hazaña</h3>
+      <p>Si te ha gustado esta parada, compártela y menciona <strong>@labodegamedieval</strong>:</p>
+
+      <div class="buttons-container redes">
+        <a href="https://www.instagram.com/" target="_blank" class="action-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" height="24" /> Instagram
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" class="action-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" height="24" /> Facebook
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" class="action-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn" height="24" /> LinkedIn
+        </a>
+        <a href="https://api.whatsapp.com/send?text=Mira%20qu%C3%A9%20pasada%20este%20juego%20medieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar.%20%C2%A1Una%20b%C3%BAsqueda%20llena%20de%20retos,%20misterio%20y%20diversi%C3%B3n!%20%40labodegamedieval" target="_blank" class="action-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" height="24" /> WhatsApp
+        </a>
+        <button onclick="copiarLink()" class="action-btn">🔗 Copiar enlace</button>
       </div>
 
       <h2>⚖️ Tu siguiente paso:</h2>
@@ -127,14 +159,7 @@
         Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
       </div>
 
-      <h3>🏆 Tu galardón:</h3>
-      <div id="galardon" style="font-size: 2.2rem; margin-bottom: 0.5rem;"></div>
-      <p id="mensaje-galardon" style="font-style: italic; font-size: 1.1rem; color: #4b2c0f; margin-bottom: 2rem;"></p>
-
-      <h3>📣 Comparte tu hazaña</h3>
-      <div class="buttons-container" id="social-buttons"></div>
-
-      <h3>🏅 Clasificación de Aventureros</h3>
+      <h3>🌟 Clasificación de Aventureros</h3>
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
       <table class="ranking-table" id="ranking">
         <thead>
@@ -149,111 +174,11 @@
     </footer>
   </div>
 
-  <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
-
   <script>
-    const fragmentos = {
-      castillo: {
-        texto: '“Oculto...”',
-        opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
-        opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
-      },
-      plaza: {
-        texto: '“En la plaza duerme...”',
-        opcion1: { nombre: '🚪 Cruza el arco', enlace: 'arco.html' },
-        opcion2: { nombre: '🌉 Visita el puente', enlace: 'puente.html' }
-      }
-    };
-
-    function obtenerParada() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("stop") || "castillo";
+    function copiarLink() {
+      navigator.clipboard.writeText(window.location.href);
+      alert("✅ Enlace copiado para compartir tu aventura.");
     }
-
-    function mostrarFragmento() {
-      const parada = obtenerParada();
-      const datos = fragmentos[parada];
-      const div = document.getElementById("fragmento");
-      if (datos) {
-        div.textContent = datos.texto;
-        document.getElementById("opcion1").textContent = datos.opcion1.nombre;
-        document.getElementById("opcion1").href = datos.opcion1.enlace;
-        document.getElementById("opcion2").textContent = datos.opcion2.nombre;
-        document.getElementById("opcion2").href = datos.opcion2.enlace;
-      } else {
-        div.textContent = "Fragmento no encontrado.";
-      }
-    }
-
-    function mostrarSaludo() {
-      const nombre = localStorage.getItem("jugador") || "aventurer@";
-      document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
-    }
-
-    function mostrarGalardon(aciertos) {
-      const galardonDiv = document.getElementById("galardon");
-      const mensajeDiv = document.getElementById("mensaje-galardon");
-      const socialDiv = document.getElementById("social-buttons");
-      let frase = "";
-
-      if (aciertos >= 6) {
-        galardonDiv.innerHTML = "🥇 Medalla de Oro";
-        frase = "¡Impresionante! Tu sabiduría ilumina los secretos de Gonzalo. Elige tu camino y sigue descubriendo la verdad oculta.";
-      } else if (aciertos >= 4) {
-        galardonDiv.innerHTML = "🥈 Medalla de Plata";
-        frase = "¡Gran trabajo! Estás cada vez más cerca de desvelar el misterio. Sigue explorando y deja que la historia te guíe.";
-      } else if (aciertos >= 2) {
-        galardonDiv.innerHTML = "🥉 Medalla de Bronce";
-        frase = "¡Buen comienzo! La aventura acaba de empezar y aún hay mucho por descubrir. Tu curiosidad es tu mejor aliada.";
-      } else {
-        galardonDiv.innerHTML = "🎖️ Aventura iniciada";
-        frase = "Cada paso cuenta. No te detengas ahora… los secretos del pasado esperan a ser revelados por ti.";
-      }
-
-      mensajeDiv.textContent = frase;
-      const url = encodeURIComponent("https://labodegamedieval.es");
-      const texto = encodeURIComponent(frase + " Descubre esta aventura medieval con @labodegamedieval 🏰");
-
-      socialDiv.innerHTML = `
-        <a href="https://twitter.com/intent/tweet?text=${texto}" target="_blank" class="action-btn">🐦 Twitter</a>
-        <a href="https://www.instagram.com/?text=${texto}" target="_blank" class="action-btn">📸 Instagram</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${texto}" target="_blank" class="action-btn">📘 Facebook</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${url}" target="_blank" class="action-btn">🔗 LinkedIn</a>
-        <button class="action-btn" onclick="copiarTextoCompartir('${frase}')">📋 Copiar mensaje</button>
-      `;
-    }
-
-    function copiarTextoCompartir(frase) {
-      const texto = frase + " Descubre esta aventura medieval con @labodegamedieval 🏰";
-      navigator.clipboard.writeText(texto);
-      alert("✅ Texto copiado para compartir.");
-    }
-
-    function actualizarRanking() {
-      const tabla = document.querySelector("#ranking tbody");
-      const totalSpan = document.getElementById("total-jugadores");
-      let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
-
-      datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-      totalSpan.textContent = datos.length;
-      tabla.innerHTML = "";
-
-      datos.slice(0,10).forEach((jugador, index) => {
-        const minutos = Math.floor(jugador.tiempo / 60);
-        const segundos = jugador.tiempo % 60;
-        const tiempoFormatted = `${minutos}:${segundos.toString().padStart(2,'0')}`;
-        const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${tiempoFormatted}</td><td>${jugador.aciertos}</td></tr>`;
-        tabla.innerHTML += fila;
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      mostrarFragmento();
-      mostrarSaludo();
-      actualizarRanking();
-      mostrarGalardon(parseInt(localStorage.getItem("aciertos_castillo") || "0") + 1);
-      document.getElementById("cheers-sound").play();
-    });
   </script>
 </body>
 </html>
