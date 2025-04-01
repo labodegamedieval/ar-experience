@@ -61,7 +61,7 @@
           <h2>Reto Visual</h2>
           <p>¿Qué destruyó la última torre en pie?</p>
           <div id="visual-opciones-1">
-            <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1)">Rayo</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Rayo', 'Rayo', 1); sumarAciertoCastillo()">Rayo</button>
             <button class="action-btn" onclick="checkVisualAnswer('Incendio', 'Rayo', 1)">Incendio</button>
             <button class="action-btn" onclick="checkVisualAnswer('Terremoto', 'Rayo', 1)">Terremoto</button>
           </div>
@@ -72,7 +72,7 @@
           <h2>Quiz Histórico</h2>
           <p>¿En qué siglo se construyó la fortificación original?</p>
           <div id="quiz-opciones-1">
-            <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1)">XIII</button>
+            <button class="action-btn" onclick="checkAnswer('XIII', 'XIII', 1); sumarAciertoCastillo()">XIII</button>
             <button class="action-btn" onclick="checkAnswer('XIV', 'XIII', 1)">XIV</button>
             <button class="action-btn" onclick="checkAnswer('XII', 'XIII', 1)">XII</button>
           </div>
@@ -80,7 +80,7 @@
 
           <p>¿Qué función tuvo el castillo desde el siglo XIX?</p>
           <div id="quiz-opciones-2">
-            <button class="action-btn" onclick="checkAnswer('Cementerio', 'Cementerio', 2)">Cementerio</button>
+            <button class="action-btn" onclick="checkAnswer('Cementerio', 'Cementerio', 2); sumarAciertoCastillo()">Cementerio</button>
             <button class="action-btn" onclick="checkAnswer('Posada', 'Cementerio', 2)">Posada</button>
             <button class="action-btn" onclick="checkAnswer('Ayuntamiento', 'Cementerio', 2)">Ayuntamiento</button>
           </div>
@@ -88,7 +88,7 @@
 
           <p>¿Qué se instaló en el castillo en el siglo XXI?</p>
           <div id="quiz-opciones-3">
-            <button class="action-btn" onclick="checkAnswer('Centro de Interpretación', 'Centro de Interpretación', 3)">Centro de Interpretación</button>
+            <button class="action-btn" onclick="checkAnswer('Centro de Interpretación', 'Centro de Interpretación', 3); sumarAciertoCastillo()">Centro de Interpretación</button>
             <button class="action-btn" onclick="checkAnswer('Museo de armas', 'Centro de Interpretación', 3)">Museo de armas</button>
             <button class="action-btn" onclick="checkAnswer('Parador', 'Centro de Interpretación', 3)">Parador</button>
           </div>
@@ -104,7 +104,7 @@
           <h3>📜 Nota de Gonzalo</h3>
           <p><em>"Escudo… Espada… Luz… Cruz…"</em></p>
           <p>Escucha con atención... puede que el orden no sea el que imaginas.</p>
-          <button class="action-btn" onclick="document.getElementById('voz-gonzalo').play()">▶️ Reproducir Pista de Gonzalo</button>
+          <button class="action-btn" onclick="mostrarRetoYReproducir()">▶️ Reproducir Pista de Gonzalo</button>
         </div>
 
         <div class="reto-final">
@@ -123,22 +123,19 @@
     <audio id="cheers-sound" src="sounds/cheers.mp3" preload="auto"></audio>
     <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
     <audio id="voz-gonzalo" src="sounds/secuencia_gonzalo.mp3" preload="auto"></audio>
-    
+
     <script>
-  // Al iniciar la pista de Gonzalo, activar el reto y guardar el tiempo
-  function mostrarRetoYReproducir() {
-    document.getElementById("voz-gonzalo").play();
-    document.getElementById("bloque-reto").style.display = "block";
+      function mostrarRetoYReproducir() {
+        document.getElementById("voz-gonzalo").play();
+        localStorage.setItem("tiempo_castillo", Date.now());
+        localStorage.setItem("aciertos_castillo", 0);
+      }
 
-    localStorage.setItem("tiempo_castillo", Date.now());
-    localStorage.setItem("aciertos_castillo", 0);
-  }
-
-  function sumarAciertoCastillo() {
-    let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-    localStorage.setItem("aciertos_castillo", aciertos + 1);
-  }
-</script>
+      function sumarAciertoCastillo() {
+        let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
+        localStorage.setItem("aciertos_castillo", aciertos + 1);
+      }
+    </script>
 
     <footer>
       <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
