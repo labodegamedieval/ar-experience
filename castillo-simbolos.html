@@ -57,18 +57,21 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      display: inline-block;
     }
 
     .action-btn:hover {
       background-color: #7a4d2e;
     }
+
+    #continuar-btn {
+      display: none;
+    }
   </style>
 </head>
 <body>
-
   <h1>🛡️ Desbloquea el Secreto del Castillo</h1>
 
-  <!-- RETO DE LOS SÍMBOLOS (visible directamente, sin pista previa) -->
   <div class="botones-simbolos">
     <button class="simbolo-btn" data-id="llave">🗝️</button>
     <button class="simbolo-btn" data-id="espada">🗡️</button>
@@ -84,11 +87,16 @@
     <button class="simbolo-btn" data-id="corona">👑</button>
   </div>
 
+  <button id="continuar-btn" class="action-btn" onclick="window.location.href='felicitaciones.html?stop=castillo'">
+    🎉 Continuar la aventura
+  </button>
+
   <script>
     const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
 
     const botones = document.querySelectorAll(".simbolo-btn");
+    const continuarBtn = document.getElementById("continuar-btn");
 
     botones.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -103,41 +111,26 @@
           alert("❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.");
           inputSecuencia = [];
           botones.forEach(b => b.classList.remove("activo"));
+          continuarBtn.style.display = "none";
           return;
         }
 
-        if (inputSecuencia.length === secuenciaCorrecta.length &&
-            JSON.stringify(inputSecuencia) === JSON.stringify(secuenciaCorrecta)) {
+        if (inputSecuencia.length === secuenciaCorrecta.length) {
           localStorage.setItem('reto_simbolos_completado', 'true');
+
           const jugador = {
-          nombre: localStorage.getItem("jugador") || "anónimo",
-          tiempo: parseInt(localStorage.getItem("tiempo_castillo") || "0"),
-          aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
-  };
-  let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
-  ranking.push(jugador);
-  localStorage.setItem("ranking", JSON.stringify(ranking));
-
-  window.location.href = "felicitaciones.html?stop=castillo";
-}
-
-
-          const puntuacion = {
-            parada: "Castillo",
-            reto: "Símbolos",
-            completado: true,
-            timestamp: new Date().toISOString()
+            nombre: localStorage.getItem("jugador") || "anónimo",
+            tiempo: parseInt(localStorage.getItem("tiempo_castillo") || "0"),
+            aciertos: parseInt(localStorage.getItem("aciertos_castillo") || "0")
           };
+          let ranking = JSON.parse(localStorage.getItem("ranking") || "[]");
+          ranking.push(jugador);
+          localStorage.setItem("ranking", JSON.stringify(ranking));
 
-          let ranking = JSON.parse(localStorage.getItem('ranking_jugadores')) || [];
-          ranking.push(puntuacion);
-          localStorage.setItem('ranking_jugadores', JSON.stringify(ranking));
-
-          window.location.href = "felicitaciones.html?stop=castillo";
+          continuarBtn.style.display = "inline-block";
         }
       });
     });
   </script>
-
 </body>
 </html>
