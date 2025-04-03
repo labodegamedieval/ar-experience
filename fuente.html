@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🚰 La Fuente y el Portalón</title>
-  <link rel="stylesheet" href="style-castillo.css" />
+  <link rel="stylesheet" href="style-fuente.css" />
   <link rel="icon" href="images/escudo-borrado.jpg" />
 </head>
 <body>
@@ -31,6 +31,7 @@
       </div>
 
       <div id="game-content" style="display: none;">
+        <!-- Carrusel de imágenes -->
         <div class="carousel">
           <div class="slide active">
             <img src="images/fuente.jpg" alt="Fuente medieval" />
@@ -42,6 +43,7 @@
           <button class="carousel-btn next-slide">&rarr;</button>
         </div>
 
+        <!-- Reto visual -->
         <div class="visual-challenge">
           <h2>Reto Visual</h2>
           <p>¿Qué elemento arquitectónico se encuentra junto a la fuente?</p>
@@ -53,6 +55,7 @@
           <p id="visual-resultado-1"></p>
         </div>
 
+        <!-- Quiz histórico -->
         <div class="quiz">
           <h2>Quiz Histórico</h2>
           <p>¿Para qué se usaba principalmente la fuente?</p>
@@ -72,15 +75,17 @@
           <p id="quiz-resultado-2"></p>
         </div>
 
+        <!-- Pista -->
         <div class="pista">
           <strong>QR oculto:</strong> Mira bien las piedras del portalón... ¡Puede que haya una sorpresa!
         </div>
 
+        <!-- Minijuego -->
         <div class="reto-final">
           <h2>Final de esta parada</h2>
-          <p>Cuando completes los retos, desbloquearás un minijuego medieval para continuar la aventura.</p>
-          <button class="action-btn" onclick="window.location.href='minijuego-fuente.html'">
-            🎮 Iniciar minijuego de agua
+          <p>Busca el símbolo escondido para continuar tu aventura.</p>
+          <button class="action-btn" onclick="window.location.href='castillo-simbolos.html'">
+            🔐 Resolver enigma final
           </button>
         </div>
       </div>
@@ -91,18 +96,70 @@
     <audio id="coins-sound" src="sounds/coins.mp3" preload="auto"></audio>
     <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
 
-    <script src="script.js"></script>
-    <script src="script-castillo.js"></script>
-
     <script>
+      function mostrarRetoYReproducir() {
+        localStorage.setItem("tiempo_fuente", Date.now());
+        localStorage.setItem("aciertos_fuente", 0);
+      }
+
+      function sumarAciertoFuente() {
+        let aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
+        localStorage.setItem("aciertos_fuente", aciertos + 1);
+      }
+
+      // Verificar ubicación por GPS
+      function checkLocation() {
+        if (!navigator.geolocation) {
+          alert("La geolocalización no está soportada por tu navegador.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
+
+      function success(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const targetLat = 40.5495;
+        const targetLon = -6.0597;
+        const distance = getDistanceFromLatLonInMeters(lat, lon, targetLat, targetLon);
+
+        if (distance <= 50) {
+          document.getElementById('location-check').style.display = 'none';
+          document.getElementById('game-content').style.display = 'block';
+          localStorage.setItem('parada_fuente_desbloqueada', 'true');
+        } else {
+          document.getElementById('location-status').textContent = `Estás a ${Math.round(distance)} metros. Acércate más a la fuente.`;
+        }
+      }
+
+      function error() {
+        alert("No se pudo obtener tu ubicación.");
+      }
+
+      // Calcular distancia entre dos puntos GPS
+      function getDistanceFromLatLonInMeters(lat1, lon1, lat2, lon2) {
+        const R = 6371e3; // metros
+        const φ1 = lat1 * Math.PI / 180;
+        const φ2 = lat2 * Math.PI / 180;
+        const Δφ = (lat2 - lat1) * Math.PI / 180;
+        const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                  Math.cos(φ1) * Math.cos(φ2) *
+                  Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return R * c;
+      }
+
+      // Verificación de ubicación manual
       function checkLocationManual() {
         const input = document.getElementById('location-input').value.trim().toLowerCase();
         if (input === 'fuente') {
           document.getElementById('location-check').style.display = 'none';
           document.getElementById('game-content').style.display = 'block';
           localStorage.setItem('parada_fuente_desbloqueada', 'true');
-          localStorage.setItem('tiempo_fuente', Date.now());
-          localStorage.setItem('aciertos_fuente', 0);
         } else {
           document.getElementById('location-status').textContent = "Nombre incorrecto. Intenta de nuevo.";
         }
