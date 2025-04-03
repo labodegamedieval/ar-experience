@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🛡️ Reto de los Símbolos</title>
   <style>
     body {
@@ -14,12 +14,10 @@
       text-align: center;
       padding: 2rem;
     }
-
     h1 {
       color: #4b2c0f;
       text-shadow: 1px 1px #fff8e1;
     }
-
     .botones-simbolos {
       display: flex;
       flex-wrap: wrap;
@@ -27,7 +25,6 @@
       gap: 1rem;
       margin-top: 2rem;
     }
-
     .simbolo-btn {
       font-size: 2.5rem;
       padding: 1rem 1.2rem;
@@ -38,16 +35,13 @@
       box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
       transition: transform 0.2s, background-color 0.3s;
     }
-
     .simbolo-btn:hover {
       transform: scale(1.05);
     }
-
     .simbolo-btn.activo {
       background-color: gold;
       border-color: #c79b2d;
     }
-
     .action-btn {
       margin-top: 2rem;
       padding: 0.8rem 1.2rem;
@@ -59,11 +53,9 @@
       cursor: pointer;
       display: inline-block;
     }
-
     .action-btn:hover {
       background-color: #7a4d2e;
     }
-
     #continuar-btn {
       display: none;
     }
@@ -91,12 +83,15 @@
     🎉 Continuar la aventura
   </button>
 
+  <audio id="unlock-sound" src="sounds/unlock.mp3" preload="auto"></audio>
+
   <script>
     const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
     let inputSecuencia = [];
 
     const botones = document.querySelectorAll(".simbolo-btn");
     const continuarBtn = document.getElementById("continuar-btn");
+    const unlockSound = document.getElementById("unlock-sound");
 
     botones.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -118,10 +113,15 @@
         if (inputSecuencia.length === secuenciaCorrecta.length) {
           localStorage.setItem('reto_simbolos_completado', 'true');
 
-          // Sumar 1 punto extra por el reto completo
+          // Añadir 1 punto extra solo si no se había sumado antes
           let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-          localStorage.setItem("aciertos_castillo", aciertos + 1);
+          if (!localStorage.getItem("acierto_simbolos_sumado")) {
+            aciertos += 1;
+            localStorage.setItem("aciertos_castillo", aciertos);
+            localStorage.setItem("acierto_simbolos_sumado", "true");
+          }
 
+          unlockSound.play();
           continuarBtn.style.display = "inline-block";
         }
       });
