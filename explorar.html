@@ -16,8 +16,8 @@
     <section id="content">
       <p id="saludo-jugador"></p>
       
-      <!-- Este es el contenedor que estaba causando el error -->
-      <div id="fragmento" class="pergamino"></div>  <!-- Aquí se mostrará el fragmento -->
+      <!-- Div donde se muestra el fragmento -->
+      <div id="fragmento" class="pergamino"></div> 
 
       <div class="progress-container">
         <p>Progreso de tu aventura:</p>
@@ -30,9 +30,12 @@
       <h2>📜 Elige tu próximo destino</h2>
       <p>Gonzalo dejó pistas en varias direcciones. ¿Hacia dónde quieres ir?</p>
 
+      <!-- Botones de paradas principales -->
       <div class="buttons-container">
         <a id="opcion1" href="#" class="action-btn"></a>
         <a id="opcion2" href="#" class="action-btn"></a>
+        <a id="opcion3" href="#" class="action-btn"></a> <!-- Parada alternativa 1 -->
+        <a id="opcion4" href="#" class="action-btn"></a> <!-- Parada alternativa 2 -->
       </div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
@@ -50,6 +53,7 @@
     </footer>
 
     <script>
+      // Fragmentos con los textos y enlaces para las paradas principales
       const fragmentos = {
         castillo: {
           texto: '“Oculto...”',
@@ -68,11 +72,18 @@
         }
       };
 
+      // Almacenamos las paradas principales
+      const paradasPrincipales = ['castillo', 'fuente', 'iglesia']; 
+      // Paradas alternativas a desbloquear más tarde
+      const paradasAlternativas = ['puente', 'tetris'];
+
+      // Función para obtener la parada
       function obtenerParada() {
         const params = new URLSearchParams(window.location.search);
         return params.get("stop") || "castillo";
       }
 
+      // Muestra el fragmento de la parada
       function mostrarFragmento() {
         const parada = obtenerParada();
         const datos = fragmentos[parada];
@@ -83,36 +94,47 @@
           document.getElementById("opcion1").href = datos.opcion1.enlace;
           document.getElementById("opcion2").textContent = datos.opcion2.nombre;
           document.getElementById("opcion2").href = datos.opcion2.enlace;
+          
+          // Desbloquear paradas alternativas si ya están disponibles
+          for (let i = 0; i < paradasAlternativas.length; i++) {
+            const opcion = document.getElementById(`opcion${i + 3}`);
+            if (localStorage.getItem(`reto_${paradasAlternativas[i]}_completado`) === 'true') {
+              opcion.style.display = 'inline-block'; // Mostrar las paradas alternativas desbloqueadas
+              opcion.textContent = `➡️ Dirígete a ${paradasAlternativas[i]}`;
+              opcion.href = `${paradasAlternativas[i]}.html`;
+            }
+          }
         } else {
           div.textContent = "Fragmento no encontrado.";
         }
       }
 
+      // Mostrar saludo
       function mostrarSaludo() {
         const nombre = localStorage.getItem("jugador") || "aventurer@";
         document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
       }
 
+      // Actualizar progreso
       function actualizarProgreso() {
         const fragmentosDescubiertos = parseInt(localStorage.getItem("fragmentos_descubiertos") || "0");
         const totalFragmentos = Object.keys(fragmentos).length;
+        const porcentaje = (fragmentosDescubiertos / totalFragmentos) * 100;
 
         const progreso = document.getElementById("progress-fill");
         const progresoTexto = document.getElementById("progreso-texto");
-
-        const porcentaje = (fragmentosDescubiertos / totalFragmentos) * 100;
 
         progreso.style.width = `${porcentaje}%`;
         progresoTexto.textContent = `${fragmentosDescubiertos} de ${totalFragmentos} fragmentos descubiertos`;
       }
 
+      // Actualizar ranking
       function actualizarRanking() {
         const tabla = document.querySelector("#ranking tbody");
         const totalSpan = document.getElementById("total-jugadores");
         let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
 
         datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-
         totalSpan.textContent = datos.length;
         tabla.innerHTML = "";
 
@@ -128,6 +150,7 @@
         return `${min}:${seg.toString().padStart(2, '0')}`;
       }
 
+      // Llamamos a las funciones al cargar el contenido
       document.addEventListener("DOMContentLoaded", () => {
         mostrarSaludo();
         mostrarFragmento();
