@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💧 Mini juego: Recoge el agua</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: url('images/textura-pergamino.jpg');
+      background-size: cover;
+      color: #2c1d0c;
+      text-align: center;
+      margin: 0;
+      padding: 2rem;
+    }
+    canvas {
+      background: #fffbe6;
+      border: 4px solid #5b3922;
+      border-radius: 12px;
+      display: block;
+      margin: 1rem auto;
+    }
+    .action-btn {
+      display: none;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.1rem;
+      background-color: #5b3922;
+      color: #fff8e1;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>💧 ¡Recoge los cubos de agua!</h1>
+  <p>Mueve con las flechas y recoge 3 cubos para avanzar en tu búsqueda.</p>
+  <canvas id="gameCanvas" width="320" height="320"></canvas>
+  <button class="action-btn" id="continuar" onclick="window.location.href='felicitaciones.html?stop=fuente'">🎉 Continuar búsqueda</button>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const tileSize = 40;
+
+    const player = { x: 0, y: 0 };
+    const buckets = [
+      { x: 4, y: 2 },
+      { x: 6, y: 5 },
+      { x: 1, y: 7 }
+    ];
+
+    let collected = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Jugador
+      ctx.fillStyle = "blue";
+      ctx.fillRect(player.x * tileSize, player.y * tileSize, tileSize, tileSize);
+      // Cubos
+      ctx.fillStyle = "#00bcd4";
+      buckets.forEach(b => {
+        if (!b.collected) {
+          ctx.beginPath();
+          ctx.arc(b.x * tileSize + 20, b.y * tileSize + 20, 12, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    function checkCollision() {
+      buckets.forEach(b => {
+        if (!b.collected && b.x === player.x && b.y === player.y) {
+          b.collected = true;
+          collected++;
+          localStorage.setItem("aciertos_fuente", parseInt(localStorage.getItem("aciertos_fuente") || 0) + 1);
+        }
+      });
+      if (collected >= 3) {
+        document.getElementById("continuar").style.display = "inline-block";
+      }
+    }
+
+    window.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp" && player.y > 0) player.y--;
+      else if (e.key === "ArrowDown" && player.y < 7) player.y++;
+      else if (e.key === "ArrowLeft" && player.x > 0) player.x--;
+      else if (e.key === "ArrowRight" && player.x < 7) player.x++;
+      checkCollision();
+      draw();
+    });
+
+    draw();
+  </script>
+</body>
+</html>
 
