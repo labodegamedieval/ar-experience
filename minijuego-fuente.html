@@ -27,6 +27,7 @@
     let jugador = { x: 0, y: 0 };
     let cubosRestantes = 3;
 
+    // Creación de la cuadrícula para el juego
     for (let y = 0; y < gridSize; y++) {
       const row = [];
       for (let x = 0; x < gridSize; x++) {
@@ -40,11 +41,13 @@
       grid.push(row);
     }
 
+    // Dibujar la cuadrícula y el jugador
     function dibujar() {
       grid.flat().forEach(cell => cell.className = 'cell');
       grid[jugador.y][jugador.x].classList.add('jugador');
     }
 
+    // Colocar los cubos en lugares aleatorios
     function colocarCubos() {
       let colocados = 0;
       while (colocados < 3) {
@@ -57,6 +60,7 @@
       }
     }
 
+    // Función para mover al jugador
     function mover(dx, dy) {
       const nuevoX = jugador.x + dx;
       const nuevoY = jugador.y + dy;
@@ -78,6 +82,7 @@
       }
     }
 
+    // Responder a las teclas para mover al jugador
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowUp') mover(0, -1);
       if (e.key === 'ArrowDown') mover(0, 1);
@@ -85,17 +90,20 @@
       if (e.key === 'ArrowRight') mover(1, 0);
     });
 
+    // Función para sumar un acierto
     function sumarAciertoFuente() {
       let aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
       localStorage.setItem("aciertos_fuente", aciertos + 1);
     }
 
+    // Función para iniciar el juego
     function iniciarJuego() {
       localStorage.setItem("reto_fuente_completado", "false");
       dibujar();
       colocarCubos();
     }
 
+    // Iniciar el juego
     iniciarJuego();
   </script>
 </body>
