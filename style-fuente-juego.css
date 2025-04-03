@@ -1,39 +1,51 @@
 body {
-  margin: 0;
-  padding: 0;
+  font-family: 'Georgia', serif;
+  text-align: center;
+  padding: 2rem;
   background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
   background-size: cover;
-  font-family: 'Georgia', serif;
-  color: #3a1f0b;
-  text-align: center;
+  color: #2c1d0c;
+}
+
+.game-container {
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px #fff8e1;
   color: #4b2c0f;
-  margin: 1rem 0;
-  text-shadow: 1px 1px #fcecd1;
 }
 
-.game-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
+#game-area {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 5px;
+  width: 100%;
+  margin: 20px auto;
 }
 
-canvas {
-  border: 6px solid #8b5e3c;
-  background-color: #fff8dc;
-  border-radius: 15px;
-  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+.cell {
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  border: 1px solid #bbb;
 }
 
-#continuar-btn {
-  display: none;
-  margin: 2rem auto;
+.jugador {
+  background-color: #2e8b57;
+}
+
+.cubo {
+  background-color: #00f;
+}
+
+button {
   padding: 0.8rem 1.2rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   background-color: #5b3922;
   color: #fff8e1;
   border: none;
@@ -41,22 +53,11 @@ canvas {
   cursor: pointer;
 }
 
-#continuar-btn:hover {
+button:hover {
   background-color: #7a4d2e;
 }
 
-@media (max-width: 600px) {
-  canvas {
-    width: 90vw;
-    height: 90vw;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  #continuar-btn {
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
-  }
+#continuar-btn {
+  display: none;
+  margin-top: 20px;
 }
