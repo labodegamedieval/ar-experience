@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Georgia', serif;
+  color: #3a1f0b;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.4rem;
+  color: #4b2c0f;
+  margin: 1rem 0;
+  text-shadow: 1px 1px #fcecd1;
+}
+
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+canvas {
+  border: 6px solid #8b5e3c;
+  background-color: #fff8dc;
+  border-radius: 15px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
+
+#continuar-btn {
+  display: none;
+  margin: 2rem auto;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.2rem;
+  background-color: #5b3922;
+  color: #fff8e1;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#continuar-btn:hover {
+  background-color: #7a4d2e;
+}
+
+@media (max-width: 600px) {
+  canvas {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  #continuar-btn {
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+  }
+}
