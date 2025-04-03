@@ -46,7 +46,7 @@
     }
 
     .action-btn {
-      margin: 0.5rem;
+      margin: 1rem auto;
       padding: 0.8rem 1.2rem;
       font-size: 1.1rem;
       background-color: #5b3922;
@@ -61,12 +61,22 @@
       background-color: #7a4d2e;
     }
 
-    .buttons-container {
+    .social-icons {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 0.5rem;
-      margin: 1.5rem 0;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-icon:hover {
+      transform: scale(1.1);
     }
 
     .ranking-table {
@@ -86,11 +96,6 @@
       background-color: #e6d5ba;
     }
 
-    .social-icon {
-      width: 30px;
-      height: 30px;
-    }
-
     @media (max-width: 600px) {
       .action-btn {
         font-size: 0.9rem;
@@ -98,13 +103,8 @@
       }
 
       .social-icon {
-        width: 24px;
-        height: 24px;
-      }
-
-      .buttons-container {
-        gap: 0.4rem;
-        flex-wrap: wrap;
+        width: 30px;
+        height: 30px;
       }
     }
   </style>
@@ -124,35 +124,25 @@
         🔍 El siguiente fragmento puede estar escondido cerca de una fuente con historia… Busca un <strong>QR oculto</strong> grabado junto a una piedra redonda.
       </div>
 
-      <h3>📢 Comparte tu hazaña</h3>
-      <div class="buttons-container">
-        <a href="https://www.instagram.com/" target="_blank" class="action-btn" title="Instagram">
-          <svg class="social-icon" viewBox="0 0 448 512"><path fill="white" d="M224,202.66A53.34,53.34,0,1,0,277.33,256,53.38,53.38,0,0,0,224,202.66Z..."/></svg>
+      <div class="social-icons">
+        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20con%20@labodegamedieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20y%20descubre%20el%20secreto!" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" class="social-icon">
         </a>
-        <a href="https://www.facebook.com/" target="_blank" class="action-btn" title="Facebook">
-          <svg class="social-icon" viewBox="0 0 320 512"><path fill="white" d="M279.14 288l14.22-92.66h-88.91V137.73c..."/></svg>
+        <a href="https://www.instagram.com/" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="social-icon">
         </a>
-        <a href="https://www.linkedin.com/" target="_blank" class="action-btn" title="LinkedIn">
-          <svg class="social-icon" viewBox="0 0 448 512"><path fill="white" d="M100.28 448H7.4V148.9h92.88zm..."/></svg>
+        <a href="https://www.facebook.com/" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="social-icon">
         </a>
-        <a href="https://api.whatsapp.com/send?text=Mira%20esta%20b%C3%BAsqueda%20medieval%20con%20@labodegamedieval%20en%20San%20Mart%C3%ADn%20del%20Casta%C3%B1ar%20y%20descubre%20el%20secreto!" target="_blank" class="action-btn" title="WhatsApp">
-          <svg class="social-icon" viewBox="0 0 448 512"><path fill="white" d="M380.9 97.1C339-44.2 165.5-35.2 101.6 74.4-33.8 309.7..."/></svg>
+        <a href="https://www.linkedin.com/" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" class="social-icon">
         </a>
-        <button onclick="copiarEnlace()" class="action-btn" title="Copiar enlace">
-          🔗
-        </button>
+        <a href="javascript:void(0);" onclick="copiarEnlace()">
+          <img src="https://cdn-icons-png.flaticon.com/512/54/54710.png" alt="Copiar enlace" class="social-icon">
+        </a>
       </div>
 
-      <div class="pista">
-        Cada decisión transforma la historia. ¿Buscarás la verdad… o la redención?
-      </div>
-
-      <h2>⚖️ Tu siguiente paso:</h2>
-      <p>Gonzalo dejó pistas en varias direcciones. Elige tu próximo destino:</p>
-      <div class="buttons-container">
-        <a id="opcion1" href="#" class="action-btn"></a>
-        <a id="opcion2" href="#" class="action-btn"></a>
-      </div>
+      <button onclick="window.location.href='explorar.html'" class="action-btn">🧭 Continuar exploración</button>
 
       <h3>🏅 Clasificación de Aventureros</h3>
       <p>Total de participantes: <span id="total-jugadores">0</span></p>
@@ -172,14 +162,10 @@
   <script>
     const fragmentos = {
       castillo: {
-        texto: '“Oculto...”',
-        opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
-        opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
+        texto: '“Oculto...”'
       },
       fuente: {
-        texto: '“Entre piedras fluye...”',
-        opcion1: { nombre: '🛖 Hacia las Escortinas', enlace: 'escortinas.html' },
-        opcion2: { nombre: '🪜 Explorar los callejones', enlace: 'callejones.html' }
+        texto: '“...en las aguas antiguas.”'
       }
     };
 
@@ -192,15 +178,7 @@
       const parada = obtenerParada();
       const datos = fragmentos[parada];
       const div = document.getElementById("fragmento");
-      if (datos) {
-        div.textContent = datos.texto;
-        document.getElementById("opcion1").textContent = datos.opcion1.nombre;
-        document.getElementById("opcion1").href = datos.opcion1.enlace;
-        document.getElementById("opcion2").textContent = datos.opcion2.nombre;
-        document.getElementById("opcion2").href = datos.opcion2.enlace;
-      } else {
-        div.textContent = "Fragmento no encontrado.";
-      }
+      div.textContent = datos ? datos.texto : "Fragmento no encontrado.";
     }
 
     function mostrarSaludo() {
@@ -216,18 +194,10 @@
 
     function actualizarRanking() {
       const parada = obtenerParada();
-      let aciertos = 0;
-      let tiempoInicio = 0;
-
-      if (parada === "castillo") {
-        aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-        tiempoInicio = parseInt(localStorage.getItem("tiempo_castillo") || "0");
-      } else if (parada === "fuente") {
-        aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
-        tiempoInicio = parseInt(localStorage.getItem("tiempo_fuente") || "0");
-      }
-
+      let aciertos = parseInt(localStorage.getItem("aciertos_" + parada) || "0");
+      let tiempoInicio = parseInt(localStorage.getItem("tiempo_" + parada) || "0");
       const tiempoTotal = tiempoInicio ? Math.floor((Date.now() - tiempoInicio) / 1000) : 0;
+
       const jugador = {
         nombre: localStorage.getItem("jugador") || "anónimo",
         tiempo: tiempoTotal,
