@@ -17,7 +17,7 @@
     </header>
 
     <section id="content">
-      <div class="stop-icon">⛲</div>
+      <div class="stop-icon">⛱️</div>
 
       <div id="location-check">
         <h2>Verifica tu ubicación</h2>
@@ -35,7 +35,7 @@
           <div class="slide active">
             <img src="images/fuente.jpg" alt="Fuente medieval" />
             <p class="carousel-info">
-              <strong>Fuente:</strong> Lugar donde vecinos recogían agua y compartían noticias. El portalón es uno de los accesos más antiguos al pueblo.
+              <strong>Fuente:</strong> Punto de encuentro histórico donde los vecinos recogían agua y compartían noticias.
             </p>
           </div>
           <button class="carousel-btn prev-slide">&larr;</button>
@@ -46,7 +46,7 @@
           <h2>Reto Visual</h2>
           <p>¿Qué elemento arquitectónico se encuentra junto a la fuente?</p>
           <div id="visual-opciones-1">
-            <button class="action-btn" onclick="checkVisualAnswer('Portalón', 'Portalón', 1); sumarAciertoFuente(); desbloquearJuego()">Portalón</button>
+            <button class="action-btn" onclick="checkVisualAnswer('Portalón', 'Portalón', 1); sumarAciertoFuente()">Portalón</button>
             <button class="action-btn" onclick="checkVisualAnswer('Torre', 'Portalón', 1)">Torre</button>
             <button class="action-btn" onclick="checkVisualAnswer('Puente', 'Portalón', 1)">Puente</button>
           </div>
@@ -57,7 +57,7 @@
           <h2>Quiz Histórico</h2>
           <p>¿Para qué se usaba principalmente la fuente?</p>
           <div id="quiz-opciones-1">
-            <button class="action-btn" onclick="checkAnswer('Recoger agua', 'Recoger agua', 1); sumarAciertoFuente(); desbloquearJuego()">Recoger agua</button>
+            <button class="action-btn" onclick="checkAnswer('Recoger agua', 'Recoger agua', 1); sumarAciertoFuente()">Recoger agua</button>
             <button class="action-btn" onclick="checkAnswer('Pescar', 'Recoger agua', 1)">Pescar</button>
             <button class="action-btn" onclick="checkAnswer('Lavar la ropa', 'Recoger agua', 1)">Lavar la ropa</button>
           </div>
@@ -65,7 +65,7 @@
 
           <p>¿Qué función tenía el portalón?</p>
           <div id="quiz-opciones-2">
-            <button class="action-btn" onclick="checkAnswer('Acceso al pueblo', 'Acceso al pueblo', 2); sumarAciertoFuente(); desbloquearJuego()">Acceso al pueblo</button>
+            <button class="action-btn" onclick="checkAnswer('Acceso al pueblo', 'Acceso al pueblo', 2); sumarAciertoFuente()">Acceso al pueblo</button>
             <button class="action-btn" onclick="checkAnswer('Almacén de grano', 'Acceso al pueblo', 2)">Almacén de grano</button>
             <button class="action-btn" onclick="checkAnswer('Pozo', 'Acceso al pueblo', 2)">Pozo</button>
           </div>
@@ -76,10 +76,12 @@
           <strong>QR oculto:</strong> Mira bien las piedras del portalón... ¡Puede que haya una sorpresa!
         </div>
 
-        <div class="reto-final" id="bloque-juego" style="display:none">
-          <h2>🎮 Juego Medieval</h2>
-          <p>Usa las flechas del teclado para recoger todos los pergaminos sin tocar a los fantasmas. ¡Buena suerte!</p>
-          <iframe src="minijuego-fuente.html" style="width:100%; height:500px; border:2px solid #5b3922; border-radius:12px;"></iframe>
+        <div class="reto-final">
+          <h2>Final de esta parada</h2>
+          <p>Cuando completes los retos, desbloquearás un minijuego medieval para continuar la aventura.</p>
+          <button class="action-btn" onclick="window.location.href='minijuego-fuente.html'">
+            🎮 Iniciar minijuego de agua
+          </button>
         </div>
       </div>
     </section>
@@ -91,21 +93,18 @@
 
     <script src="script.js"></script>
     <script src="script-castillo.js"></script>
+
     <script>
-      function mostrarRetoYReproducir() {
-        localStorage.setItem("tiempo_fuente", Date.now());
-        localStorage.setItem("aciertos_fuente", 0);
-      }
-
-      function sumarAciertoFuente() {
-        let aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
-        localStorage.setItem("aciertos_fuente", aciertos + 1);
-      }
-
-      function desbloquearJuego() {
-        const aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
-        if (aciertos >= 3) {
-          document.getElementById("bloque-juego").style.display = "block";
+      function checkLocationManual() {
+        const input = document.getElementById('location-input').value.trim().toLowerCase();
+        if (input === 'fuente') {
+          document.getElementById('location-check').style.display = 'none';
+          document.getElementById('game-content').style.display = 'block';
+          localStorage.setItem('parada_fuente_desbloqueada', 'true');
+          localStorage.setItem('tiempo_fuente', Date.now());
+          localStorage.setItem('aciertos_fuente', 0);
+        } else {
+          document.getElementById('location-status').textContent = "Nombre incorrecto. Intenta de nuevo.";
         }
       }
     </script>
