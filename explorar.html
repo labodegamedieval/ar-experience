@@ -2,127 +2,141 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🗺️ Explora el Pueblo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌍 Explorar la Aventura</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/escudo-borrado.jpg" />
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #2c1d0c;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .saludo {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      color: #4b2c0f;
-    }
-
-    .paradas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .parada {
-      background-color: rgba(255, 248, 220, 0.9);
-      border: 2px solid #5b3922;
-      border-radius: 12px;
-      padding: 1rem;
-      font-size: 2rem;
-      cursor: pointer;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-      transition: transform 0.2s, background-color 0.3s;
-    }
-
-    .parada:hover {
-      transform: scale(1.05);
-    }
-
-    .parada.bloqueada {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    .progreso {
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-    }
-  </style>
 </head>
 <body>
-  <h1>🗺️ Explora San Martín del Castañar</h1>
-  <p class="saludo" id="saludo-jugador"></p>
+  <div class="container">
+    <header>
+      <h1>🌍 Explorar la Aventura</h1>
+    </header>
 
-  <div class="progreso" id="progreso-juego"></div>
+    <section id="content">
+      <p id="saludo-jugador"></p>
+      <div class="progress-container">
+        <p>Progreso de tu aventura:</p>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p id="progreso-texto"></p>
+      </div>
 
-  <div class="paradas-grid" id="paradas-container">
-    <!-- Se generarán dinámicamente -->
-  </div>
+      <h2>📜 Elige tu próximo destino</h2>
+      <p>Gonzalo dejó pistas en varias direcciones. ¿Hacia dónde quieres ir?</p>
 
-  <footer>
-    <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
-  </footer>
+      <div class="buttons-container">
+        <a id="opcion1" href="#" class="action-btn"></a>
+        <a id="opcion2" href="#" class="action-btn"></a>
+      </div>
 
-  <script>
-    const paradas = [
-      { id: 'castillo', icono: '🏰', enlace: 'castillo.html' },
-      { id: 'plaza', icono: '🪧', enlace: 'plaza.html' },
-      { id: 'fuente', icono: '🚰', enlace: 'fuente.html' },
-      { id: 'iglesia', icono: '⛪', enlace: 'iglesia.html' },
-      { id: 'arco', icono: '🚪', enlace: 'arco.html' },
-      { id: 'puente', icono: '🌉', enlace: 'puente.html' },
-      { id: 'bodega', icono: '🍷', enlace: 'bodega.html' }
-    ];
+      <h3>🏅 Clasificación de Aventureros</h3>
+      <p>Total de participantes: <span id="total-jugadores">0</span></p>
+      <table class="ranking-table" id="ranking">
+        <thead>
+          <tr><th>#</th><th>Nombre</th><th>Tiempo</th><th>Aciertos</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
 
-    function mostrarSaludo() {
-      const nombre = localStorage.getItem("jugador") || "aventurer@";
-      document.getElementById("saludo-jugador").textContent = `¡Hola, ${nombre}! Selecciona tu próxima parada.`;
-    }
+    <footer>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
+    </footer>
 
-    function contarFragmentos() {
-      let contador = 0;
-      paradas.forEach(parada => {
-        if (localStorage.getItem(`fragmento_${parada.id}`) === 'true') {
-          contador++;
+    <script>
+      // Función para obtener la parada actual
+      const fragmentos = {
+        castillo: {
+          texto: '“Oculto...”',
+          opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
+          opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
+        },
+        fuente: {
+          texto: '“Cerca de la fuente se encuentran muchos secretos...”',
+          opcion1: { nombre: '🧭 Regresar al castillo', enlace: 'castillo.html' },
+          opcion2: { nombre: '🌉 Explorar el puente', enlace: 'puente.html' }
+        },
+        iglesia: {
+          texto: '“La iglesia guarda historias en cada piedra...”',
+          opcion1: { nombre: '🔒 Buscar el símbolo oculto en el altar', enlace: 'tetris.html' },
+          opcion2: { nombre: '🏰 Regresar al castillo', enlace: 'castillo.html' }
         }
-      });
-      document.getElementById("progreso-juego").textContent = `Has descubierto ${contador} de ${paradas.length} fragmentos.`;
-      return contador;
-    }
+      };
 
-    function generarParadas() {
-      const container = document.getElementById("paradas-container");
-      paradas.forEach(parada => {
-        const div = document.createElement("div");
-        div.classList.add("parada");
+      function obtenerParada() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("stop") || "castillo";
+      }
 
-        const desbloqueada = localStorage.getItem(`fragmento_${parada.id}`) === 'true';
-        if (!desbloqueada && parada.id !== 'castillo') {
-          div.classList.add("bloqueada");
+      // Mostrar fragmento y opciones de parada
+      function mostrarFragmento() {
+        const parada = obtenerParada();
+        const datos = fragmentos[parada];
+        const div = document.getElementById("fragmento");
+        if (datos) {
+          div.textContent = datos.texto;
+          document.getElementById("opcion1").textContent = datos.opcion1.nombre;
+          document.getElementById("opcion1").href = datos.opcion1.enlace;
+          document.getElementById("opcion2").textContent = datos.opcion2.nombre;
+          document.getElementById("opcion2").href = datos.opcion2.enlace;
         } else {
-          div.onclick = () => {
-            window.location.href = parada.enlace;
-          };
+          div.textContent = "Fragmento no encontrado.";
         }
+      }
 
-        div.textContent = parada.icono;
-        container.appendChild(div);
+      // Mostrar saludo con el nombre del jugador
+      function mostrarSaludo() {
+        const nombre = localStorage.getItem("jugador") || "aventurer@";
+        document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
+      }
+
+      // Función para mostrar el progreso
+      function actualizarProgreso() {
+        const fragmentosDescubiertos = parseInt(localStorage.getItem("fragmentos_descubiertos") || "0");
+        const totalFragmentos = Object.keys(fragmentos).length;
+
+        const progreso = document.getElementById("progress-fill");
+        const progresoTexto = document.getElementById("progreso-texto");
+
+        const porcentaje = (fragmentosDescubiertos / totalFragmentos) * 100;
+
+        progreso.style.width = `${porcentaje}%`;
+        progresoTexto.textContent = `${fragmentosDescubiertos} de ${totalFragmentos} fragmentos descubiertos`;
+      }
+
+      // Actualizar el ranking
+      function actualizarRanking() {
+        const tabla = document.querySelector("#ranking tbody");
+        const totalSpan = document.getElementById("total-jugadores");
+        let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+
+        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
+
+        totalSpan.textContent = datos.length;
+        tabla.innerHTML = "";
+
+        datos.slice(0,10).forEach((jugador, index) => {
+          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${formatearTiempo(jugador.tiempo)}</td><td>${jugador.aciertos}</td></tr>`;
+          tabla.innerHTML += fila;
+        });
+      }
+
+      // Formatear el tiempo
+      function formatearTiempo(segundos) {
+        const min = Math.floor(segundos / 60);
+        const seg = segundos % 60;
+        return `${min}:${seg.toString().padStart(2, '0')}`;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        mostrarSaludo();
+        mostrarFragmento();
+        actualizarProgreso();
+        actualizarRanking();
       });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      mostrarSaludo();
-      contarFragmentos();
-      generarParadas();
-    });
-  </script>
+    </script>
+  </div>
 </body>
 </html>
