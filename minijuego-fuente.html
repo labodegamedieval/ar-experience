@@ -71,6 +71,7 @@
           sumarAciertoFuente();
           if (cubosRestantes === 0) {
             continuarBtn.style.display = 'inline-block';
+            localStorage.setItem("reto_fuente_completado", "true");
           }
         }
         dibujar();
