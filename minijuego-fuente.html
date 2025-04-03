@@ -3,97 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>💧 Mini juego: Recoge el agua</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: url('images/textura-pergamino.jpg');
-      background-size: cover;
-      color: #2c1d0c;
-      text-align: center;
-      margin: 0;
-      padding: 2rem;
-    }
-    canvas {
-      background: #fffbe6;
-      border: 4px solid #5b3922;
-      border-radius: 12px;
-      display: block;
-      margin: 1rem auto;
-    }
-    .action-btn {
-      display: none;
-      margin-top: 2rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1.1rem;
-      background-color: #5b3922;
-      color: #fff8e1;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-  </style>
+  <title>⛰️ Recolecta Agua en la Fuente</title>
+  <link rel="stylesheet" href="style-fuente-juego.css" />
+  <link rel="icon" href="images/escudo-borrado.jpg" />
 </head>
 <body>
-  <h1>💧 ¡Recoge los cubos de agua!</h1>
-  <p>Mueve con las flechas y recoge 3 cubos para avanzar en tu búsqueda.</p>
-  <canvas id="gameCanvas" width="320" height="320"></canvas>
-  <button class="action-btn" id="continuar" onclick="window.location.href='felicitaciones.html?stop=fuente'">🎉 Continuar búsqueda</button>
+  <div class="game-container">
+    <header>
+      <h1>⛰️ Recolecta Agua en la Fuente</h1>
+      <p>Usa las flechas ← → ↑ ↓ para moverte y recoger 3 cubos de agua 💧</p>
+    </header>
+    <div id="game-area"></div>
+    <button id="continuar-btn" class="action-btn" style="display: none;" onclick="window.location.href='felicitaciones.html?stop=fuente'">
+      🎉 Continuar la aventura
+    </button>
+  </div>
 
   <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const tileSize = 40;
+    const gameArea = document.getElementById('game-area');
+    const continuarBtn = document.getElementById('continuar-btn');
+    const gridSize = 10;
+    const grid = [];
+    let jugador = { x: 0, y: 0 };
+    let cubosRestantes = 3;
 
-    const player = { x: 0, y: 0 };
-    const buckets = [
-      { x: 4, y: 2 },
-      { x: 6, y: 5 },
-      { x: 1, y: 7 }
-    ];
-
-    let collected = 0;
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Jugador
-      ctx.fillStyle = "blue";
-      ctx.fillRect(player.x * tileSize, player.y * tileSize, tileSize, tileSize);
-      // Cubos
-      ctx.fillStyle = "#00bcd4";
-      buckets.forEach(b => {
-        if (!b.collected) {
-          ctx.beginPath();
-          ctx.arc(b.x * tileSize + 20, b.y * tileSize + 20, 12, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      });
+    for (let y = 0; y < gridSize; y++) {
+      const row = [];
+      for (let x = 0; x < gridSize; x++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.x = x;
+        cell.dataset.y = y;
+        gameArea.appendChild(cell);
+        row.push(cell);
+      }
+      grid.push(row);
     }
 
-    function checkCollision() {
-      buckets.forEach(b => {
-        if (!b.collected && b.x === player.x && b.y === player.y) {
-          b.collected = true;
-          collected++;
-          localStorage.setItem("aciertos_fuente", parseInt(localStorage.getItem("aciertos_fuente") || 0) + 1);
+    function dibujar() {
+      grid.flat().forEach(cell => cell.className = 'cell');
+      grid[jugador.y][jugador.x].classList.add('jugador');
+    }
+
+    function colocarCubos() {
+      let colocados = 0;
+      while (colocados < 3) {
+        const x = Math.floor(Math.random() * gridSize);
+        const y = Math.floor(Math.random() * gridSize);
+        if (!grid[y][x].classList.contains('cubo') && (x !== 0 || y !== 0)) {
+          grid[y][x].classList.add('cubo');
+          colocados++;
         }
-      });
-      if (collected >= 3) {
-        document.getElementById("continuar").style.display = "inline-block";
       }
     }
 
-    window.addEventListener("keydown", e => {
-      if (e.key === "ArrowUp" && player.y > 0) player.y--;
-      else if (e.key === "ArrowDown" && player.y < 7) player.y++;
-      else if (e.key === "ArrowLeft" && player.x > 0) player.x--;
-      else if (e.key === "ArrowRight" && player.x < 7) player.x++;
-      checkCollision();
-      draw();
+    function mover(dx, dy) {
+      const nuevoX = jugador.x + dx;
+      const nuevoY = jugador.y + dy;
+      if (nuevoX >= 0 && nuevoX < gridSize && nuevoY >= 0 && nuevoY < gridSize) {
+        jugador.x = nuevoX;
+        jugador.y = nuevoY;
+
+        const celdaActual = grid[nuevoY][nuevoX];
+        if (celdaActual.classList.contains('cubo')) {
+          celdaActual.classList.remove('cubo');
+          cubosRestantes--;
+          sumarAciertoFuente();
+          if (cubosRestantes === 0) {
+            continuarBtn.style.display = 'inline-block';
+          }
+        }
+        dibujar();
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowUp') mover(0, -1);
+      if (e.key === 'ArrowDown') mover(0, 1);
+      if (e.key === 'ArrowLeft') mover(-1, 0);
+      if (e.key === 'ArrowRight') mover(1, 0);
     });
 
-    draw();
+    function sumarAciertoFuente() {
+      let aciertos = parseInt(localStorage.getItem("aciertos_fuente") || "0");
+      localStorage.setItem("aciertos_fuente", aciertos + 1);
+    }
+
+    function iniciarJuego() {
+      localStorage.setItem("reto_fuente_completado", "false");
+      dibujar();
+      colocarCubos();
+    }
+
+    iniciarJuego();
   </script>
 </body>
 </html>
-
