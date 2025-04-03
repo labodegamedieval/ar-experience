@@ -16,26 +16,18 @@
     <section id="content">
       <p id="saludo-jugador"></p>
       
-      <!-- Div donde se muestra el fragmento -->
-      <div id="fragmento" class="pergamino"></div> 
-
-      <div class="progress-container">
-        <p>Progreso de tu aventura:</p>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progress-fill"></div>
-        </div>
-        <p id="progreso-texto"></p>
-      </div>
+      <div id="fragmento" class="pergamino"></div> <!-- Aquí se mostrará el fragmento -->
 
       <h2>📜 Elige tu próximo destino</h2>
       <p>Gonzalo dejó pistas en varias direcciones. ¿Hacia dónde quieres ir?</p>
 
-      <!-- Botones de paradas principales -->
       <div class="buttons-container">
         <a id="opcion1" href="#" class="action-btn"></a>
         <a id="opcion2" href="#" class="action-btn"></a>
-        <a id="opcion3" href="#" class="action-btn"></a> <!-- Parada alternativa 1 -->
-        <a id="opcion4" href="#" class="action-btn"></a> <!-- Parada alternativa 2 -->
+
+        <!-- Botones de paradas alternativas -->
+        <a id="opcion3" href="#" class="action-btn" style="display: none;"></a> <!-- Parada alternativa 1 -->
+        <a id="opcion4" href="#" class="action-btn" style="display: none;"></a> <!-- Parada alternativa 2 -->
       </div>
 
       <h3>🏅 Clasificación de Aventureros</h3>
@@ -72,18 +64,18 @@
         }
       };
 
-      // Almacenamos las paradas principales
+      // Paradas principales desbloqueadas siempre
       const paradasPrincipales = ['castillo', 'fuente', 'iglesia']; 
-      // Paradas alternativas a desbloquear más tarde
+      // Paradas alternativas que se desbloquearán más tarde
       const paradasAlternativas = ['puente', 'tetris'];
 
-      // Función para obtener la parada
+      // Obtener la parada desde la URL
       function obtenerParada() {
         const params = new URLSearchParams(window.location.search);
         return params.get("stop") || "castillo";
       }
 
-      // Muestra el fragmento de la parada
+      // Muestra el fragmento de la parada seleccionada
       function mostrarFragmento() {
         const parada = obtenerParada();
         const datos = fragmentos[parada];
@@ -94,8 +86,8 @@
           document.getElementById("opcion1").href = datos.opcion1.enlace;
           document.getElementById("opcion2").textContent = datos.opcion2.nombre;
           document.getElementById("opcion2").href = datos.opcion2.enlace;
-          
-          // Desbloquear paradas alternativas si ya están disponibles
+
+          // Desbloqueamos las paradas alternativas si ya están completas
           for (let i = 0; i < paradasAlternativas.length; i++) {
             const opcion = document.getElementById(`opcion${i + 3}`);
             if (localStorage.getItem(`reto_${paradasAlternativas[i]}_completado`) === 'true') {
@@ -109,13 +101,13 @@
         }
       }
 
-      // Mostrar saludo
+      // Saludo con el nombre del jugador
       function mostrarSaludo() {
         const nombre = localStorage.getItem("jugador") || "aventurer@";
         document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
       }
 
-      // Actualizar progreso
+      // Actualización del progreso
       function actualizarProgreso() {
         const fragmentosDescubiertos = parseInt(localStorage.getItem("fragmentos_descubiertos") || "0");
         const totalFragmentos = Object.keys(fragmentos).length;
@@ -128,7 +120,7 @@
         progresoTexto.textContent = `${fragmentosDescubiertos} de ${totalFragmentos} fragmentos descubiertos`;
       }
 
-      // Actualizar ranking
+      // Actualiza el ranking
       function actualizarRanking() {
         const tabla = document.querySelector("#ranking tbody");
         const totalSpan = document.getElementById("total-jugadores");
@@ -144,13 +136,14 @@
         });
       }
 
+      // Formatear el tiempo en minutos:segundos
       function formatearTiempo(segundos) {
         const min = Math.floor(segundos / 60);
         const seg = segundos % 60;
         return `${min}:${seg.toString().padStart(2, '0')}`;
       }
 
-      // Llamamos a las funciones al cargar el contenido
+      // Llamadas a las funciones al cargar la página
       document.addEventListener("DOMContentLoaded", () => {
         mostrarSaludo();
         mostrarFragmento();
