@@ -15,6 +15,10 @@
 
     <section id="content">
       <p id="saludo-jugador"></p>
+      
+      <!-- Este es el contenedor que estaba causando el error -->
+      <div id="fragmento" class="pergamino"></div>  <!-- Aquí se mostrará el fragmento -->
+
       <div class="progress-container">
         <p>Progreso de tu aventura:</p>
         <div class="progress-bar">
@@ -46,7 +50,6 @@
     </footer>
 
     <script>
-      // Función para obtener la parada actual
       const fragmentos = {
         castillo: {
           texto: '“Oculto...”',
@@ -70,7 +73,6 @@
         return params.get("stop") || "castillo";
       }
 
-      // Mostrar fragmento y opciones de parada
       function mostrarFragmento() {
         const parada = obtenerParada();
         const datos = fragmentos[parada];
@@ -86,13 +88,11 @@
         }
       }
 
-      // Mostrar saludo con el nombre del jugador
       function mostrarSaludo() {
         const nombre = localStorage.getItem("jugador") || "aventurer@";
         document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
       }
 
-      // Función para mostrar el progreso
       function actualizarProgreso() {
         const fragmentosDescubiertos = parseInt(localStorage.getItem("fragmentos_descubiertos") || "0");
         const totalFragmentos = Object.keys(fragmentos).length;
@@ -106,7 +106,6 @@
         progresoTexto.textContent = `${fragmentosDescubiertos} de ${totalFragmentos} fragmentos descubiertos`;
       }
 
-      // Actualizar el ranking
       function actualizarRanking() {
         const tabla = document.querySelector("#ranking tbody");
         const totalSpan = document.getElementById("total-jugadores");
@@ -123,7 +122,6 @@
         });
       }
 
-      // Formatear el tiempo
       function formatearTiempo(segundos) {
         const min = Math.floor(segundos / 60);
         const seg = segundos % 60;
