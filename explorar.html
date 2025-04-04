@@ -15,7 +15,7 @@
 
     <section id="content">
       <p id="saludo-jugador"></p>
-      
+
       <div id="fragmento" class="pergamino"></div> <!-- Aquí se mostrará el fragmento -->
 
       <h2>📜 Elige tu próximo destino</h2>
@@ -72,7 +72,7 @@
       // Obtener la parada desde la URL
       function obtenerParada() {
         const params = new URLSearchParams(window.location.search);
-        return params.get("stop") || "castillo";
+        return params.get("stop") || "fuente"; // Comienza siempre en Fuente
       }
 
       // Muestra el fragmento de la parada seleccionada
