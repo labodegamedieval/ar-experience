@@ -1,131 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🛡️ Reto de los Símbolos</title>
-  <style>
-    body {
-      background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      font-family: 'Georgia', serif;
-      color: #2c1d0c;
-      text-align: center;
-      padding: 2rem;
-    }
-    h1 {
-      color: #4b2c0f;
-      text-shadow: 1px 1px #fff8e1;
-    }
-    .botones-simbolos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .simbolo-btn {
-      font-size: 2.5rem;
-      padding: 1rem 1.2rem;
-      background: rgba(255, 248, 220, 0.9);
-      border: 3px solid #5b3922;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-      transition: transform 0.2s, background-color 0.3s;
-    }
-    .simbolo-btn:hover {
-      transform: scale(1.05);
-    }
-    .simbolo-btn.activo {
-      background-color: gold;
-      border-color: #c79b2d;
-    }
-    .action-btn {
-      margin-top: 2rem;
-      padding: 0.8rem 1.2rem;
-      font-size: 1.2rem;
-      background-color: #5b3922;
-      color: #fff8e1;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .action-btn:hover {
-      background-color: #7a4d2e;
-    }
-    #continuar-btn {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>️ Reto de los Símbolos</title>
+    <style>
+        body {
+            background: url('images/textura-pergamino.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            font-family: 'Georgia', serif;
+            color: #2c1d0c;
+            text-align: center;
+            padding: 2rem;
+        }
+        h1 {
+            color: #4b2c0f;
+            text-shadow: 1px 1px #fff8e1;
+        }
+        .botones-simbolos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .simbolo-btn {
+            font-size: 2.5rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 248, 220, 0.9);
+            border: 3px solid #5b3922;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .simbolo-btn:hover {
+            transform: scale(1.05);
+        }
+        .simbolo-btn.activo {
+            background-color: gold;
+            border-color: #c79b2d;
+        }
+        .action-btn {
+            margin-top: 2rem;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.2rem;
+            background-color: #5b3922;
+            color: #fff8e1;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .action-btn:hover {
+            background-color: #7a4d2e;
+        }
+        #continuar-btn {
+            display: none;
+        }
+        .simbolo-btn.error {
+          animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+          20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+    </style>
 </head>
 <body>
-  <h1>🛡️ Desbloquea el Secreto del Castillo</h1>
+    <h1>️ Desbloquea el Secreto del Castillo</h1>
 
-  <div class="botones-simbolos">
-    <button class="simbolo-btn" data-id="llave">🗝️</button>
-    <button class="simbolo-btn" data-id="espada">🗡️</button>
-    <button class="simbolo-btn" data-id="libro">📜</button>
-    <button class="simbolo-btn" data-id="calavera">💀</button>
-    <button class="simbolo-btn" data-id="dragón">🐉</button>
-    <button class="simbolo-btn" data-id="cruz">✝️</button>
-    <button class="simbolo-btn" data-id="arco">🏹</button>
-    <button class="simbolo-btn" data-id="vela">🕯️</button>
-    <button class="simbolo-btn" data-id="copa">🍷</button>
-    <button class="simbolo-btn" data-id="escudo">🛡️</button>
-    <button class="simbolo-btn" data-id="castillo">🏰</button>
-    <button class="simbolo-btn" data-id="corona">👑</button>
-  </div>
+    <div class="botones-simbolos">
+        <button class="simbolo-btn" data-id="llave">️</button>
+        <button class="simbolo-btn" data-id="espada">️</button>
+        <button class="simbolo-btn" data-id="libro"></button>
+        <button class="simbolo-btn" data-id="calavera">0xC2xA0</button>
+        <button class="simbolo-btn" data-id="dragón"></button>
+        <button class="simbolo-btn" data-id="cruz">✝️</button>
+        <button class="simbolo-btn" data-id="arco"></button>
+        <button class="simbolo-btn" data-id="vela">️</button>
+        <button class="simbolo-btn" data-id="copa"></button>
+        <button class="simbolo-btn" data-id="escudo">️</button>
+        <button class="simbolo-btn" data-id="castillo"></button>
+        <button class="simbolo-btn" data-id="corona"></button>
+    </div>
 
-  <button id="continuar-btn" class="action-btn" onclick="window.location.href='felicitaciones.html?stop=castillo'">
-    🎉 Continuar la aventura
-  </button>
+    <p id="mensaje-retroalimentacion" style="margin-top: 1rem;"></p>
 
-  <audio id="unlock-sound" src="sounds/unlock.mp3" preload="auto"></audio>
+    <button id="continuar-btn" class="action-btn" onclick="window.location.href='felicitaciones.html?stop=castillo'">
+         Continuar la aventura
+    </button>
 
-  <script>
-    const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
-    let inputSecuencia = [];
+    <audio id="unlock-sound" src="sounds/unlock.mp3" preload="auto"></audio>
 
-    const botones = document.querySelectorAll(".simbolo-btn");
-    const continuarBtn = document.getElementById("continuar-btn");
-    const unlockSound = document.getElementById("unlock-sound");
+    <script>
+        const secuenciaCorrecta = ["espada", "cruz", "escudo", "vela"];
+        let inputSecuencia = [];
 
-    botones.forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (btn.classList.contains("activo") || inputSecuencia.length >= 4) return;
+        const botones = document.querySelectorAll(".simbolo-btn");
+        const continuarBtn = document.getElementById("continuar-btn");
+        const unlockSound = document.getElementById("unlock-sound");
+        const mensajeElemento = document.getElementById("mensaje-retroalimentacion");
 
-        btn.classList.add("activo");
-        const valor = btn.getAttribute("data-id");
-        inputSecuencia.push(valor);
+        botones.forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (btn.classList.contains("activo") || inputSecuencia.length >= 4) return;
 
-        const pasoEsperado = secuenciaCorrecta[inputSecuencia.length - 1];
-        if (valor !== pasoEsperado) {
-          alert("❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.");
-          inputSecuencia = [];
-          botones.forEach(b => b.classList.remove("activo"));
-          continuarBtn.style.display = "none";
-          return;
-        }
+                btn.classList.add("activo");
+                const valor = btn.getAttribute("data-id");
+                inputSecuencia.push(valor);
 
-        if (inputSecuencia.length === secuenciaCorrecta.length) {
-          localStorage.setItem('reto_simbolos_completado', 'true');
+                const pasoEsperado = secuenciaCorrecta[inputSecuencia.length - 1];
+                if (valor !== pasoEsperado) {
+                    mensajeElemento.textContent = "❌ ¡Esa no es la secuencia correcta! Intenta de nuevo.";
+                    inputSecuencia = [];
+                    botones.forEach(b => b.classList.remove("activo"));
+                    continuarBtn.style.display = "none";
 
-          // Añadir 1 punto extra solo si no se había sumado antes
-          let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
-          if (!localStorage.getItem("acierto_simbolos_sumado")) {
-            aciertos += 1;
-            localStorage.setItem("aciertos_castillo", aciertos);
-            localStorage.setItem("acierto_simbolos_sumado", "true");
-          }
+                    botones.forEach(b => {
+                      b.classList.add("error");
+                      setTimeout(() => {
+                        b.classList.remove("error");
+                      }, 500);
+                    });
 
-          unlockSound.play();
-          continuarBtn.style.display = "inline-block";
-        }
-      });
-    });
-  </script>
+                    botones.forEach(b => b.disabled = true);
+                    setTimeout(() => {
+                      botones.forEach(b => b.disabled = false);
+                    }, 2000);
+
+                    return;
+                }
+
+                if (inputSecuencia.length === 0) {
+                  mensajeElemento.textContent = "";
+                }
+
+                if (inputSecuencia.length === secuenciaCorrecta.length) {
+                    localStorage.setItem('reto_simbolos_completado', 'true');
+
+                    let aciertos = parseInt(localStorage.getItem("aciertos_castillo") || "0");
+                    if (!localStorage.getItem("acierto_simbolos_sumado")) {
+                        aciertos += 1;
+                        localStorage.setItem("aciertos_castillo", aciertos);
+                        localStorage.setItem("acierto_simbolos_sumado", "true");
+                    }
+
+                    unlockSound.play();
+                    continuarBtn.style.display = "inline-block";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
