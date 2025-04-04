@@ -28,16 +28,15 @@
       </div>
 
       <div class="map-container">
-        <img src="images/callejero.jpg" alt="Mapa de San Martín del Castañar" />
+        <img src="images/callejero.jpg" alt="Mapa de San Martín del Castañar" class="map-img" />
         <div class="buttons-container">
-          <!-- Botones de paradas desbloqueadas -->
-          <button class="map-btn" id="castillo-btn" onclick="location.href='castillo.html'">🏰 Castillo</button>
-          <button class="map-btn" id="plaza-btn" onclick="location.href='plaza.html'">🏟️ Plaza de toros</button>
-          <button class="map-btn" id="iglesia-btn" onclick="location.href='iglesia.html'">⛪ Iglesia</button>
-          <button class="map-btn" id="fuente-btn" onclick="location.href='fuente.html'">⛲ Fuente y Portalón</button>
-          <button class="map-btn" id="ermita-btn" onclick="location.href='ermita.html'">🙏 Ermita</button>
-          <button class="map-btn" id="puente-btn" onclick="location.href='puente.html'">🌉 Puente</button>
-          <button class="map-btn" id="bodega-btn" onclick="location.href='bodega.html'">🍷 Bodega</button>
+          <button class="map-btn" id="castillo-btn" style="display:none;" onclick="location.href='castillo.html'">🏰 Castillo</button>
+          <button class="map-btn" id="plaza-btn" style="display:none;" onclick="location.href='plaza.html'">🏟️ Plaza de toros</button>
+          <button class="map-btn" id="iglesia-btn" style="display:none;" onclick="location.href='iglesia.html'">⛪ Iglesia</button>
+          <button class="map-btn" id="fuente-btn" style="display:none;" onclick="location.href='fuente.html'">⛲ Fuente y Portalón</button>
+          <button class="map-btn" id="ermita-btn" style="display:none;" onclick="location.href='ermita.html'">🙏 Ermita</button>
+          <button class="map-btn" id="puente-btn" style="display:none;" onclick="location.href='puente.html'">🌉 Puente</button>
+          <button class="map-btn" id="bodega-btn" style="display:none;" onclick="location.href='bodega.html'">🍷 Bodega</button>
         </div>
       </div>
 
@@ -86,7 +85,7 @@
             window.location.href = destino + ".html";
           }, 1500);
         } else {
-          status.textContent = "❌ Código incorrecto. Intenta de nuevo.";
+          status.textContent = "❌ Código incorrecto.";
         }
       }
 
