@@ -1,84 +1,59 @@
-Proyecto: Aventura Medieval Interactiva en San Martín del Castañar
-Nombre del proyecto
-La Búsqueda de Gonzalo: Juego Turístico de Narrativa Interactiva
-Objetivo principal
-Crear una experiencia turística gratuita, interactiva y cultural que incentive la visita a la Bodega Medieval a través de un juego inmersivo por el pueblo de San Martín del Castañar. El juego se basa en retos, pistas históricas, narrativa de selección múltiple y tecnologías accesibles desde el móvil.
+Título: La Búsqueda de Gonzalo: Gamificación del Turismo Rural a través de una Aventura Medieval Interactiva
 
-Concepto del juego
-El jugador (o equipo) se convierte en un aventurero medieval que sigue las pistas de Gonzalo, un personaje enigmático vinculado al pueblo y a la Bodega Medieval. Su misión es descubrir un mensaje oculto a través de retos, preguntas, minijuegos y elecciones narrativas.
+Resumen:
 
-Estructura general
-1. Inicio (index.html)
-Selector de modo: jugador individual o equipo.
-Introducción del nombre.
-Instrucciones breves.
-Mapa/callejero ampliable del pueblo.
-Clasificación global (ranking).
-2. Paradas del juego
-Cada parada (ej. castillo, iglesia, plaza, fuente, etc.) contiene:
-Carrusel visual informativo.
-Reto visual de observación.
-Quiz histórico.
-Minijuego interactivo.
-QR oculto.
-Fragmento del mensaje (sobre un pergamino).
-Botón “Continuar aventura” que redirige a una pantalla de selección múltiple con dos caminos posibles.
-3. Transición narrativa (felicitaciones.html)
-Felicitación personalizada.
-Fragmento obtenido.
-Progreso visual.
-Dos opciones de siguiente parada.
-Pista para encontrar el siguiente QR oculto.
-Botones para compartir en redes sociales.
-4. Final del juego
-Al reunir todos los fragmentos, se revela que el último sólo se desvela al visitar la Bodega Medieval.
-Esta revelación está diseñada para despertar un deseo genuino de completar la experiencia reservando en la bodega.
+"La Búsqueda de Gonzalo" es un proyecto innovador que transforma el turismo rural en una experiencia inmersiva y educativa. A través de un juego de narrativa interactiva, los visitantes exploran el pueblo de San Martín del Castañar, descubriendo su historia y patrimonio cultural de una manera lúdica y emocionante. El proyecto combina retos, minijuegos, realidad aumentada y elementos de gamificación para crear una aventura única que culmina en la emblemática Bodega Medieval.
 
-Tipos de retos y minijuegos
-Busca las diferencias
-Comparar dos imágenes casi iguales del pueblo.
-Secuencia mágica (tipo Simon)
-Repetir un patrón de luces o símbolos en el orden correcto.
-Sonido + Enigma
-Escuchar un audio y responder una pregunta relacionada.
-Candado numérico
-Descifrar un código oculto en una imagen o texto.
-Juego de memoria
-Emparejar símbolos medievales.
-Objeto oculto
-Encontrar elementos escondidos en ilustraciones.
+Introducción:
 
-Tecnología utilizada
-HTML5 + CSS personalizado estilo medieval.
-JavaScript puro (sin frameworks) para máxima compatibilidad offline.
-localStorage para guardar progreso, ranking y nombre del jugador.
-QR físicos colocados en ubicaciones estratégicas del pueblo.
-Sonidos y animaciones suaves.
+El turismo rural se enfrenta al desafío de atraer a un público diverso y mantener su interés. "La Búsqueda de Gonzalo" propone una solución creativa y tecnológica, utilizando la gamificación para convertir la visita a San Martín del Castañar en una experiencia inolvidable. El proyecto no solo impulsa el turismo, sino que también fomenta la conexión con la historia y la cultura local.
 
-Clasificación y gamificación
-Registro de tiempo y aciertos al primer intento.
-Clasificación por parada y ranking global.
-Modo individual o por equipos.
-Tabla de puntuaciones visible desde el inicio.
+Objetivos:
 
-Relación con la Bodega Medieval
-La experiencia completa culmina en la bodega, donde se desvela el último secreto.
-El juego incluye frases que vinculan el misterio con la bodega (“una copa única te espera...”, “el último secreto sólo puede oírse entre barricas…”).
-Se promueve la reserva de forma orgánica, no obligatoria.
+Crear una experiencia turística gratuita, interactiva y cultural.
+Incentivar la visita a la Bodega Medieval y otros puntos de interés del pueblo.
+Promover el turismo sostenible y el desarrollo económico local.
+Fomentar la interacción social y la sana competición entre los jugadores.
+Educar a los visitantes sobre la historia y el patrimonio de San Martín del Castañar.
+Metodología:
 
-Valor diferencial
-Juego gratuito y jugable mientras se pasea por el pueblo.
-Tecnología accesible (sin instalación).
-Combina historia, cultura local, retos y narrativa.
-Crea comunidad y sana competición.
-Promueve el turismo y dinamiza el entorno local.
+El juego se basa en una narrativa de selección múltiple, donde los jugadores asumen el rol de aventureros medievales. A través de retos, minijuegos y la resolución de acertijos, descubren pistas que los llevan a desvelar un mensaje oculto. La experiencia se enriquece con:
 
-Posibles expansiones futuras
-Nuevas rutas con más paradas.
-Integración con realidad aumentada (ya en desarrollo).
-Versión cooperativa competitiva en tiempo real.
-Modo infantil con retos adaptados.
-Conexión con redes sociales para premios y sorteos.
+Realidad Aumentada (RA): Para visualizar objetos históricos y personajes virtuales en el entorno real.
+Gamificación: Con logros, rankings y recompensas para motivar la participación.
+Integración con el entorno: Utilizando la arquitectura y elementos naturales del pueblo como parte de los retos.
+Narrativa inmersiva: Con personajes memorables y ramificaciones narrativas que afectan el desarrollo de la historia.
+Tecnología:
 
-Conclusión
-Este proyecto convierte el patrimonio, la historia y la esencia de la Sierra de Francia en una experiencia lúdica, educativa y emocional, que termina en un lugar tan mágico como la Bodega Medieval. Una aventura que no sólo se juega: se vive.
+HTML5, CSS y JavaScript para una experiencia accesible desde cualquier dispositivo móvil.
+Códigos QR para conectar el mundo virtual con el físico.
+Integración de realidad aumentada para una experiencia inmersiva.
+Sistema de guardado de progreso y ranking.
+Impacto:
+
+Aumento del flujo turístico en San Martín del Castañar.
+Dinamización de la economía local a través del consumo en negocios y servicios.
+Puesta en valor del patrimonio cultural y la historia del pueblo.
+Creación de una comunidad de jugadores y promotores del turismo rural.
+Generación de contenido generado por el usuario, que puede ser utilizado para la promoción del pueblo.
+Sostenibilidad:
+
+Diseño de una experiencia respetuosa con el medio ambiente y el patrimonio cultural.
+Colaboración con negocios locales para ofrecer productos y servicios sostenibles.
+Organización de eventos de limpieza y conservación del pueblo.
+Plan de Acción:
+
+Desarrollo del juego: Creación de la narrativa, diseño de retos y minijuegos, implementación de RA y gamificación.
+Producción de contenido: Creación de material visual y audiovisual para promocionar el juego.
+Implementación: Instalación de códigos QR, pruebas y lanzamiento del juego.
+Promoción: Marketing en redes sociales, colaboración con influencers y eventos de lanzamiento.
+Evaluación y mejora continua: Recopilación de feedback de los jugadores y actualización del juego.
+Conclusión:
+
+"La Búsqueda de Gonzalo" tiene el potencial de convertirse en un referente del turismo rural gamificado. El proyecto no solo ofrece una experiencia lúdica y educativa, sino que también genera un impacto positivo en la economía y la cultura local.
+
+Posibles expansiones:
+
+Nuevas rutas y misiones.
+Integración con redes sociales para premios y sorteos.
+Creación de contenido generado por el usuario.
