@@ -3,152 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌍 Explorar la Aventura</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>🗺️ Explora San Martín del Castañar</title>
+  <link rel="stylesheet" href="styles/style.css" />
   <link rel="icon" href="images/escudo-borrado.jpg" />
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🌍 Explorar la Aventura</h1>
+      <h1>🗺️ Explora el Mensaje Oculto de Gonzalo</h1>
+      <div class="music-control">
+        <button class="music-btn">
+          <span class="music-icon">🎵</span> Pausar Música
+        </button>
+      </div>
     </header>
 
-    <section id="content">
-      <p id="saludo-jugador"></p>
-
-      <div id="fragmento" class="pergamino"></div> <!-- Aquí se mostrará el fragmento -->
-
-      <h2>📜 Elige tu próximo destino</h2>
-      <p>Gonzalo dejó pistas en varias direcciones. ¿Hacia dónde quieres ir?</p>
-
-      <div class="buttons-container">
-        <a id="opcion1" href="#" class="action-btn"></a>
-        <a id="opcion2" href="#" class="action-btn"></a>
-
-        <!-- Botones de paradas alternativas -->
-        <a id="opcion3" href="#" class="action-btn" style="display: none;"></a> <!-- Parada alternativa 1 -->
-        <a id="opcion4" href="#" class="action-btn" style="display: none;"></a> <!-- Parada alternativa 2 -->
+    <section>
+      <div class="progress-container">
+        <h3>Progreso de la Aventura</h3>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p id="progress-text">Paradas completadas: 0/7</p>
       </div>
 
-      <h3>🏅 Clasificación de Aventureros</h3>
-      <p>Total de participantes: <span id="total-jugadores">0</span></p>
-      <table class="ranking-table" id="ranking">
-        <thead>
-          <tr><th>#</th><th>Nombre</th><th>Tiempo</th><th>Aciertos</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="map-container">
+        <img src="images/callejero.jpg" alt="Mapa de San Martín del Castañar" />
+        <div class="buttons-container">
+          <!-- Botones de paradas desbloqueadas -->
+          <button class="map-btn" id="castillo-btn" onclick="location.href='castillo.html'">🏰 Castillo</button>
+          <button class="map-btn" id="plaza-btn" onclick="location.href='plaza.html'">🏟️ Plaza de toros</button>
+          <button class="map-btn" id="iglesia-btn" onclick="location.href='iglesia.html'">⛪ Iglesia</button>
+          <button class="map-btn" id="fuente-btn" onclick="location.href='fuente.html'">⛲ Fuente y Portalón</button>
+          <button class="map-btn" id="ermita-btn" onclick="location.href='ermita.html'">🙏 Ermita</button>
+          <button class="map-btn" id="puente-btn" onclick="location.href='puente.html'">🌉 Puente</button>
+          <button class="map-btn" id="bodega-btn" onclick="location.href='bodega.html'">🍷 Bodega</button>
+        </div>
+      </div>
+
+      <div class="qr-section">
+        <h2>Escanea un Código QR</h2>
+        <input type="text" id="qr-input" placeholder="Ej: FUENTE-1600" />
+        <button class="action-btn" onclick="checkQR()">Verificar QR</button>
+        <p id="qr-status"></p>
+      </div>
+
+      <div class="button-group">
+        <button class="action-btn" onclick="location.href='index.html'">🏠 Inicio</button>
+        <button class="action-btn" onclick="location.href='guia.html'">📖 Guía Histórica</button>
+        <button class="action-btn" onclick="location.href='cronica.html'">📜 Crónica</button>
+      </div>
     </section>
 
+    <audio id="background-music" src="sounds/musica-medieval.mp3" preload="auto" loop></audio>
+
     <footer>
-      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Visita nuestra bodega</a></p>
+      <p>© 2025 La Bodega Medieval | <a href="https://www.labodegamedieval.es" target="_blank">Reserva tu visita</a></p>
     </footer>
 
+    <script src="scripts/script.js"></script>
     <script>
-      // Fragmentos con los textos y enlaces para las paradas principales
-      const fragmentos = {
-        castillo: {
-          texto: '“Oculto...”',
-          opcion1: { nombre: '🚰 Hacia la fuente y el portalón', enlace: 'fuente.html' },
-          opcion2: { nombre: '⛪ Explorar la iglesia', enlace: 'iglesia.html' }
-        },
-        fuente: {
-          texto: '“Cerca de la fuente se encuentran muchos secretos...”',
-          opcion1: { nombre: '🧭 Regresar al castillo', enlace: 'castillo.html' },
-          opcion2: { nombre: '🌉 Explorar el puente', enlace: 'puente.html' }
-        },
-        iglesia: {
-          texto: '“La iglesia guarda historias en cada piedra...”',
-          opcion1: { nombre: '🔒 Buscar el símbolo oculto en el altar', enlace: 'tetris.html' },
-          opcion2: { nombre: '🏰 Regresar al castillo', enlace: 'castillo.html' }
-        }
-      };
+      // Verificar el QR para desbloquear paradas
+      function checkQR() {
+        const qrInput = document.getElementById("qr-input").value.trim().toUpperCase();
+        const codes = {
+          "CASTILLO-1834": "castillo",
+          "PLAZA-1523": "plaza",
+          "IGLESIA-1300": "iglesia",
+          "FUENTE-1600": "fuente",
+          "ERMITA-1500": "ermita",
+          "PUENTE-1400": "puente",
+          "BODEGA-1600": "bodega"
+        };
 
-      // Paradas principales desbloqueadas siempre
-      const paradasPrincipales = ['castillo', 'fuente', 'iglesia']; 
-      // Paradas alternativas que se desbloquearán más tarde
-      const paradasAlternativas = ['puente', 'tetris'];
+        const destino = codes[qrInput];
+        const status = document.getElementById("qr-status");
 
-      // Obtener la parada desde la URL
-      function obtenerParada() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get("stop") || "fuente"; // Comienza siempre en Fuente
-      }
-
-      // Muestra el fragmento de la parada seleccionada
-      function mostrarFragmento() {
-        const parada = obtenerParada();
-        const datos = fragmentos[parada];
-        const div = document.getElementById("fragmento");
-        if (datos) {
-          div.textContent = datos.texto;
-          document.getElementById("opcion1").textContent = datos.opcion1.nombre;
-          document.getElementById("opcion1").href = datos.opcion1.enlace;
-          document.getElementById("opcion2").textContent = datos.opcion2.nombre;
-          document.getElementById("opcion2").href = datos.opcion2.enlace;
-
-          // Desbloqueamos las paradas alternativas si ya están completas
-          for (let i = 0; i < paradasAlternativas.length; i++) {
-            const opcion = document.getElementById(`opcion${i + 3}`);
-            if (localStorage.getItem(`reto_${paradasAlternativas[i]}_completado`) === 'true') {
-              opcion.style.display = 'inline-block'; // Mostrar las paradas alternativas desbloqueadas
-              opcion.textContent = `➡️ Dirígete a ${paradasAlternativas[i]}`;
-              opcion.href = `${paradasAlternativas[i]}.html`;
-            }
-          }
+        if (destino) {
+          status.textContent = "✅ Código correcto. Abriendo...";
+          localStorage.setItem(`${destino}-completed`, "true");
+          setTimeout(() => {
+            window.location.href = destino + ".html";
+          }, 1500);
         } else {
-          div.textContent = "Fragmento no encontrado.";
+          status.textContent = "❌ Código incorrecto. Intenta de nuevo.";
         }
       }
 
-      // Saludo con el nombre del jugador
-      function mostrarSaludo() {
-        const nombre = localStorage.getItem("jugador") || "aventurer@";
-        document.getElementById("saludo-jugador").textContent = `¡Enhorabuena, ${nombre}! Has superado los retos de esta parada y has obtenido un nuevo fragmento.`;
-      }
-
-      // Actualización del progreso
+      // Actualizar progreso de las paradas completadas
       function actualizarProgreso() {
         const fragmentosDescubiertos = parseInt(localStorage.getItem("fragmentos_descubiertos") || "0");
         const totalFragmentos = Object.keys(fragmentos).length;
         const porcentaje = (fragmentosDescubiertos / totalFragmentos) * 100;
 
         const progreso = document.getElementById("progress-fill");
-        const progresoTexto = document.getElementById("progreso-texto");
+        const progresoTexto = document.getElementById("progress-texto");
 
         progreso.style.width = `${porcentaje}%`;
         progresoTexto.textContent = `${fragmentosDescubiertos} de ${totalFragmentos} fragmentos descubiertos`;
       }
 
-      // Actualiza el ranking
-      function actualizarRanking() {
-        const tabla = document.querySelector("#ranking tbody");
-        const totalSpan = document.getElementById("total-jugadores");
-        let datos = JSON.parse(localStorage.getItem("ranking") || "[]");
+      // Verificar si la parada está desbloqueada
+      function verificarParada(parada) {
+        return localStorage.getItem(`${parada}-completed`) === "true";
+      }
 
-        datos.sort((a,b) => a.tiempo - b.tiempo || b.aciertos - a.aciertos);
-        totalSpan.textContent = datos.length;
-        tabla.innerHTML = "";
-
-        datos.slice(0,10).forEach((jugador, index) => {
-          const fila = `<tr><td>${index + 1}</td><td>${jugador.nombre}</td><td>${formatearTiempo(jugador.tiempo)}</td><td>${jugador.aciertos}</td></tr>`;
-          tabla.innerHTML += fila;
+      // Mostrar las paradas desbloqueadas
+      function mostrarParadasDesbloqueadas() {
+        const paradas = ["castillo", "plaza", "iglesia", "fuente", "ermita", "puente", "bodega"];
+        paradas.forEach(parada => {
+          if (verificarParada(parada)) {
+            document.getElementById(`${parada}-btn`).style.display = "inline-block";
+          }
         });
       }
 
-      // Formatear el tiempo en minutos:segundos
-      function formatearTiempo(segundos) {
-        const min = Math.floor(segundos / 60);
-        const seg = segundos % 60;
-        return `${min}:${seg.toString().padStart(2, '0')}`;
-      }
-
-      // Llamadas a las funciones al cargar la página
       document.addEventListener("DOMContentLoaded", () => {
-        mostrarSaludo();
-        mostrarFragmento();
+        mostrarParadasDesbloqueadas();
         actualizarProgreso();
-        actualizarRanking();
       });
     </script>
   </div>
